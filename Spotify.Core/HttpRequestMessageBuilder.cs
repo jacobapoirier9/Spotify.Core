@@ -17,6 +17,8 @@ internal static class HttpRequestMessageBuilder
         {
             Verb.Get => HttpMethod.Get,
             Verb.Post => HttpMethod.Post,
+            Verb.Put => HttpMethod.Put,
+            Verb.Delete => HttpMethod.Delete,
             _ => HttpMethod.Get
         };
 

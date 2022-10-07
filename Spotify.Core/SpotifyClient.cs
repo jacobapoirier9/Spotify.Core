@@ -23,6 +23,12 @@ public class SpotifyClient
     public TResponse? Get<TResponse>(IReturn<TResponse> requestDto, string? bearerToken = null)
         => GetHttpResponse(requestDto, bearerToken);
 
+    public TResponse? Put<TResponse>(IReturn<TResponse> requestDto, string? bearerToken = null)
+        => GetHttpResponse(requestDto, bearerToken);
+
+    public TResponse? Delete<TResponse>(IReturn<TResponse> requestDto, string? bearerToken = null)
+        => GetHttpResponse(requestDto, bearerToken);
+
     private TResponse? GetHttpResponse<TResponse>(IReturn<TResponse> requestDto, string? bearerToken = null)
     {
         var httpRequest = HttpRequestMessageBuilder.BuildRequestMessage(_baseUri, requestDto, bearerToken);
@@ -33,9 +39,15 @@ public class SpotifyClient
         {
             var json = httpResponse.Content.ReadAsStringAsync().Result;
             Console.WriteLine(json);
-
-            var dto = JsonSerializer.Deserialize<TResponse>(json, Configuration.JsonSerializerOptions);
-            return dto;
+            try
+            {
+                var dto = JsonSerializer.Deserialize<TResponse>(json, Configuration.JsonSerializerOptions);
+                return dto;
+            }
+            catch
+            {
+                return (TResponse)Convert.ChangeType(httpResponse.StatusCode, typeof(TResponse));
+            }
         }
         else
         {

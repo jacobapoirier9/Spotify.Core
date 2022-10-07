@@ -1,9 +1,11 @@
 ﻿using Spotify.Core.Attributes;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Metrics;
 using System.Linq;
+using System.Net;
 using System.Reflection.Metadata;
 using System.Security.Principal;
 using System.Text;
@@ -11,6 +13,9 @@ using System.Threading.Tasks;
 
 namespace Spotify.Core.Model;
 
+/// <summary>
+/// Get Spotify catalog information for a single album.
+/// </summary>
 [Route($"/albums/{{{nameof(Id)}}}", Verb.Get)]
 public class GetAlbum : IReturn<Album>
 {
@@ -28,7 +33,197 @@ public class GetAlbum : IReturn<Album>
     public string? Market { get; set; }
 }
 
-internal class Album
+/// <summary>
+/// Get Spotify catalog information for multiple albums identified by their Spotify IDs.
+/// </summary>
+[Route("/albums", Verb.Get)]
+public class GetSeveralAlbums : IReturn<SeveralAlbums>
+{
+    /// <summary>
+    /// A comma-separated list of the Spotify IDs for the albums. Maximum: 20 IDs.
+    /// </summary>
+    public List<string>? Ids { get; set; }
+
+    /// <summary>
+    /// An ISO 3166-1 alpha-2 country code. If a country code is specified, only content that is available in that market will be returned.
+    /// If a valid user access token is specified in the request header, the country associated with the user account will take priority over this parameter.
+    /// Note: If neither market or user country are provided, the content is considered unavailable for the client.
+    /// Users can view the country that is associated with their account in the account settings.
+    /// </summary>
+    public string? Market { get; set; }
+}
+
+/// <summary>
+/// Get Spotify catalog information about an album’s tracks. Optional parameters can be used to limit the number of tracks returned.
+/// </summary>
+[Route($"/albums/{{{nameof(Id)}}}/tracks", Verb.Get)]
+public class GetAlbumTracks : IReturn<PagableResponse<Track>>
+{
+    /// <summary>
+    /// The Spotify ID of the album.
+    /// </summary>
+    public string? Id { get; set; }
+
+    /// <summary>
+    /// The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.
+    /// </summary>
+    public int? Limit { get; set; }
+
+    /// <summary>
+    /// An ISO 3166-1 alpha-2 country code. If a country code is specified, only content that is available in that market will be returned.
+    /// If a valid user access token is specified in the request header, the country associated with the user account will take priority over this parameter.
+    /// Note: If neither market or user country are provided, the content is considered unavailable for the client.
+    /// Users can view the country that is associated with their account in the account settings.
+    /// </summary>
+    public string? Market { get; set; }
+
+    /// <summary>
+    /// The index of the first item to return. Default: 0 (the first item). Use with limit to get the next set of items.
+    /// </summary>
+    public int? Offset { get; set; }
+}
+
+/// <summary>
+/// Get a list of the albums saved in the current Spotify user's 'Your Music' library.
+/// </summary>
+[Route("/me/albums", Verb.Get)]
+public class GetSavedAlbums : IReturn<PagableResponse<AlbumContextWrapper>>
+{
+
+    /// <summary>
+    /// The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.
+    /// </summary>
+    public int? Limit { get; set; }
+
+    /// <summary>
+    /// An ISO 3166-1 alpha-2 country code. If a country code is specified, only content that is available in that market will be returned.
+    /// If a valid user access token is specified in the request header, the country associated with the user account will take priority over this parameter.
+    /// Note: If neither market or user country are provided, the content is considered unavailable for the client.
+    /// Users can view the country that is associated with their account in the account settings.
+    /// </summary>
+    public string? Market { get; set; }
+
+    /// <summary>
+    /// The index of the first item to return. Default: 0 (the first item). Use with limit to get the next set of items.
+    /// </summary>
+    public int? Offset { get; set; }
+}
+
+/// <summary>
+/// Save one or more albums to the current user's 'Your Music' library.
+/// </summary>
+[Route("/me/albums", Verb.Put)]
+public class SaveAlbums : IReturn<HttpStatusCode>
+{
+    /// <summary>
+    /// A comma-separated list of the Spotify IDs for the albums. Maximum: 20 IDs.
+    /// This will be written to the URL
+    /// </summary>
+    public List<string>? Ids { get; set; }
+
+    /// <summary>
+    /// A maximum of 50 items can be specified in one request. Note: if the ids parameter is present in the query string, any IDs listed here in the body will be ignored.
+    /// This will be written to the body
+    /// </summary>
+    [BodyParameter]
+    public List<string>? IdsBody { get; set; }
+}
+
+/// <summary>
+/// Remove one or more albums from the current user's 'Your Music' library.
+/// </summary>
+[Route("/me/albums", Verb.Delete)]
+public class RemoveAlbums : IReturn<HttpStatusCode>
+{
+    /// <summary>
+    /// A comma-separated list of the Spotify IDs for the albums. Maximum: 20 IDs.
+    /// This will be written to the URL
+    /// </summary>
+    public List<string>? Ids { get; set; }
+
+    /// <summary>
+    /// A maximum of 50 items can be specified in one request. Note: if the ids parameter is present in the query string, any IDs listed here in the body will be ignored.
+    /// This will be written to the body
+    /// </summary>
+    [BodyParameter]
+    public List<string>? IdsBody { get; set; }
+}
+
+/// <summary>
+/// Check if one or more albums is already saved in the current Spotify user's 'Your Music' library.
+/// </summary>
+[Route("/me/albums/contains", Verb.Get)]
+public class CheckSavedAlbums : IReturn<List<bool>>
+{
+    /// <summary>
+    /// A comma-separated list of the Spotify IDs for the albums. Maximum: 20 IDs.
+    /// </summary>
+    public List<string>? Ids { get; set; }
+}
+
+/// <summary>
+/// Get a list of new album releases featured in Spotify (shown, for example, on a Spotify player’s “Browse” tab).
+/// </summary>
+[Route("/browse/new-releases", Verb.Get)]
+public class GetNewReleases : IReturn<NewReleases>
+{
+    /// <summary>
+    /// A country: an ISO 3166-1 alpha-2 country code. Provide this parameter if you want the list of returned items to be relevant to a particular country. 
+    /// If omitted, the returned items will be relevant to all countries.
+    /// </summary>
+    public string? Country { get; set; }
+
+    /// <summary>
+    /// The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.
+    /// </summary>
+    public int? Limit { get; set; }
+
+    /// <summary>
+    /// The index of the first item to return. Default: 0 (the first item). Use with limit to get the next set of items.
+    /// </summary>
+    public int? Offset { get; set; }
+}
+
+
+/// <summary>
+/// A wrapper for the <see cref="GetSeveralAlbums"/> request
+/// </summary>
+public class SeveralAlbums
+{
+    /// <summary>
+    /// A set of albums
+    /// </summary>
+    public List<Album>? Albums { get; set; }
+}
+
+/// <summary>
+/// A wrapper for the <see cref="GetNewReleases"/> request
+/// </summary>
+public class NewReleases
+{
+    /// <summary>
+    /// A paged set of albums
+    /// </summary>
+    public PagableResponse<Album>? Albums { get; set; }
+}
+
+/// <summary>
+/// A wrapper for the context of an album
+/// </summary>
+public class AlbumContextWrapper
+{
+    /// <summary>
+    /// When an album was added
+    /// </summary>
+    public DateTime? AddedAt { get; set; }
+
+    /// <summary>
+    /// The associated Spotify album
+    /// </summary>
+    public Album? Album { get; set; }
+}
+
+public class Album
 {
     /// <summary>
     /// The type of the album. Album, Single, Compilation
