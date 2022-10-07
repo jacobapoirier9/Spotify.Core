@@ -1,4 +1,4 @@
-﻿namespace Spotify.Core;
+﻿namespace Spotify.Core.Attributes;
 
 public class RouteAttribute : Attribute
 {

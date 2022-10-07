@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Json;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Spotify.Core.Attributes;
 
 namespace Spotify.Core;
 
