@@ -89,7 +89,6 @@ public class GetAlbumTracks : IReturn<PagableResponse<Track>>
 [Route("/me/albums", Verb.Get)]
 public class GetSavedAlbums : IReturn<PagableResponse<SavedAlbumContextWrapper>>
 {
-
     /// <summary>
     /// The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.
     /// </summary>
@@ -123,7 +122,6 @@ public class SaveAlbums : IReturn<HttpStatusCode>
 
     /// <summary>
     /// A maximum of 50 items can be specified in one request. Note: if the ids parameter is present in the query string, any IDs listed here in the body will be ignored.
-    /// This will be written to the body
     /// </summary>
     [BodyParameter]
     public List<string>? IdsBody { get; set; }
@@ -143,7 +141,6 @@ public class RemoveSavedAlbums : IReturn<HttpStatusCode>
 
     /// <summary>
     /// A maximum of 50 items can be specified in one request. Note: if the ids parameter is present in the query string, any IDs listed here in the body will be ignored.
-    /// This will be written to the body
     /// </summary>
     [BodyParameter]
     public List<string>? IdsBody { get; set; }

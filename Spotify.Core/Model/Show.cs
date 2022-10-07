@@ -77,7 +77,7 @@ public class GetShowEpisodes : IReturn<PagableResponse<Episode>>
 /// Get a list of shows saved in the current Spotify user's library. Optional parameters can be used to limit the number of shows returned.
 /// </summary>
 [Route("/me/shows", Verb.Get)]
-public class GetUserSavedShows : IReturn<PagableResponse<SavedShowContextWrapper>>
+public class GetSavedShows : IReturn<PagableResponse<SavedShowContextWrapper>>
 {
     /// <summary>
     /// The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.

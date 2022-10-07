@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,131 @@ public class GetEpisode : IReturn<Episode>
     /// Users can view the country that is associated with their account in the account settings.
     /// </summary>
     public string? Market { get; set; }
+}
+
+/// <summary>
+/// Get Spotify catalog information for several episodes based on their Spotify IDs.
+/// </summary>
+[Route("/episodes", Verb.Get)]
+public class GetSeveralEpisodes : IReturn<SeveralEpisodes>
+{
+    /// <summary>
+    /// A comma-separated list of the Spotify IDs for the episodes. Maximum: 50 IDs.
+    /// </summary>
+    public List<string>? Ids { get; set; }
+
+    /// <summary>
+    /// An ISO 3166-1 alpha-2 country code. If a country code is specified, only content that is available in that market will be returned.
+    /// If a valid user access token is specified in the request header, the country associated with the user account will take priority over this parameter.
+    /// Note: If neither market or user country are provided, the content is considered unavailable for the client.
+    /// Users can view the country that is associated with their account in the account settings.
+    /// </summary>
+    public string? Market { get; set; }
+}
+
+/// <summary>
+/// Get a list of the episodes saved in the current Spotify user's library.
+/// This API endpoint is in beta and could change without warning.Please share any feedback that you have, or issues that you discover, in our developer community forum.
+/// </summary>
+[Route("/me/episodes", Verb.Get)]
+public class GetSavedEpisodes : IReturn<PagableResponse<SavedEpisodesContextWrapper>>
+{
+    /// <summary>
+    /// The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.
+    /// </summary>
+    public int? Limit { get; set; }
+
+    /// <summary>
+    /// An ISO 3166-1 alpha-2 country code. If a country code is specified, only content that is available in that market will be returned.
+    /// If a valid user access token is specified in the request header, the country associated with the user account will take priority over this parameter.
+    /// Note: If neither market or user country are provided, the content is considered unavailable for the client.
+    /// Users can view the country that is associated with their account in the account settings.
+    /// </summary>
+    public string? Market { get; set; }
+
+    /// <summary>
+    /// The index of the first item to return. Default: 0 (the first item). Use with limit to get the next set of items.
+    /// </summary>
+    public int? Offset { get; set; }
+}
+
+/// <summary>
+/// Save one or more episodes to the current user's library.
+/// This API endpoint is in beta and could change without warning.Please share any feedback that you have, or issues that you discover, in our developer community forum.
+/// </summary>
+[Route("/me/episodes", Verb.Put)]
+public class SaveEpisodes : IReturn<HttpStatusCode>
+{
+    /// <summary>
+    /// A comma-separated list of the Spotify IDs. Maximum: 50 IDs.
+    /// </summary>
+    public List<string>? Ids { get; set; }
+
+    /// <summary>
+    /// A maximum of 50 items can be specified in one request. Note: if the ids parameter is present in the query string, any IDs listed here in the body will be ignored.
+    /// </summary>
+    [BodyParameter]
+    public List<string>? IdsBody { get; set; }
+}
+
+/// <summary>
+/// Remove one or more episodes from the current user's library.
+/// This API endpoint is in beta and could change without warning.Please share any feedback that you have, or issues that you discover, in our developer community forum.
+/// </summary>
+[Route("/me/episodes", Verb.Delete)]
+public class RemoveSavedEpisodes : IReturn<HttpStatusCode>
+{
+    /// <summary>
+    /// A comma-separated list of the Spotify IDs. Maximum: 50 IDs.
+    /// </summary>
+    public List<string>? Ids { get; set; }
+
+    /// <summary>
+    /// A maximum of 50 items can be specified in one request. Note: if the ids parameter is present in the query string, any IDs listed here in the body will be ignored.
+    /// </summary>
+    [BodyParameter]
+    public List<string>? IdsBody { get; set; }
+}
+
+/// <summary>
+/// Check if one or more episodes is already saved in the current Spotify user's 'Your Episodes' library.
+/// This API endpoint is in beta and could change without warning.Please share any feedback that you have, or issues that you discover, in our developer community forum..
+/// </summary>
+[Route("/me/episodes/contains", Verb.Get)]
+public class CheckSavedEpisodes : IReturn<List<bool>>
+{
+    /// <summary>
+    /// A comma-separated list of the Spotify IDs for the episodes. Maximum: 50 IDs.
+    /// </summary>
+    public List<string>? Ids { get; set; }
+}
+
+
+/// <summary>
+/// A wrapper for the context of an episode
+/// </summary>
+public class SavedEpisodesContextWrapper
+{
+    /// <summary>
+    /// When an album was added
+    /// </summary>
+    public DateTime? AddedAt { get; set; }
+
+    /// <summary>
+    /// The associated Spotify album
+    /// </summary>
+    public Episode? Episode { get; set; }
+}
+
+/// <summary>
+/// A wrapper for the <see cref="GetSeveralEpisodes"/> request
+/// </summary>
+public class SeveralEpisodes
+{
+    /// <summary>
+    /// A set of episodes
+    /// </summary>
+    public List<Episode>? Episodes { get; set; }
 }
 
 public class Episode
