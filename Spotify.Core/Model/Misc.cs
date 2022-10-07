@@ -16,7 +16,9 @@ public enum ItemType
     Album = 2,
     Artist = 3,
     Playlist = 4,
-    User = 5
+    User = 5,
+    Episode = 6,
+    Show = 7
 }
 
 public class ExternalIds
@@ -55,6 +57,9 @@ public class Restrictions
     /// <summary>
     /// The reason for the restriction. Albums may be restricted if the content is not available in a given market, to the user's 
     /// subscription type, or when the user's account is set to not play explicit content. Additional reasons may be added in the future.
+    /// market - The content item is not available in the given market.
+    /// product - The content item is not available for the user's subscription type.
+    /// explicit - The content item is explicit and the user's account is set to not play explicit content.
     /// </summary>
     public string? Reason { get; set; }
 }
@@ -70,4 +75,17 @@ public class Followers
     /// The total number of followers.
     /// </summary>
     public int? Total { get; set; }
+}
+
+public class Copyright
+{
+    /// <summary>
+    /// The copyright text for this content.
+    /// </summary>
+    public string? Text { get; set; }
+
+    /// <summary>
+    /// The type of copyright: C = the copyright, P = the sound recording (performance) copyright.
+    /// </summary>
+    public string? Type { get; set; }
 }

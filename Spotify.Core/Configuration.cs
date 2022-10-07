@@ -23,6 +23,10 @@ public static class Configuration
     {
         public override string ConvertName(string name)
         {
+            if (name.EndsWith("how"))
+            {
+
+            }
             if (Regex.IsMatch(name, "^[A-Z]"))
             {
                 var snakeCase = name.FromPascalToSnake();

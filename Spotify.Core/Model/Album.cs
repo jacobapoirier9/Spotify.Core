@@ -87,7 +87,7 @@ public class GetAlbumTracks : IReturn<PagableResponse<Track>>
 /// Get a list of the albums saved in the current Spotify user's 'Your Music' library.
 /// </summary>
 [Route("/me/albums", Verb.Get)]
-public class GetSavedAlbums : IReturn<PagableResponse<AlbumContextWrapper>>
+public class GetSavedAlbums : IReturn<PagableResponse<SavedAlbumContextWrapper>>
 {
 
     /// <summary>
@@ -133,7 +133,7 @@ public class SaveAlbums : IReturn<HttpStatusCode>
 /// Remove one or more albums from the current user's 'Your Music' library.
 /// </summary>
 [Route("/me/albums", Verb.Delete)]
-public class RemoveAlbums : IReturn<HttpStatusCode>
+public class RemoveSavedAlbums : IReturn<HttpStatusCode>
 {
     /// <summary>
     /// A comma-separated list of the Spotify IDs for the albums. Maximum: 20 IDs.
@@ -210,7 +210,7 @@ public class NewReleases
 /// <summary>
 /// A wrapper for the context of an album
 /// </summary>
-public class AlbumContextWrapper
+public class SavedAlbumContextWrapper
 {
     /// <summary>
     /// When an album was added
@@ -272,7 +272,8 @@ public class Album
     public string? ReleaseDate { get; set; }
 
     /// <summary>
-    /// The precision with which <see cref="ReleaseDate" /> value is known.
+    /// The precision with which <see cref="ReleaseDate"/> value is known.
+    /// Allowed values: year, month, day
     /// </summary>
     public string? ReleaseDatePrecision { get; set; }
 

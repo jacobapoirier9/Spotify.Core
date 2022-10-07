@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -44,7 +45,7 @@ public class SpotifyClient
                 var dto = JsonSerializer.Deserialize<TResponse>(json, Configuration.JsonSerializerOptions);
                 return dto;
             }
-            catch
+            catch (Exception ex)
             {
                 return (TResponse)Convert.ChangeType(httpResponse.StatusCode, typeof(TResponse));
             }
