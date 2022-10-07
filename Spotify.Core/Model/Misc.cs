@@ -18,7 +18,8 @@ public enum ItemType
     Playlist = 4,
     User = 5,
     Episode = 6,
-    Show = 7
+    Show = 7,
+    Audiobook = 8
 }
 
 public class ExternalIds

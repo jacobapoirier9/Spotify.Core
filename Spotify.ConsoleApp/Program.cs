@@ -14,11 +14,21 @@ internal class Program
         // Jocko podcast show - 7irxBvxNqGYnUdFo1c2gMc
         var client = new SpotifyClient(Url);
 
-        var get = client.Get(new GetSavedEpisodes(), Token);
+        var get = client.Get(new GetAudiobook { Id = "38bS44xjbVVZ3No3ByF1dJ" }, Token);
 
-        var delete = client.Delete(new RemoveSavedEpisodes { IdsBody = new List<string> { "5a6AizhZX1CqzvRUOcCALU" } }, Token);
+        var te = client.Get(new GetSeveralAudiobooks { Ids = "38bS44xjbVVZ3No3ByF1dJ".AsList() }, Token);
+
+        //var delete = client.Delete(new RemoveSavedEpisodes { IdsBody = new List<string> { "5a6AizhZX1CqzvRUOcCALU" } }, Token);
 
         //var put = client.Put(new SaveEpisodes { Ids = new List<string> { "5a6AizhZX1CqzvRUOcCALU" } }, Token);
 
+    }
+}
+
+public static class Helpers
+{
+    public static List<T> AsList<T>(this T item)
+    {
+        return new List<T> { item };
     }
 }
