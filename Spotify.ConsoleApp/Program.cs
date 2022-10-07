@@ -13,7 +13,7 @@ internal class Program
     {
         var client = new SpotifyClient(Url);
 
-        var get = client.Get(new GetNewReleases(), Token);
+        var get = client.Get(new GetArtistsRelatedArtists { Id = "1vCWHaC5f2uS3yhpwWbIA6" }, Token);
 
         //var put = client.Put(new SaveAlbums { Ids = new List<string> { "382ObEPsp2rxGrnsizN5TX" } }, Token);
 

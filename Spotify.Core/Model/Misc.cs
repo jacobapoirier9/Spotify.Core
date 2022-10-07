@@ -19,6 +19,11 @@ public enum ItemType
     User = 5
 }
 
+public class ExternalIds
+{
+    public string? Isrc { get; set; }
+}
+
 public class ExternalUrls
 {
     /// <summary>
