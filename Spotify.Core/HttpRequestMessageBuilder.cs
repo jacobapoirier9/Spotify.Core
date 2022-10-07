@@ -9,7 +9,8 @@ internal static class HttpRequestMessageBuilder
 {
     internal static HttpRequestMessage BuildRequestMessage<T>(string baseUri, T requestDto, string? bearerToken = null)
     {
-        var type = typeof(T);
+        // TODO: Using typeof(T) here does not correctly get the RouteAttribute
+        var type = requestDto?.GetType();
         var route = type.GetCustomAttribute<RouteAttribute>() ?? throw new NullReferenceException($"You must specificy a {nameof(RouteAttribute)} on type {type.FullName}.");
 
         var httpMethod = route.Verb switch
@@ -72,6 +73,7 @@ internal static class HttpRequestMessageBuilder
 
         request.RequestUri = new Uri(baseUri + relativePath.TrimEnd('&', '?'));
 
+        Console.WriteLine(request);
         return request;
     }
 }

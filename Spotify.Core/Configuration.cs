@@ -16,7 +16,7 @@ public static class Configuration
             PropertyNamingPolicy = new SpotifyJsonNamingPolicy()
         };
 
-        //JsonSerializerOptions.Converters.Add(new ItemTypeJsonConverter());
+        JsonSerializerOptions.Converters.Add(new ItemTypeJsonConverter());
     }
 
     public class SpotifyJsonNamingPolicy : JsonNamingPolicy
