@@ -14,7 +14,6 @@ internal class Program
         // Jocko podcast show - 7irxBvxNqGYnUdFo1c2gMc
         var client = new SpotifyClient(Url);
 
-        var get = client.Get(new AddItemToPlaybackQueue { Uri = "spotify:track:4iV5W9uYEdYUVa79Axb7Rh" }, Token);
     }
 }
 
