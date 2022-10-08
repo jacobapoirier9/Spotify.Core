@@ -36,4 +36,16 @@ public class PagableResponse<T>
     /// URL to the previous page of items. (null if none)
     /// </summary>
     public int? Total { get; set; }
+
+    /// <summary>
+    /// Only used in <see cref="GetRecentlyPlayedTracks"/>
+    /// </summary>
+    public Cursors? Cursors { get; set; }
+}
+
+public class Cursors
+{
+    public long? Before { get; set; }
+
+    public long? After { get; set; }
 }

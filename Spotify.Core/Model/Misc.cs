@@ -12,6 +12,7 @@ public interface IReturnVoid { }
 
 public enum ItemType
 {
+    Unknown = 0,
     Track = 1,
     Album = 2,
     Artist = 3,
