@@ -15,7 +15,7 @@ internal class Program
         var client = new SpotifyClient(Url);
 
 
-        var search = client.Get(new Search { Q = "remaster%20track:Doxy%20artist:Miles%20Davis", Type = new List<ItemType> { ItemType.Track, ItemType.Artist} }, Token);
+        var search = client.Get(new Search { Q = "remaster%20track:Doxy%20artist:Miles%20Davis", Type = new List<ItemType> { ItemType.Track, ItemType.Artist } }, Token);
 
         //var te = client.Get(new GetSeveralAudiobooks { Ids = "38bS44xjbVVZ3No3ByF1dJ".AsList() }, Token);
 

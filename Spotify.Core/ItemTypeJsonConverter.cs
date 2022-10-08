@@ -8,7 +8,7 @@ public class ItemTypeJsonConverter : JsonConverter<ItemType>
 {
     public override ItemType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        var currentToken = reader.GetString().ToLower();
+        var currentToken = reader.GetString();
 
         try
         {
