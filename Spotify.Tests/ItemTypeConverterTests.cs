@@ -11,7 +11,7 @@ namespace Spotify.Tests;
 
 public class ItemTypeConverterTests
 {
-    private readonly ItemTypeJsonConverter _itemTypeConverter = new ItemTypeJsonConverter();
+    private readonly Configuration.ItemTypeJsonConverter _itemTypeConverter = new Configuration.ItemTypeJsonConverter();
 
     [Theory]
     [InlineData(ItemType.Track, "track")]
