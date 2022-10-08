@@ -8,7 +8,6 @@ namespace Spotify.Core;
 
 public static class Configuration
 {
-    [NotNull]
     public static readonly JsonSerializerOptions JsonSerializerOptions;
 
     static Configuration()

@@ -12,16 +12,16 @@ public interface IReturnVoid { }
 
 public enum ItemType
 {
-    Unknown = 0,
-    Track = 1,
-    Album = 2,
-    Artist = 3,
-    Playlist = 4,
-    User = 5,
-    Episode = 6,
-    Show = 7,
-    Audiobook = 8,
-    Chapter = 9,
+    Unknown,
+    Track,
+    Album,
+    Artist,
+    Playlist,
+    User,
+    Episode,
+    Show,
+    Audiobook,
+    Chapter,
     Genre
 }
 

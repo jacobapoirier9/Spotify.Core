@@ -8,25 +8,29 @@ public class ItemTypeJsonConverter : JsonConverter<ItemType>
 {
     public override ItemType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        var currentToken = reader.GetString();
-
-        try
-        {
-            /// TODO: There is an error occuring when trying to parse a_r_t_i_s_t to a value
-#pragma warning disable CS8604 // Possible null reference argument.
-            var converted = options.PropertyNamingPolicy?.ConvertName(currentToken) ?? currentToken;
-            var itemType = (ItemType)Enum.Parse(typeof(ItemType), converted);
-#pragma warning restore CS8604 // Possible null reference argument.
-
-            return itemType;
-        }
-     catch (Exception ex)
-        {
-            throw new IndexOutOfRangeException($"Unable to convert the value {currentToken} to type {nameof(ItemType)}");
-        }
+        var token = reader.GetString();
+        var itemType = FromStringToItemType(token, options);
+        return itemType;
     }
 
-    public override void Write(Utf8JsonWriter writer, ItemType value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, ItemType itemType, JsonSerializerOptions options)
+    {
+        var token = FromItemTypeToString(itemType, options);
+        writer.WriteStringValue(token);
+    }
+
+    internal ItemType FromStringToItemType(string? from, JsonSerializerOptions options)
+    {
+        if (from is null)
+            throw new NullReferenceException($"A value for {nameof(from)} must be provided");
+
+        // Need to convert to PascalCase for Enum.Parse to work correctly
+        var pascalCase = options.PropertyNamingPolicy?.ConvertName(from) ?? from;
+        var itemType = (ItemType)Enum.Parse(typeof(ItemType), pascalCase);
+        return itemType;
+    }
+
+    internal string FromItemTypeToString(ItemType value, JsonSerializerOptions options)
     {
         var stringValue = value switch
         {
@@ -39,7 +43,8 @@ public class ItemTypeJsonConverter : JsonConverter<ItemType>
             _ => throw new IndexOutOfRangeException(nameof(ItemType))
         };
 
+        // Need to convert to snake case
         var convertedValue = options.PropertyNamingPolicy?.ConvertName(stringValue) ?? stringValue;
-        writer.WriteStringValue(convertedValue);
+        return convertedValue;
     }
 }
