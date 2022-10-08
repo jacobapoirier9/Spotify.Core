@@ -133,12 +133,12 @@ public class CheckSavedEpisodes : IReturn<List<bool>>
 public class SavedEpisodesContextWrapper
 {
     /// <summary>
-    /// When an album was added
+    /// When an episode was added
     /// </summary>
     public DateTime? AddedAt { get; set; }
 
     /// <summary>
-    /// The associated Spotify album
+    /// The associated Spotify episode
     /// </summary>
     public Episode? Episode { get; set; }
 }

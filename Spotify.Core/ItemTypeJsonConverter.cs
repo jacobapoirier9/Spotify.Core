@@ -8,12 +8,22 @@ public class ItemTypeJsonConverter : JsonConverter<ItemType>
 {
     public override ItemType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        var currentToken = reader.GetString();
+        var currentToken = reader.GetString().ToLower();
+
+        try
+        {
+            /// TODO: There is an error occuring when trying to parse a_r_t_i_s_t to a value
 #pragma warning disable CS8604 // Possible null reference argument.
-        var converted = options.PropertyNamingPolicy?.ConvertName(currentToken) ?? currentToken;
-        var itemType = (ItemType)Enum.Parse(typeof(ItemType), converted);
+            var converted = options.PropertyNamingPolicy?.ConvertName(currentToken) ?? currentToken;
+            var itemType = (ItemType)Enum.Parse(typeof(ItemType), converted);
 #pragma warning restore CS8604 // Possible null reference argument.
-        return itemType;
+
+            return itemType;
+        }
+     catch (Exception ex)
+        {
+            throw new IndexOutOfRangeException($"Unable to convert the value {currentToken} to type {nameof(ItemType)}");
+        }
     }
 
     public override void Write(Utf8JsonWriter writer, ItemType value, JsonSerializerOptions options)
@@ -29,7 +39,7 @@ public class ItemTypeJsonConverter : JsonConverter<ItemType>
             _ => throw new IndexOutOfRangeException(nameof(ItemType))
         };
 
-        var convertedValue = options.PropertyNamingPolicy.ConvertName(stringValue);
+        var convertedValue = options.PropertyNamingPolicy?.ConvertName(stringValue) ?? stringValue;
         writer.WriteStringValue(convertedValue);
     }
 }

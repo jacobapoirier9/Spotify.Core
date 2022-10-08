@@ -20,12 +20,17 @@ public enum ItemType
     Episode = 6,
     Show = 7,
     Audiobook = 8,
-    Chapter = 9
+    Chapter = 9,
+    Genre
 }
 
 public class ExternalIds
 {
     public string? Isrc { get; set; }
+
+    public string? Ean { get; set; }
+
+    public string? Upc { get; set; }
 }
 
 public class ExternalUrls

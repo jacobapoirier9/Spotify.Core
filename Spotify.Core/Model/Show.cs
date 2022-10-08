@@ -24,7 +24,7 @@ public class GetShow : IReturn<Show>
 }
 
 /// <summary>
-/// 
+/// Get Spotify catalog information for several shows based on their Spotify IDs.
 /// </summary>
 [Route("/shows", Verb.Get)]
 public class GetSeveralShows
@@ -140,12 +140,12 @@ public class CheckUsersSavedShows : IReturn<List<bool>>
 public class SavedShowContextWrapper
 {
     /// <summary>
-    /// When an album was added
+    /// When an show was added
     /// </summary>
     public DateTime? AddedAt { get; set; }
 
     /// <summary>
-    /// The associated Spotify album
+    /// The associated Spotify show
     /// </summary>
     public Show? Show { get; set; }
 }
