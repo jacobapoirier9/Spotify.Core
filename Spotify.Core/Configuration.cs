@@ -9,15 +9,21 @@ namespace Spotify.Core;
 public static class Configuration
 {
     public static readonly JsonSerializerOptions JsonSerializerOptions;
+    public static readonly ItemTypeJsonConverter ItemTypeConverter;
+    public static readonly SpotifyJsonNamingPolicy JsonNamingPolicy;
 
     static Configuration()
     {
+        JsonNamingPolicy = new SpotifyJsonNamingPolicy();
+        ItemTypeConverter = new ItemTypeJsonConverter();
+
+
         JsonSerializerOptions = new JsonSerializerOptions
         {
-            PropertyNamingPolicy = new SpotifyJsonNamingPolicy()
+            PropertyNamingPolicy = JsonNamingPolicy
         };
 
-        JsonSerializerOptions.Converters.Add(new ItemTypeJsonConverter());
+        JsonSerializerOptions.Converters.Add(ItemTypeConverter);
     }
 
     public class SpotifyJsonNamingPolicy : JsonNamingPolicy
