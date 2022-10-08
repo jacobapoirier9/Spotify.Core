@@ -14,7 +14,7 @@ internal class Program
         // Jocko podcast show - 7irxBvxNqGYnUdFo1c2gMc
         var client = new SpotifyClient(Url);
 
-        var get = client.Get(new GetPlaylistCoverImage { PlaylistId = "3cEYpjA9oz9GiPac4AsH4n" }, Token);
+        var get = client.Get(new GetBrowseCategory { CategoryId = "toplists" }, Token);
     }
 }
 
