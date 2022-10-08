@@ -1,5 +1,7 @@
-﻿using System.Net.Http.Json;
+﻿using System.Dynamic;
+using System.Net.Http.Json;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using Spotify.Core.Attributes;
 
@@ -42,8 +44,10 @@ internal static class HttpRequestMessageBuilder
 
         foreach (var property in type.GetProperties())
         {
+            var bodyParameter = property.GetCustomAttribute<BodyParameterAttribute>();
+
             // Parameter is intended to be the request body
-            if (property.GetCustomAttribute<BodyParameterAttribute>() is not null)
+            if (bodyParameter is not null)
             {
                 // Make sure the previous body does not get overwritten.
                 if (request.Content is not null)
@@ -51,7 +55,21 @@ internal static class HttpRequestMessageBuilder
                     throw new ApplicationException($"Only one {nameof(BodyParameterAttribute)} can be specificed on type {type.Name}");
                 }
 
-                request.Content = JsonContent.Create(property.GetValue(requestDto), options: Configuration.JsonSerializerOptions);
+                if (bodyParameter.IncludePropertyName)
+                {
+                    var dataMember = property.GetCustomAttribute<DataMemberAttribute>();
+
+                    var anon = new ExpandoObject();
+                    var convertedName = new Configuration.SpotifyJsonNamingPolicy().ConvertName(dataMember?.Name ?? property.Name);
+
+                    anon.TryAdd(convertedName, property.GetValue(requestDto));
+
+                    request.Content = JsonContent.Create(anon, options: Configuration.JsonSerializerOptions);
+                }
+                else
+                {
+                    request.Content = JsonContent.Create(property.GetValue(requestDto), options: Configuration.JsonSerializerOptions);
+                }
             }
             // Parameter is intended to be a part of the URI
             else
@@ -76,6 +94,14 @@ internal static class HttpRequestMessageBuilder
         request.RequestUri = new Uri(baseUri + relativePath.TrimEnd('&', '?'));
 
         Console.WriteLine(request);
+        if (request.Content is not null)
+        {
+            var task = request.Content.ReadAsStringAsync();
+            task.Wait();
+
+            Console.WriteLine(task.Result);
+        }
+
         return request;
     }
 }
