@@ -11,7 +11,7 @@ namespace Spotify.Core.Model;
 /// Get Spotify catalog information for a single audiobook.
 /// Note: Audiobooks are only available for the US market.
 /// </summary>
-[Route($"/audiobooks/{{{nameof(Id)}}}", Verb.Get)]
+[Route($"{Configuration.ApiUri}/audiobooks/{{{nameof(Id)}}}", Verb.Get)]
 public class GetAudiobook : IReturn<Audiobook>
 {
     /// <summary>
@@ -32,7 +32,7 @@ public class GetAudiobook : IReturn<Audiobook>
 /// Get Spotify catalog information for several audiobooks identified by their Spotify IDs.
 /// Note: Audiobooks are only available for the US market.
 /// </summary>
-[Route("/audiobooks", Verb.Get)]
+[Route($"{Configuration.ApiUri}/audiobooks", Verb.Get)]
 public class GetSeveralAudiobooks : IReturn<SeveralAudiobooks>
 {
     /// <summary>
@@ -53,7 +53,7 @@ public class GetSeveralAudiobooks : IReturn<SeveralAudiobooks>
 /// Get Spotify catalog information for a single chapter.
 /// Note: Chapters are only available for the US market.
 /// </summary>
-[Route($"/chapters/{{{nameof(Id)}}}", Verb.Get)]
+[Route($"{Configuration.ApiUri}/chapters/{{{nameof(Id)}}}", Verb.Get)]
 public class GetChapter : IReturn<Chapter>
 {
     /// <summary>
@@ -74,7 +74,7 @@ public class GetChapter : IReturn<Chapter>
 /// Get Spotify catalog information for several chapters identified by their Spotify IDs.
 /// Note: Chapters are only available for the US market.
 /// </summary>
-[Route("/chapters", Verb.Get)]
+[Route($"{Configuration.ApiUri}/chapters", Verb.Get)]
 public class GetSeveralChapters : IReturn<SeveralChapters>
 {
     /// <summary>

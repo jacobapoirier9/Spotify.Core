@@ -13,7 +13,7 @@ namespace Spotify.Core.Model;
 /// <summary>
 /// Get a list of categories used to tag items in Spotify (on, for example, the Spotify player’s “Browse” tab).
 /// </summary>
-[Route("/browse/categories", Verb.Get)]
+[Route($"{Configuration.ApiUri}/browse/categories", Verb.Get)]
 public class GetSeveralBrowseCategories : IReturn<SeveralBrowseCategories>
 {
     /// <summary>
@@ -45,7 +45,7 @@ public class GetSeveralBrowseCategories : IReturn<SeveralBrowseCategories>
 /// <summary>
 /// Get a single category used to tag items in Spotify (on, for example, the Spotify player’s “Browse” tab).
 /// </summary>
-[Route($"/browse/categories/{{{nameof(CategoryId)}}}", Verb.Get)]
+[Route($"{Configuration.ApiUri}/browse/categories/{{{nameof(CategoryId)}}}", Verb.Get)]
 public class GetBrowseCategory : IReturn<Category>
 {
     /// <summary>

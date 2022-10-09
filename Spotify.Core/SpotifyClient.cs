@@ -11,12 +11,10 @@ namespace Spotify.Core;
 
 public class SpotifyClient
 {
-    private readonly string _baseUri;
     private readonly HttpClient _httpClient;
 
-    public SpotifyClient(string baseUri)
+    public SpotifyClient()
     {
-        _baseUri = baseUri;
         _httpClient = new HttpClient();
     }
 
@@ -32,7 +30,7 @@ public class SpotifyClient
 
     private TResponse? GetHttpResponse<TResponse>(IReturn<TResponse> requestDto, string? bearerToken = null)
     {
-        var httpRequest = HttpRequestMessageBuilder.BuildRequestMessage(_baseUri, requestDto, bearerToken);
+        var httpRequest = HttpRequestMessageBuilder.BuildRequestMessage(requestDto, bearerToken);
 
         var httpResponse = _httpClient.Send(httpRequest);
 

@@ -21,7 +21,7 @@ namespace Spotify.Core.Model;
 /// <summary>
 /// Get a playlist owned by a Spotify user.
 /// </summary>
-[Route($"/playlists/{{{nameof(PlaylistId)}}}", Verb.Get)]
+[Route($"{Configuration.ApiUri}/playlists/{{{nameof(PlaylistId)}}}", Verb.Get)]
 [Obsolete($"This needs to be able to handle tracks and episodes in the response")]
 public class GetPlaylist : IReturn<Playlist>
 {
@@ -59,7 +59,7 @@ public class GetPlaylist : IReturn<Playlist>
 /// <summary>
 /// Change a playlist's name and public/private state. (The user must, of course, own the playlist.)
 /// </summary>
-[Route($"/playlists/{{{nameof(PlaylistId)}}}", Verb.Put)]
+[Route($"{Configuration.ApiUri}/playlists/{{{nameof(PlaylistId)}}}", Verb.Put)]
 public class ChangePlaylistDetails : IReturn<HttpStatusCode>
 {
     /// <summary>
@@ -92,7 +92,7 @@ public class ChangePlaylistDetails : IReturn<HttpStatusCode>
 /// <summary>
 /// Get full details of the items of a playlist owned by a Spotify user.
 /// </summary>
-[Route($"/playlists/{{{nameof(PlaylistId)}}}/tracks", Verb.Get)]
+[Route($"{Configuration.ApiUri}/playlists/{{{nameof(PlaylistId)}}}/tracks", Verb.Get)]
 [Obsolete($"This needs to be able to handle tracks and episodes in the response")]
 public class GetPlaylistItems : IReturn<PagableResponse<Track>>
 {
@@ -140,7 +140,7 @@ public class GetPlaylistItems : IReturn<PagableResponse<Track>>
 /// <summary>
 /// The Spotify ID of the playlist.
 /// </summary>
-[Route($"/playlists/{{{nameof(PlaylistId)}}}/tracks", Verb.Post)]
+[Route($"{Configuration.ApiUri}/playlists/{{{nameof(PlaylistId)}}}/tracks", Verb.Post)]
 public class AddItemsToPlaylist : IReturn<Snapshot>
 {
     /// <summary>
@@ -192,7 +192,7 @@ public class AddItemsToPlaylist : IReturn<Snapshot>
 /// Note: Replace and reorder are mutually exclusive operations which share the same endpoint, 
 /// but have different parameters.These operations can't be applied together in a single request.
 /// </summary>
-[Route($"/playlists/{{{nameof(PlaylistId)}}}/tracks", Verb.Put)]
+[Route($"{Configuration.ApiUri}/playlists/{{{nameof(PlaylistId)}}}/tracks", Verb.Put)]
 public class UpdatePlaylistItems : IReturn<Snapshot>
 {
     /// <summary>
@@ -249,7 +249,7 @@ public class UpdatePlaylistItems : IReturn<Snapshot>
 /// <summary>
 /// Remove one or more items from a user's playlist.
 /// </summary>
-[Route($"/playlists/{{{nameof(PlaylistId)}}}/tracks", Verb.Delete)]
+[Route($"{Configuration.ApiUri}/playlists/{{{nameof(PlaylistId)}}}/tracks", Verb.Delete)]
 public class RemovePlaylistItems : IReturn<Snapshot>
 {
     /// <summary>
@@ -280,7 +280,7 @@ public class RemovePlaylistItems : IReturn<Snapshot>
 /// <summary>
 /// Get a list of the playlists owned or followed by the current Spotify user.
 /// </summary>
-[Route("/me/playlists", Verb.Get)]
+[Route($"{Configuration.ApiUri}/me/playlists", Verb.Get)]
 public class GetCurrentUsersPlaylists : IReturn<PagableResponse<Playlist>>
 {
     /// <summary>
@@ -297,7 +297,7 @@ public class GetCurrentUsersPlaylists : IReturn<PagableResponse<Playlist>>
 /// <summary>
 /// Get a list of the playlists owned or followed by a Spotify user.
 /// </summary>
-[Route($"/users/{{{nameof(UserId)}}}/playlists", Verb.Get)]
+[Route($"{Configuration.ApiUri}/users/{{{nameof(UserId)}}}/playlists", Verb.Get)]
 public class GetUsersPlaylist : IReturn<PagableResponse<Playlist>>
 {
     /// <summary>
@@ -319,7 +319,7 @@ public class GetUsersPlaylist : IReturn<PagableResponse<Playlist>>
 /// <summary>
 /// Create a playlist for a Spotify user. (The playlist will be empty until you add tracks.)
 /// </summary>
-[Route($"/users/{{{nameof(UserId)}}}/playlists", Verb.Post)]
+[Route($"{Configuration.ApiUri}/users/{{{nameof(UserId)}}}/playlists", Verb.Post)]
 public class CreatePlaylist : IReturn<Playlist>
 {
     /// <summary>

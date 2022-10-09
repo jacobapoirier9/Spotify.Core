@@ -16,7 +16,7 @@ namespace Spotify.Core.Model;
 /// <summary>
 /// Get Spotify catalog information for a single album.
 /// </summary>
-[Route($"/albums/{{{nameof(Id)}}}", Verb.Get)]
+[Route($"{Configuration.ApiUri}/albums/{{{nameof(Id)}}}", Verb.Get)]
 public class GetAlbum : IReturn<Album>
 {
     /// <summary>
@@ -36,7 +36,7 @@ public class GetAlbum : IReturn<Album>
 /// <summary>
 /// Get Spotify catalog information for multiple albums identified by their Spotify IDs.
 /// </summary>
-[Route("/albums", Verb.Get)]
+[Route($"{Configuration.ApiUri}/albums", Verb.Get)]
 public class GetSeveralAlbums : IReturn<SeveralAlbums>
 {
     /// <summary>
@@ -56,7 +56,7 @@ public class GetSeveralAlbums : IReturn<SeveralAlbums>
 /// <summary>
 /// Get Spotify catalog information about an album’s tracks. Optional parameters can be used to limit the number of tracks returned.
 /// </summary>
-[Route($"/albums/{{{nameof(Id)}}}/tracks", Verb.Get)]
+[Route($"{Configuration.ApiUri}/albums/{{{nameof(Id)}}}/tracks", Verb.Get)]
 public class GetAlbumTracks : IReturn<PagableResponse<Track>>
 {
     /// <summary>
@@ -86,7 +86,7 @@ public class GetAlbumTracks : IReturn<PagableResponse<Track>>
 /// <summary>
 /// Get a list of the albums saved in the current Spotify user's 'Your Music' library.
 /// </summary>
-[Route("/me/albums", Verb.Get)]
+[Route($"{Configuration.ApiUri}/me/albums", Verb.Get)]
 public class GetSavedAlbums : IReturn<PagableResponse<SavedAlbumContextWrapper>>
 {
     /// <summary>
@@ -111,7 +111,7 @@ public class GetSavedAlbums : IReturn<PagableResponse<SavedAlbumContextWrapper>>
 /// <summary>
 /// Save one or more albums to the current user's 'Your Music' library.
 /// </summary>
-[Route("/me/albums", Verb.Put)]
+[Route($"{Configuration.ApiUri}/me/albums", Verb.Put)]
 public class SaveAlbums : IReturn<HttpStatusCode>
 {
     /// <summary>
@@ -130,7 +130,7 @@ public class SaveAlbums : IReturn<HttpStatusCode>
 /// <summary>
 /// Remove one or more albums from the current user's 'Your Music' library.
 /// </summary>
-[Route("/me/albums", Verb.Delete)]
+[Route($"{Configuration.ApiUri}/me/albums", Verb.Delete)]
 public class RemoveSavedAlbums : IReturn<HttpStatusCode>
 {
     /// <summary>
@@ -149,7 +149,7 @@ public class RemoveSavedAlbums : IReturn<HttpStatusCode>
 /// <summary>
 /// Check if one or more albums is already saved in the current Spotify user's 'Your Music' library.
 /// </summary>
-[Route("/me/albums/contains", Verb.Get)]
+[Route($"{Configuration.ApiUri}/me/albums/contains", Verb.Get)]
 public class CheckSavedAlbums : IReturn<List<bool>>
 {
     /// <summary>
@@ -161,7 +161,7 @@ public class CheckSavedAlbums : IReturn<List<bool>>
 /// <summary>
 /// Get a list of new album releases featured in Spotify (shown, for example, on a Spotify player’s “Browse” tab).
 /// </summary>
-[Route("/browse/new-releases", Verb.Get)]
+[Route($"{Configuration.ApiUri}/browse/new-releases", Verb.Get)]
 public class GetNewReleases : IReturn<NewReleases>
 {
     /// <summary>

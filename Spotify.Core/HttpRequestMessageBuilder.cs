@@ -9,7 +9,7 @@ namespace Spotify.Core;
 
 internal static class HttpRequestMessageBuilder
 {
-    internal static HttpRequestMessage BuildRequestMessage<T>(string baseUri, T requestDto, string? bearerToken = null)
+    internal static HttpRequestMessage BuildRequestMessage<T>(T requestDto, string? bearerToken = null)
     {
         // TODO: Using typeof(T) here does not correctly get the RouteAttribute
         var type = requestDto?.GetType();
@@ -31,13 +31,13 @@ internal static class HttpRequestMessageBuilder
             request.Headers.Add("Authorization", "Bearer " + bearerToken);
         }
 
-        var relativePath = route?.Path + "?";
+        var url = route?.Uri + "?";
 
         // Sometimes the query parameter needs to be inserted in the url.
         // /me/{Id}/salray will take the Id property on the request dto and replace {Id} with the value. 
         // if Id = 4, then the result would be /me/4/salary
         var propertyNamesToInsert =
-            Regex.Matches(relativePath, @"{\w*}")
+            Regex.Matches(url, @"{\w*}")
             .Cast<Match>()
             .Select(m => m.Value)
             .ToList();
@@ -79,19 +79,19 @@ internal static class HttpRequestMessageBuilder
                 {
                     if (propertyNamesToInsert.Contains("{" + property.Name + "}"))
                     {
-                        relativePath = relativePath.Replace("{" + property.Name + "}", value.GetUriParameterValue());
+                        url = url.Replace("{" + property.Name + "}", value.GetUriParameterValue());
                     }
                     else
                     {
                         var name = Configuration.JsonSerializerOptions?.PropertyNamingPolicy?.ConvertName(property.Name) ?? property.Name;
-                        relativePath += name + "=" + value.GetUriParameterValue() + "&";
+                        url += name + "=" + value.GetUriParameterValue() + "&";
                     }
 
                 }
             }
         }
 
-        request.RequestUri = new Uri(baseUri + relativePath.TrimEnd('&', '?'));
+        request.RequestUri = new Uri(url.TrimEnd('&', '?'));
 
         Console.WriteLine(request);
         if (request.Content is not null)

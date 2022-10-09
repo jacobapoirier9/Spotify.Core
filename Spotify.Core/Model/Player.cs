@@ -6,7 +6,7 @@ namespace Spotify.Core.Model;
 /// <summary>
 /// Get information about the user’s current playback state, including track or episode, progress, and active device.
 /// </summary>
-[Route("/me/player", Verb.Get)]
+[Route($"{Configuration.ApiUri}/me/player", Verb.Get)]
 public class GetPlaybackState : IReturn<PlaybackState>
 {
     /// <summary>
@@ -29,7 +29,7 @@ public class GetPlaybackState : IReturn<PlaybackState>
 /// <summary>
 /// Transfer playback to a new device and determine if it should start playing.
 /// </summary>
-[Route("/me/player", Verb.Put)]
+[Route($"{Configuration.ApiUri}/me/player", Verb.Put)]
 public class TransferPlayback : IReturn<HttpStatusCode>
 {
     [BodyParameter]
@@ -55,7 +55,7 @@ public class TransferPlayback : IReturn<HttpStatusCode>
 /// <summary>
 /// Get information about a user’s available devices.
 /// </summary>
-[Route("/me/player/devices", Verb.Get)]
+[Route($"{Configuration.ApiUri}/me/player/devices", Verb.Get)]
 public class GetAvailableDevices : IReturn<AvailableDevices>
 {
 
@@ -64,7 +64,7 @@ public class GetAvailableDevices : IReturn<AvailableDevices>
 /// <summary>
 /// Get the object currently being played on the user's Spotify account.
 /// </summary>
-[Route("/me/player/currently-playing", Verb.Get)]
+[Route($"{Configuration.ApiUri}/me/player/currently-playing", Verb.Get)]
 public class GetCurrentlyPlayingTrack : IReturn<PlaybackState>
 {
     /// <summary>
@@ -86,7 +86,7 @@ public class GetCurrentlyPlayingTrack : IReturn<PlaybackState>
 /// <summary>
 /// Start a new context or resume current playback on the user's active device.
 /// </summary>
-[Route("/me/player/play", Verb.Put)]
+[Route($"{Configuration.ApiUri}/me/player/play", Verb.Put)]
 public class StartPlayback : IReturn<HttpStatusCode>
 {
     /// <summary>
@@ -127,7 +127,7 @@ public class StartPlayback : IReturn<HttpStatusCode>
 /// <summary>
 /// Pause playback on the user's account.
 /// </summary>
-[Route("/me/player/pause", Verb.Put)]
+[Route($"{Configuration.ApiUri}/me/player/pause", Verb.Put)]
 public class PausePlayback : IReturn<HttpStatusCode>
 {
     /// <summary>
@@ -139,7 +139,7 @@ public class PausePlayback : IReturn<HttpStatusCode>
 /// <summary>
 /// Skips to next track in the user’s queue.
 /// </summary>
-[Route("/me/player/next", Verb.Post)]
+[Route($"{Configuration.ApiUri}/me/player/next", Verb.Post)]
 public class SkipToNext : IReturn<HttpStatusCode>
 {
     /// <summary>
@@ -151,7 +151,7 @@ public class SkipToNext : IReturn<HttpStatusCode>
 /// <summary>
 /// Skips to previous track in the user’s queue.
 /// </summary>
-[Route("/me/player/previous", Verb.Post)]
+[Route($"{Configuration.ApiUri}/me/player/previous", Verb.Post)]
 public class SkipToPrevious : IReturn<HttpStatusCode>
 {
     /// <summary>
@@ -163,7 +163,7 @@ public class SkipToPrevious : IReturn<HttpStatusCode>
 /// <summary>
 /// Seeks to the given position in the user’s currently playing track.
 /// </summary>
-[Route("/me/player/seek", Verb.Put)]
+[Route($"{Configuration.ApiUri}/me/player/seek", Verb.Put)]
 public class SeekToPosition : IReturn<HttpStatusCode>
 {
     /// <summary>
@@ -181,7 +181,7 @@ public class SeekToPosition : IReturn<HttpStatusCode>
 /// <summary>
 /// Set the repeat mode for the user's playback. Options are repeat-track, repeat-context, and off.
 /// </summary>
-[Route("/me/player/repeat", Verb.Put)]
+[Route($"{Configuration.ApiUri}/me/player/repeat", Verb.Put)]
 public class SetRepeatMode : IReturn<HttpStatusCode>
 {
     /// <summary>
@@ -202,7 +202,7 @@ public class SetRepeatMode : IReturn<HttpStatusCode>
 /// <summary>
 /// Set the volume for the user’s current playback device.
 /// </summary>
-[Route("/me/player/volume", Verb.Put)]
+[Route($"{Configuration.ApiUri}/me/player/volume", Verb.Put)]
 public class SetPlaybackVolume : IReturn<HttpStatusCode>
 {
     /// <summary>
@@ -219,7 +219,7 @@ public class SetPlaybackVolume : IReturn<HttpStatusCode>
 /// <summary>
 /// Toggle shuffle on or off for user’s playback.
 /// </summary>
-[Route("/me/player/shuffle", Verb.Put)]
+[Route($"{Configuration.ApiUri}/me/player/shuffle", Verb.Put)]
 public class SetPlaybackShuffle : IReturn<HttpStatusCode>
 {
     /// <summary>
@@ -237,7 +237,7 @@ public class SetPlaybackShuffle : IReturn<HttpStatusCode>
 /// <summary>
 /// Get tracks from the current user's recently played tracks. Note: Currently doesn't support podcast episodes.
 /// </summary>
-[Route("/me/player/recently-played", Verb.Get)]
+[Route($"{Configuration.ApiUri}/me/player/recently-played", Verb.Get)]
 public class GetRecentlyPlayedTracks : IReturn<PagableResponse<LastPlayedContext>>
 {
     /// <summary>
@@ -259,7 +259,7 @@ public class GetRecentlyPlayedTracks : IReturn<PagableResponse<LastPlayedContext
 /// <summary>
 /// Get the list of objects that make up the user's queue.
 /// </summary>
-[Route("/me/player/queue", Verb.Get)]
+[Route($"{Configuration.ApiUri}/me/player/queue", Verb.Get)]
 public class GetPlaybackQueue : IReturn<PlaybackQueue>
 {
 }
@@ -267,7 +267,7 @@ public class GetPlaybackQueue : IReturn<PlaybackQueue>
 /// <summary>
 /// Add an item to the end of the user's current playback queue.
 /// </summary>
-[Route("/me/player/queue", Verb.Post)]
+[Route($"{Configuration.ApiUri}/me/player/queue", Verb.Post)]
 public class AddItemToPlaybackQueue : IReturn<HttpStatusCode>
 {
     /// <summary>

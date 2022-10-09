@@ -12,7 +12,7 @@ namespace Spotify.Core.Model;
 /// <summary>
 /// Get Spotify catalog information for a single episode identified by its unique Spotify ID.
 /// </summary>
-[Route($"/episodes/{{{nameof(Id)}}}", Verb.Get)]
+[Route($"{Configuration.ApiUri}/episodes/{{{nameof(Id)}}}", Verb.Get)]
 public class GetEpisode : IReturn<Episode>
 {
     /// <summary>
@@ -32,7 +32,7 @@ public class GetEpisode : IReturn<Episode>
 /// <summary>
 /// Get Spotify catalog information for several episodes based on their Spotify IDs.
 /// </summary>
-[Route("/episodes", Verb.Get)]
+[Route($"{Configuration.ApiUri}/episodes", Verb.Get)]
 public class GetSeveralEpisodes : IReturn<SeveralEpisodes>
 {
     /// <summary>
@@ -53,7 +53,7 @@ public class GetSeveralEpisodes : IReturn<SeveralEpisodes>
 /// Get a list of the episodes saved in the current Spotify user's library.
 /// This API endpoint is in beta and could change without warning.Please share any feedback that you have, or issues that you discover, in our developer community forum.
 /// </summary>
-[Route("/me/episodes", Verb.Get)]
+[Route($"{Configuration.ApiUri}/me/episodes", Verb.Get)]
 public class GetSavedEpisodes : IReturn<PagableResponse<SavedEpisodesContextWrapper>>
 {
     /// <summary>
@@ -79,7 +79,7 @@ public class GetSavedEpisodes : IReturn<PagableResponse<SavedEpisodesContextWrap
 /// Save one or more episodes to the current user's library.
 /// This API endpoint is in beta and could change without warning.Please share any feedback that you have, or issues that you discover, in our developer community forum.
 /// </summary>
-[Route("/me/episodes", Verb.Put)]
+[Route($"{Configuration.ApiUri}/me/episodes", Verb.Put)]
 public class SaveEpisodes : IReturn<HttpStatusCode>
 {
     /// <summary>
@@ -98,7 +98,7 @@ public class SaveEpisodes : IReturn<HttpStatusCode>
 /// Remove one or more episodes from the current user's library.
 /// This API endpoint is in beta and could change without warning.Please share any feedback that you have, or issues that you discover, in our developer community forum.
 /// </summary>
-[Route("/me/episodes", Verb.Delete)]
+[Route($"{Configuration.ApiUri}/me/episodes", Verb.Delete)]
 public class RemoveSavedEpisodes : IReturn<HttpStatusCode>
 {
     /// <summary>
@@ -117,7 +117,7 @@ public class RemoveSavedEpisodes : IReturn<HttpStatusCode>
 /// Check if one or more episodes is already saved in the current Spotify user's 'Your Episodes' library.
 /// This API endpoint is in beta and could change without warning.Please share any feedback that you have, or issues that you discover, in our developer community forum..
 /// </summary>
-[Route("/me/episodes/contains", Verb.Get)]
+[Route($"{Configuration.ApiUri}/me/episodes/contains", Verb.Get)]
 public class CheckSavedEpisodes : IReturn<List<bool>>
 {
     /// <summary>

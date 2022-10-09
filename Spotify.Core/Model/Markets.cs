@@ -10,7 +10,7 @@ namespace Spotify.Core.Model;
 /// <summary>
 /// Get the list of markets where Spotify is available.
 /// </summary>
-[Route("/markets", Verb.Get)]
+[Route($"{Configuration.ApiUri}/markets", Verb.Get)]
 public class GetAvailableMarkets : IReturn<AvailableMarkets>
 { 
 }

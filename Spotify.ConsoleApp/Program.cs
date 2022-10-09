@@ -6,14 +6,14 @@ namespace Spotify.ConsoleApp;
 
 internal class Program
 {
-    private const string Token = "BQAOaG6-AlXkxLK8DSAAU0vrOD9skEeUhKNWJZf5R1fz1ErjxSVzAI1iS54hRziqfJIg8mt6GVGC7L1ClKyzEZBK0sL7Ld_dr4aDyR5YMh6fYvvXX6mlnVYF7BBqIDNFxhIOUEg0eWkIXQ-IFeKv9OhTXpvIkzmBUdfjIilEr44X2SSHI1edRB_Mkj9J6NeazyAgxIvTDRVKtjlOMDFga1FvmD8AbQeYfw7LeRU_fpvkQC6MXc8y0rRAokfqcIX-BcPzfGR4JyeBUaRaMPW5FlfDCJirPIW60_Bji2c3PHekUsgrXE9hGvALXn619sLg";
+    private const string Token = "BQBz9fq24wob2DlDbl8iHyBif9iPYSbCoQrETPuoTVIp4M9_8Q1iVzq5GjE4PV_C5QmPFhczuMVk0yPLr4ejezvJ0DOXDmIeUv-H642_lMPpFRQRRx6_A6-L7IHAOwmBbiLjZ7k2nfF9KbwF83EpivFk8RCfiNUSHkOPhyc3sUfv9gmak1vUlfzETeux7oPoeT7UaG036Iw5D19LLf8AgvIHXRWezTVm7IP_41wFPffqWM-Is2VZZa_woZQ3Z8XtoVd1rfnlizNxufKHriShg-Qsk-kxUsEv8Yt_kFCcg2WdSzP3VKLkZPQ4l0pk8m5s";
 
     static void Main(string[] args)
     {
         // Jocko podcast show - 7irxBvxNqGYnUdFo1c2gMc
-        var client = new SpotifyClient(Configuration.ApiUri);
+        var client = new SpotifyClient();
 
-        var playlists = client.Put(new FollowArtistsOrUsers() { Type = ItemType.Artist }, Token);
+        var playlists = client.Get(new GetPlaybackQueue() {}, Token);
     }
 }
 

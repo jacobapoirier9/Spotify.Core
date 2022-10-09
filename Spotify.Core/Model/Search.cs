@@ -15,7 +15,7 @@ namespace Spotify.Core.Model;
 /// Get Spotify catalog information about albums, artists, playlists, tracks, shows, episodes or audiobooks that match a keyword string.
 /// Note: Audiobooks are only available for the US market.
 /// </summary>
-[Route("/search", Verb.Get)]
+[Route($"{Configuration.ApiUri}/search", Verb.Get)]
 public class Search : IReturn<SearchResponse>
 {
     /// <summary>

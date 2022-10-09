@@ -6,7 +6,7 @@ namespace Spotify.Core.Model;
 /// <summary>
 /// Get Spotify catalog information for a single show identified by its unique Spotify ID.
 /// </summary>
-[Route($"/shows/{{{nameof(Id)}}}", Verb.Get)]
+[Route($"{Configuration.ApiUri}/shows/{{{nameof(Id)}}}", Verb.Get)]
 public class GetShow : IReturn<Show>
 {
     /// <summary>
@@ -26,7 +26,7 @@ public class GetShow : IReturn<Show>
 /// <summary>
 /// Get Spotify catalog information for several shows based on their Spotify IDs.
 /// </summary>
-[Route("/shows", Verb.Get)]
+[Route($"{Configuration.ApiUri}/shows", Verb.Get)]
 public class GetSeveralShows
 {
     /// <summary>
@@ -46,7 +46,7 @@ public class GetSeveralShows
 /// <summary>
 /// Get Spotify catalog information about an show’s episodes. Optional parameters can be used to limit the number of episodes returned.
 /// </summary>
-[Route($"/shows/{{{nameof(Id)}}}/episodes", Verb.Get)]
+[Route($"{Configuration.ApiUri}/shows/{{{nameof(Id)}}}/episodes", Verb.Get)]
 public class GetShowEpisodes : IReturn<PagableResponse<Episode>>
 {
     /// <summary>
@@ -76,7 +76,7 @@ public class GetShowEpisodes : IReturn<PagableResponse<Episode>>
 /// <summary>
 /// Get a list of shows saved in the current Spotify user's library. Optional parameters can be used to limit the number of shows returned.
 /// </summary>
-[Route("/me/shows", Verb.Get)]
+[Route($"{Configuration.ApiUri}/me/shows", Verb.Get)]
 public class GetSavedShows : IReturn<PagableResponse<SavedShowContextWrapper>>
 {
     /// <summary>
@@ -93,7 +93,7 @@ public class GetSavedShows : IReturn<PagableResponse<SavedShowContextWrapper>>
 /// <summary>
 /// Save one or more shows to current Spotify user's library.
 /// </summary>
-[Route("/me/shows", Verb.Put)]
+[Route($"{Configuration.ApiUri}/me/shows", Verb.Put)]
 public class SaveShows : IReturn<HttpStatusCode>
 {
     /// <summary>
@@ -105,7 +105,7 @@ public class SaveShows : IReturn<HttpStatusCode>
 /// <summary>
 /// Delete one or more shows from current Spotify user's library.
 /// </summary>
-[Route("/me/shows", Verb.Delete)]
+[Route($"{Configuration.ApiUri}/me/shows", Verb.Delete)]
 public class RemoveSavedShows : IReturn<HttpStatusCode>
 {
     /// <summary>
@@ -125,7 +125,7 @@ public class RemoveSavedShows : IReturn<HttpStatusCode>
 /// <summary>
 /// Check if one or more shows is already saved in the current Spotify user's library.
 /// </summary>
-[Route("/me/shows/contains", Verb.Get)]
+[Route($"{Configuration.ApiUri}/me/shows/contains", Verb.Get)]
 public class CheckUsersSavedShows : IReturn<List<bool>>
 {
     /// <summary>

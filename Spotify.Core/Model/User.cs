@@ -12,7 +12,7 @@ namespace Spotify.Core.Model;
 /// <summary>
 /// Get detailed profile information about the current user (including the current user's username).
 /// </summary>
-[Route("/me", Verb.Get)]
+[Route($"{Configuration.ApiUri}/me", Verb.Get)]
 public class GetCurrentUserProfile : IReturn<UserProfile>
 {
 
@@ -22,7 +22,7 @@ public class GetCurrentUserProfile : IReturn<UserProfile>
 /// Get the current user's top artists or tracks based on calculated affinity.
 /// </summary>
 /// <typeparam name="T">The type of content to return</typeparam>
-[Route($"/me/top/{{{nameof(Type)}}}", Verb.Get)]
+[Route($"{Configuration.ApiUri}/me/top/{{{nameof(Type)}}}", Verb.Get)]
 public class GetUsersTopItems<T> : IReturn<PagableResponse<T>>
 {
     /// <summary>
@@ -51,7 +51,7 @@ public class GetUsersTopItems<T> : IReturn<PagableResponse<T>>
 /// <summary>
 /// Get public profile information about a Spotify user.
 /// </summary>
-[Route($"/users/{{{nameof(UserId)}}}", Verb.Get)]
+[Route($"{Configuration.ApiUri}/users/{{{nameof(UserId)}}}", Verb.Get)]
 public class GetUsersProfile : IReturn<UserProfile>
 {
     public string? UserId { get; set; }
@@ -60,7 +60,7 @@ public class GetUsersProfile : IReturn<UserProfile>
 /// <summary>
 /// Add the current user as a follower of a playlist.
 /// </summary>
-[Route($"/playlists/{{{nameof(PlaylistId)}}}/followers", Verb.Put)]
+[Route($"{Configuration.ApiUri}/playlists/{{{nameof(PlaylistId)}}}/followers", Verb.Put)]
 public class FollowPlaylist : IReturn<HttpStatusCode>
 {
     /// <summary>
@@ -78,7 +78,7 @@ public class FollowPlaylist : IReturn<HttpStatusCode>
 /// <summary>
 /// Remove the current user as a follower of a playlist.
 /// </summary>
-[Route($"/playlists/{{{nameof(PlaylistId)}}}/followers", Verb.Delete)]
+[Route($"{Configuration.ApiUri}/playlists/{{{nameof(PlaylistId)}}}/followers", Verb.Delete)]
 public class UnfollowPlaylist : IReturn<HttpStatusCode>
 {
     /// <summary>
@@ -90,7 +90,7 @@ public class UnfollowPlaylist : IReturn<HttpStatusCode>
 /// <summary>
 /// Get the current user's followed artists.
 /// </summary>
-[Route("/me/following", Verb.Get)]
+[Route($"{Configuration.ApiUri}/me/following", Verb.Get)]
 public class GetFollowedArtists : IReturn<FollowedArtists>
 {
     /// <summary>
@@ -112,7 +112,7 @@ public class GetFollowedArtists : IReturn<FollowedArtists>
 /// <summary>
 /// Add the current user as a follower of one or more artists or other Spotify users.
 /// </summary>
-[Route("/me/following", Verb.Put)]
+[Route($"{Configuration.ApiUri}/me/following", Verb.Put)]
 public class FollowArtistsOrUsers : IReturn<HttpStatusCode>
 {
     /// <summary>
@@ -139,7 +139,7 @@ public class FollowArtistsOrUsers : IReturn<HttpStatusCode>
 /// <summary>
 /// Remove the current user as a follower of one or more artists or other Spotify users.
 /// </summary>
-[Route("/me/following", Verb.Delete)]
+[Route($"{Configuration.ApiUri}/me/following", Verb.Delete)]
 public class UnfollowArtistsOrUsers : IReturn<HttpStatusCode>
 {
     /// <summary>
@@ -166,7 +166,7 @@ public class UnfollowArtistsOrUsers : IReturn<HttpStatusCode>
 /// <summary>
 /// Check to see if the current user is following one or more artists or other Spotify users.
 /// </summary>
-[Route("/me/following/contains", Verb.Get)]
+[Route($"{Configuration.ApiUri}/me/following/contains", Verb.Get)]
 public class CheckIfUserFollowsArtistsOrUsers : IReturn<List<bool>>
 {
     /// <summary>
@@ -183,7 +183,7 @@ public class CheckIfUserFollowsArtistsOrUsers : IReturn<List<bool>>
 /// <summary>
 /// Check to see if one or more Spotify users are following a specified playlist.
 /// </summary>
-[Route($"/playlists/{{{nameof(PlaylistId)}}}/followers/contains", Verb.Get)]
+[Route($"{Configuration.ApiUri}/playlists/{{{nameof(PlaylistId)}}}/followers/contains", Verb.Get)]
 public class CheckIfUsersFollowPlaylist : IReturn<List<bool>>
 {
     /// <summary>

@@ -10,7 +10,7 @@ namespace Spotify.Core.Model;
 /// <summary>
 /// Retrieve a list of available genres seed parameter values for recommendations.
 /// </summary>
-[Route("/recommendations/available-genre-seeds", Verb.Get)]
+[Route($"{Configuration.ApiUri}/recommendations/available-genre-seeds", Verb.Get)]
 public class GetAvailableGenreSeeds : IReturn<AvailableGenreSeeds>
 {
 

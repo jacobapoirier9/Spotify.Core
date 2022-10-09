@@ -11,7 +11,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Spotify.Core.Model;
 
-[Route($"/tracks/{{{nameof(Id)}}}", Verb.Get)]
+[Route($"{Configuration.ApiUri}/tracks/{{{nameof(Id)}}}", Verb.Get)]
 public class GetTrack : IReturn<Track>
 {
     /// <summary>
@@ -31,7 +31,7 @@ public class GetTrack : IReturn<Track>
 /// <summary>
 /// Get Spotify catalog information for multiple tracks based on their Spotify IDs.
 /// </summary>
-[Route("/tracks", Verb.Get)]
+[Route($"{Configuration.ApiUri}/tracks", Verb.Get)]
 public class GetSeveralTracks : IReturn<SeveralTracks>
 {
     /// <summary>
@@ -51,7 +51,7 @@ public class GetSeveralTracks : IReturn<SeveralTracks>
 /// <summary>
 /// Get a list of the songs saved in the current Spotify user's 'Your Music' library.
 /// </summary>
-[Route("/me/tracks", Verb.Get)]
+[Route($"{Configuration.ApiUri}/me/tracks", Verb.Get)]
 public class GetSavedTracks : IReturn<PagableResponse<SavedTrackContextWrapper>>
 {
     /// <summary>
@@ -76,7 +76,7 @@ public class GetSavedTracks : IReturn<PagableResponse<SavedTrackContextWrapper>>
 /// <summary>
 /// Save one or more tracks to the current user's 'Your Music' library.
 /// </summary>
-[Route("/me/tracks", Verb.Put)]
+[Route($"{Configuration.ApiUri}/me/tracks", Verb.Put)]
 public class SaveTracks : IReturn<HttpStatusCode>
 {
     /// <summary>
@@ -95,7 +95,7 @@ public class SaveTracks : IReturn<HttpStatusCode>
 /// <summary>
 /// Remove one or more tracks from the current user's 'Your Music' library.
 /// </summary>
-[Route("/me/tracks", Verb.Delete)]
+[Route($"{Configuration.ApiUri}/me/tracks", Verb.Delete)]
 public class RemoveSavedTracks : IReturn<HttpStatusCode>
 {
     /// <summary>
@@ -114,7 +114,7 @@ public class RemoveSavedTracks : IReturn<HttpStatusCode>
 /// <summary>
 /// Check if one or more tracks is already saved in the current Spotify user's 'Your Music' library.
 /// </summary>
-[Route("/me/tracks/constains", Verb.Get)]
+[Route($"{Configuration.ApiUri}/me/tracks/constains", Verb.Get)]
 public class CheckSavedTracks : IReturn<List<bool>>
 {
     /// <summary>
@@ -129,7 +129,7 @@ public class CheckSavedTracks : IReturn<List<bool>>
 /// If there is sufficient information about the provided seeds, a list of tracks will be returned together with pool size details.
 /// For artists and tracks that are very new or obscure there might not be enough data to generate a list of tracks.
 /// </summary>
-[Route("/recommendations", Verb.Get)]
+[Route($"{Configuration.ApiUri}/recommendations", Verb.Get)]
 public class GetRecommendations : IReturn<Recommendations>
 {
     /// <summary>
@@ -420,13 +420,13 @@ public class GetRecommendations : IReturn<Recommendations>
 /// Get audio features for multiple tracks based on their Spotify IDs.
 /// </summary>
 [Obsolete($"This may be an expensive call, {nameof(GetTrackAudioFeatures)} should be used instead.")]
-[Route("/audio-features")]
+[Route($"{Configuration.ApiUri}/audio-features")]
 public class GetSeveralTrackAudioFeatures : IReturn<SeveralAudioFeatures>
 {
 
 }
 
-[Route($"/audio-features/{{{nameof(Id)}}}", Verb.Get)]
+[Route($"{Configuration.ApiUri}/audio-features/{{{nameof(Id)}}}", Verb.Get)]
 public class GetTrackAudioFeatures : IReturn<AudioFeatures>
 {
     /// <summary>

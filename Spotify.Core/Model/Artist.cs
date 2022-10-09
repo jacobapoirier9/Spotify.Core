@@ -6,7 +6,7 @@ namespace Spotify.Core.Model;
 /// <summary>
 /// Get Spotify catalog information for a single artist identified by their unique Spotify ID.
 /// </summary>
-[Route($"/artists/{{{nameof(Id)}}}", Verb.Get)]
+[Route($"{Configuration.ApiUri}/artists/{{{nameof(Id)}}}", Verb.Get)]
 public class GetArtist : IReturn<Artist>
 {
     /// <summary>
@@ -18,7 +18,7 @@ public class GetArtist : IReturn<Artist>
 /// <summary>
 /// Get Spotify catalog information for several artists based on their Spotify IDs.
 /// </summary>
-[Route("/artists", Verb.Get)]
+[Route($"{Configuration.ApiUri}/artists", Verb.Get)]
 public class GetSeveralArtists : IReturn<SeveralArtists>
 {
     /// <summary>
@@ -30,7 +30,7 @@ public class GetSeveralArtists : IReturn<SeveralArtists>
 /// <summary>
 /// Get Spotify catalog information about an artist's albums.
 /// </summary>
-[Route($"/artists/{{{nameof(Id)}}}/albums", Verb.Get)]
+[Route($"{Configuration.ApiUri}/artists/{{{nameof(Id)}}}/albums", Verb.Get)]
 public class GetArtistsAlbums : IReturn<PagableResponse<Album>>
 {
     /// <summary>
@@ -66,7 +66,7 @@ public class GetArtistsAlbums : IReturn<PagableResponse<Album>>
 /// <summary>
 /// Get Spotify catalog information about an artist's top tracks by country.
 /// </summary>
-[Route($"/artists/{{{nameof(Id)}}}/top-tracks", Verb.Get)]
+[Route($"{Configuration.ApiUri}/artists/{{{nameof(Id)}}}/top-tracks", Verb.Get)]
 public class GetArtistsTopTracks : IReturn<ArtistsTopTracks>
 {
     /// <summary>
@@ -86,7 +86,7 @@ public class GetArtistsTopTracks : IReturn<ArtistsTopTracks>
 /// <summary>
 /// Get Spotify catalog information about artists similar to a given artist. Similarity is based on analysis of the Spotify community's listening history.
 /// </summary>
-[Route($"/artists/{{{nameof(Id)}}}/related-artists", Verb.Get)]
+[Route($"{Configuration.ApiUri}/artists/{{{nameof(Id)}}}/related-artists", Verb.Get)]
 public class GetArtistsRelatedArtists : IReturn<ArtistsRelatedArtists>
 {
     /// <summary>
