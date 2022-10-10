@@ -57,7 +57,7 @@ public class GetSeveralAlbums : IReturn<SeveralAlbums>
 /// Get Spotify catalog information about an album’s tracks. Optional parameters can be used to limit the number of tracks returned.
 /// </summary>
 [Route($"{Configuration.ApiUri}/albums/{{{nameof(Id)}}}/tracks", Verb.Get)]
-public class GetAlbumTracks : IReturn<PagableResponse<Track>>
+public class GetAlbumTracks : IReturn<Pagable<Track>>
 {
     /// <summary>
     /// The Spotify ID of the album.
@@ -87,7 +87,7 @@ public class GetAlbumTracks : IReturn<PagableResponse<Track>>
 /// Get a list of the albums saved in the current Spotify user's 'Your Music' library.
 /// </summary>
 [Route($"{Configuration.ApiUri}/me/albums", Verb.Get)]
-public class GetSavedAlbums : IReturn<PagableResponse<SavedAlbumContextWrapper>>
+public class GetSavedAlbums : IReturn<Pagable<SavedAlbumContextWrapper>>
 {
     /// <summary>
     /// The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.
@@ -201,7 +201,7 @@ public class NewReleases
     /// <summary>
     /// A paged set of albums
     /// </summary>
-    public PagableResponse<Album>? Albums { get; set; }
+    public Pagable<Album>? Albums { get; set; }
 }
 
 /// <summary>

@@ -238,7 +238,7 @@ public class SetPlaybackShuffle : IReturn<HttpStatusCode>
 /// Get tracks from the current user's recently played tracks. Note: Currently doesn't support podcast episodes.
 /// </summary>
 [Route($"{Configuration.ApiUri}/me/player/recently-played", Verb.Get)]
-public class GetRecentlyPlayedTracks : IReturn<PagableResponse<LastPlayedContext>>
+public class GetRecentlyPlayedTracks : IReturn<Pagable<LastPlayedContext>>
 {
     /// <summary>
     /// A Unix timestamp in milliseconds. Returns all items after (but not including) this cursor position. If after is specified, before must not be specified.

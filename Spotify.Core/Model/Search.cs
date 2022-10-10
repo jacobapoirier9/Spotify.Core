@@ -68,18 +68,18 @@ public class Search : IReturn<SearchResponse>
 
 public class SearchResponse
 {
-    public PagableResponse<Track>? Tracks { get; set; }
+    public Pagable<Track>? Tracks { get; set; }
 
-    public PagableResponse<Artist>? Artists { get; set; }
+    public Pagable<Artist>? Artists { get; set; }
 
-    public PagableResponse<Album>? Albums { get; set; }
+    public Pagable<Album>? Albums { get; set; }
 
-    public PagableResponse<object>? Playlists => throw new NotImplementedException("Need to implement Playlist DTO");
+    public Pagable<object>? Playlists => throw new NotImplementedException("Need to implement Playlist DTO");
 
-    public PagableResponse<Show>? Shows { get; set; }
+    public Pagable<Show>? Shows { get; set; }
 
-    public PagableResponse<Episode>? Episodes { get; set; }
+    public Pagable<Episode>? Episodes { get; set; }
 
-    public PagableResponse<Audiobook>? Audiobooks { get; set; }
+    public Pagable<Audiobook>? Audiobooks { get; set; }
 }
 

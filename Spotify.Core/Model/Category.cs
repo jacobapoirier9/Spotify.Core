@@ -74,7 +74,7 @@ public class SeveralBrowseCategories
     /// <summary>
     /// A paged set of categories
     /// </summary>
-    public PagableResponse<Category>? Categories { get; set; }
+    public Pagable<Category>? Categories { get; set; }
 }
 
 public class Category

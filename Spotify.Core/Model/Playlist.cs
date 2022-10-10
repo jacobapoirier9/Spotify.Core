@@ -94,7 +94,7 @@ public class ChangePlaylistDetails : IReturn<HttpStatusCode>
 /// </summary>
 [Route($"{Configuration.ApiUri}/playlists/{{{nameof(PlaylistId)}}}/tracks", Verb.Get)]
 [Obsolete($"This needs to be able to handle tracks and episodes in the response")]
-public class GetPlaylistItems : IReturn<PagableResponse<Track>>
+public class GetPlaylistItems : IReturn<Pagable<Track>>
 {
     /// <summary>
     /// The Spotify ID of the playlist.
@@ -281,7 +281,7 @@ public class RemovePlaylistItems : IReturn<Snapshot>
 /// Get a list of the playlists owned or followed by the current Spotify user.
 /// </summary>
 [Route($"{Configuration.ApiUri}/me/playlists", Verb.Get)]
-public class GetCurrentUsersPlaylists : IReturn<PagableResponse<Playlist>>
+public class GetCurrentUsersPlaylists : IReturn<Pagable<Playlist>>
 {
     /// <summary>
     /// The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.
@@ -298,7 +298,7 @@ public class GetCurrentUsersPlaylists : IReturn<PagableResponse<Playlist>>
 /// Get a list of the playlists owned or followed by a Spotify user.
 /// </summary>
 [Route($"{Configuration.ApiUri}/users/{{{nameof(UserId)}}}/playlists", Verb.Get)]
-public class GetUsersPlaylist : IReturn<PagableResponse<Playlist>>
+public class GetUsersPlaylist : IReturn<Pagable<Playlist>>
 {
     /// <summary>
     /// The user's Spotify user ID.
@@ -443,14 +443,14 @@ public class AddCustomPlaylistCoverImage : IReturn<HttpStatusCode>
 
 public class CategoryPlaylists
 {
-    public PagableResponse<Playlist>? Playlists { get; set; }
+    public Pagable<Playlist>? Playlists { get; set; }
 }
 
 public class FeaturedPlaylists
 {
     public string? Message { get; set; }
 
-    public PagableResponse<Playlist>? Playlists { get; set; }
+    public Pagable<Playlist>? Playlists { get; set; }
 }
 
 public class Snapshot
@@ -523,7 +523,7 @@ public class Playlist
     /// <summary>
     /// The tracks of the playlist.
     /// </summary>
-    public PagableResponse<Track>? Tracks { get; set; }
+    public Pagable<Track>? Tracks { get; set; }
 
     /// <summary>
     /// The object type: <see cref="ItemType.Playlist"/>

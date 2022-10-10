@@ -23,7 +23,7 @@ public class GetCurrentUserProfile : IReturn<UserProfile>
 /// </summary>
 /// <typeparam name="T">The type of content to return</typeparam>
 [Route($"{Configuration.ApiUri}/me/top/{{{nameof(Type)}}}", Verb.Get)]
-public class GetUsersTopItems<T> : IReturn<PagableResponse<T>>
+public class GetUsersTopItems<T> : IReturn<Pagable<T>>
 {
     /// <summary>
     /// The type of entity to return. Valid values: artists or tracks
@@ -202,7 +202,7 @@ public class FollowedArtists
     /// <summary>
     /// A paged set of artists
     /// </summary>
-    public PagableResponse<Artist>? Artists { get; set; }
+    public Pagable<Artist>? Artists { get; set; }
 }
 
 public class UserProfile

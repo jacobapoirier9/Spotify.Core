@@ -31,7 +31,7 @@ public class GetSeveralArtists : IReturn<SeveralArtists>
 /// Get Spotify catalog information about an artist's albums.
 /// </summary>
 [Route($"{Configuration.ApiUri}/artists/{{{nameof(Id)}}}/albums", Verb.Get)]
-public class GetArtistsAlbums : IReturn<PagableResponse<Album>>
+public class GetArtistsAlbums : IReturn<Pagable<Album>>
 {
     /// <summary>
     /// A comma-separated list of keywords that will be used to filter the response. If not supplied, all album types will be returned.
@@ -184,6 +184,6 @@ public class Artist
     /// <summary>
     /// The tracks of the album.
     /// </summary>
-    public PagableResponse<Track>? Tracks { get; set; }
+    public Pagable<Track>? Tracks { get; set; }
 }
 

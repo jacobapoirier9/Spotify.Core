@@ -1,6 +1,6 @@
 ﻿namespace Spotify.Core.Model;
 
-public class PagableResponse<T>
+public class Pagable<T>
 {
     /// <summary>
     /// A link to the Web API endpoint returning the full result of the request

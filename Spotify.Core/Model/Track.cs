@@ -52,7 +52,7 @@ public class GetSeveralTracks : IReturn<SeveralTracks>
 /// Get a list of the songs saved in the current Spotify user's 'Your Music' library.
 /// </summary>
 [Route($"{Configuration.ApiUri}/me/tracks", Verb.Get)]
-public class GetSavedTracks : IReturn<PagableResponse<SavedTrackContextWrapper>>
+public class GetSavedTracks : IReturn<Pagable<SavedTrackContextWrapper>>
 {
     /// <summary>
     /// The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.
