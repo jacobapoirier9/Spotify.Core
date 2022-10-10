@@ -11,7 +11,7 @@ namespace Spotify.Tests;
 
 public class HttpMessageBuilderTests
 {
-    private const string _baseUrl = "https://jake.test.com";
+    internal const string BaseUri = "https://jake.test.com";
 
     [Fact]
     public void BuildsCorrectRequest_QueryParametersOnly()
@@ -22,12 +22,12 @@ public class HttpMessageBuilderTests
             Limit = 20
         };
 
-        var httpRequest = HttpRequestMessageBuilder.BuildRequestMessage(_baseUrl, request);
+        var httpRequest = HttpRequestMessageBuilder.BuildRequestMessage(request);
 
         Assert.NotNull(httpRequest);
         Assert.Null(httpRequest.Content);
 
-        Assert.Equal($"{_baseUrl}/test?id=testid&limit=20", httpRequest.RequestUri?.ToString());
+        Assert.Equal($"{BaseUri}/test?id=testid&limit=20", httpRequest.RequestUri?.ToString());
     }
 
     [Fact]
@@ -38,10 +38,10 @@ public class HttpMessageBuilderTests
             Ids = new List<string> { "id1", "id2", "id3" }
         };
 
-        var httpRequest = HttpRequestMessageBuilder.BuildRequestMessage(_baseUrl, request);
+        var httpRequest = HttpRequestMessageBuilder.BuildRequestMessage(request);
 
         Assert.NotNull(httpRequest);
-        Assert.Equal($"{_baseUrl}/test", httpRequest.RequestUri?.ToString());
+        Assert.Equal($"{BaseUri}/test", httpRequest.RequestUri?.ToString());
 
         Assert.NotNull(httpRequest.Content);
         using (var stream = httpRequest.Content?.ReadAsStream())
@@ -63,7 +63,7 @@ public class HttpMessageBuilderTests
 
         Assert.ThrowsAny<Exception>(() =>
         {
-            var httpRequest = HttpRequestMessageBuilder.BuildRequestMessage(_baseUrl, request);
+            var httpRequest = HttpRequestMessageBuilder.BuildRequestMessage(request);
         });
     }
 
@@ -74,7 +74,7 @@ public class HttpMessageBuilderTests
 
         Assert.ThrowsAny<Exception>(() =>
         {
-            var httpRequest = HttpRequestMessageBuilder.BuildRequestMessage(_baseUrl, request);
+            var httpRequest = HttpRequestMessageBuilder.BuildRequestMessage(request);
         });
     }
 
@@ -86,10 +86,10 @@ public class HttpMessageBuilderTests
             Type = ItemType.Track
         };
 
-        var httpRequest = HttpRequestMessageBuilder.BuildRequestMessage(_baseUrl, request);
+        var httpRequest = HttpRequestMessageBuilder.BuildRequestMessage(request);
 
         Assert.NotNull(httpRequest);
-        Assert.Equal($"{_baseUrl}/test?type=track", httpRequest.RequestUri?.ToString());
+        Assert.Equal($"{BaseUri}/test?type=track", httpRequest.RequestUri?.ToString());
 
         Assert.Null(httpRequest.Content);
     }
@@ -102,10 +102,10 @@ public class HttpMessageBuilderTests
             Types = new List<ItemType> { ItemType.Track, ItemType.Playlist }
         };
 
-        var httpRequest = HttpRequestMessageBuilder.BuildRequestMessage(_baseUrl, request);
+        var httpRequest = HttpRequestMessageBuilder.BuildRequestMessage(request);
 
         Assert.NotNull(httpRequest);
-        Assert.Equal($"{_baseUrl}/test", httpRequest.RequestUri?.ToString());
+        Assert.Equal($"{BaseUri}/test", httpRequest.RequestUri?.ToString());
 
         Assert.NotNull(httpRequest.Content);
         using (var stream = httpRequest.Content?.ReadAsStream())
@@ -132,10 +132,10 @@ public class HttpMessageBuilderTests
             }
         };
 
-        var httpRequest = HttpRequestMessageBuilder.BuildRequestMessage(_baseUrl, request);
+        var httpRequest = HttpRequestMessageBuilder.BuildRequestMessage(request);
 
         Assert.NotNull(httpRequest);
-        Assert.Equal($"{_baseUrl}/test/testid", httpRequest.RequestUri?.ToString());
+        Assert.Equal($"{BaseUri}/test/testid", httpRequest.RequestUri?.ToString());
 
         Assert.NotNull(httpRequest.Content);
         using (var stream = httpRequest.Content?.ReadAsStream())
@@ -147,7 +147,7 @@ public class HttpMessageBuilderTests
     }
 }
 
-[Route("/test")]
+[Route($"{HttpMessageBuilderTests.BaseUri}/test")]
 public class QueryParametersOnly
 {
     public string? Id { get; set; }
@@ -155,14 +155,14 @@ public class QueryParametersOnly
     public int? Limit { get; set; }
 }
 
-[Route("/test")]
+[Route($"{HttpMessageBuilderTests.BaseUri}/test")]
 public class SimpleBodyParametersOnly
 {
     [BodyParameter]
     public List<string>? Ids { get; set; }
 }
 
-[Route("/test")]
+[Route($"{HttpMessageBuilderTests.BaseUri}/test")]
 public class HasTwoBodyParameters
 {
     [BodyParameter]
@@ -177,20 +177,20 @@ public class MissingRouteAttribute
 
 }
 
-[Route("/test")]
+[Route($"{HttpMessageBuilderTests.BaseUri}/test")]
 public class HasItemTypeInQuery
 {
     public ItemType Type { get; set; }
 }
 
-[Route("/test")]
+[Route($"{HttpMessageBuilderTests.BaseUri}/test")]
 public class HasItemTypeInBody
 {
     [BodyParameter]
     public List<ItemType>? Types { get; set; }
 }
 
-[Route($"/test/{{{nameof(Id)}}}")]
+[Route($"{HttpMessageBuilderTests.BaseUri}/test/{{{nameof(Id)}}}")]
 public class ComplexRequest
 {
     public string? Id { get; set; }
