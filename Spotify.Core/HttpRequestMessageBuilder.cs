@@ -60,7 +60,7 @@ internal static class HttpRequestMessageBuilder
                     var dataMember = property.GetCustomAttribute<DataMemberAttribute>();
 
                     var anon = new ExpandoObject();
-                    var convertedName = new Configuration.SpotifyJsonNamingPolicy().ConvertName(dataMember?.Name ?? property.Name);
+                    var convertedName = Configuration.JsonNamingPolicy.ConvertName(dataMember?.Name ?? property.Name);
 
                     anon.TryAdd(convertedName, property.GetValue(requestDto));
 
@@ -83,7 +83,7 @@ internal static class HttpRequestMessageBuilder
                     }
                     else
                     {
-                        var name = Configuration.JsonSerializerOptions?.PropertyNamingPolicy?.ConvertName(property.Name) ?? property.Name;
+                        var name = Configuration.JsonNamingPolicy.ConvertName(property.Name) ?? property.Name;
                         url += name + "=" + value.GetUriParameterValue() + "&";
                     }
 
