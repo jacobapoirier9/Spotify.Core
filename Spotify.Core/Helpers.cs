@@ -19,11 +19,6 @@ internal static class Helpers
 
     public static string GetUriParameterValue(this object value)
     {
-        if (value is ItemType test1 && value is IConvertible test2)
-        {
-
-        }
-
         if (value is ItemType itemType)
         {
             return itemType.ToString().ToLower();
