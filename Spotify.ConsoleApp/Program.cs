@@ -1,28 +1,31 @@
 ﻿using Spotify.Core;
+using Spotify.Core.Model;
 
 namespace Spotify.ConsoleApp;
 
 internal class Program
 {
-    private const string Url = "https://api.spotify.com/v1";
+    private const string Token = "BQDR3sSX-Wa3ukD2Om7DxGw85LbI-06PMGpOxaydG_DP7WyWZzuOpKsLN5vrlqewc0BAt25D2jRhihtuTIw03EcdkJskRgGpm_9ec5jW1JrCXW5788cZQX6rIWuqPU94IFNL3tXIQOXRwr81LpfTBKqplaSTR8vv2qWUr1HWsUk3GyRi5u7WpIp6WRpLIMsDEc4SCI_7fb3MP2ws7YAO0sWQSStkkQ11OEXr0dcYUCjfmD4fB9LatzqrDD2G3Z4Rn7O8t6fI2OWXijUGssU4as6xMYC5TkA175fKzlF3GyW-4MTAqJNPAC3UnVyQJX09";
 
-    static void Main(string[] args)
+    private static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        var client = new SpotifyClient();
 
-        var request = new Test
+        var playlists = client.Request(new GetCurrentUsersPlaylists(), Token);
+        playlists.Items.ForEach(p => Console.WriteLine(p.Name + " " + p.Id));
+
+        var response = client.Request(new ChangePlaylistDetails
         {
-            Name = "Jake"
-        };
-
-        var httpRequest = HttpRequestMessageBuilder.BuildRequestMessage(Url, request);
-
-        Console.WriteLine(request);
+            PlaylistId = "3rXJqhT8GezYfEUpKXBOjd",
+            Description = "TEST"
+        }, Token);
     }
 }
 
-[Route("/test")]
-internal class Test
+public static class Helpers
 {
-    public string? Name { get; set; }
+    public static List<T> AsList<T>(this T item)
+    {
+        return new List<T> { item };
+    }
 }

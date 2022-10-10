@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Spotify.Core.Model;
+using System.Collections;
 using System.Text.RegularExpressions;
 
 namespace Spotify.Core;
@@ -18,13 +19,25 @@ internal static class Helpers
 
     public static string GetUriParameterValue(this object value)
     {
-        if (value is IConvertible convertible)
+        if (value is ItemType itemType)
+        {
+            return Configuration.ItemTypeConverter.FromItemTypeToString(itemType, Configuration.JsonSerializerOptions);
+        }
+        else if (value is IConvertible convertible)
         {
             return convertible?.ToString() ?? throw new NullReferenceException();
         }
-        else if (value is IEnumerable rawEnumerable && rawEnumerable.Cast<IConvertible>() is IEnumerable<IConvertible> castedEnumerable)
+        else if (value is IEnumerable enumerable)
         {
-            return castedEnumerable.JoinToString(",");
+            var enumerator = enumerable.GetEnumerator();
+            List<string> strings = new();
+
+            while (enumerator.MoveNext())
+            {
+                strings.Add(GetUriParameterValue(enumerator.Current));
+            }
+
+            return strings.JoinToString(",");
         }
 
         throw new ApplicationException($"Value {value} is not supported in uri query strings.");
