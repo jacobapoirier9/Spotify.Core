@@ -33,12 +33,12 @@ public static class Configuration
         {
             if (Regex.IsMatch(name, "^[A-Z]"))
             {
-                string snakeCase = name.FromPascalToSnake();
+                var snakeCase = name.FromPascalToSnake();
                 return snakeCase;
             }
             else if (Regex.IsMatch(name, "^[a-z]"))
             {
-                string pascalCase = name.FromSnakeToPascal();
+                var pascalCase = name.FromSnakeToPascal();
                 return pascalCase;
             }
 
@@ -50,14 +50,14 @@ public static class Configuration
     {
         public override ItemType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string? token = reader.GetString();
-            ItemType itemType = FromStringToItemType(token, options);
+            var token = reader.GetString();
+            var itemType = FromStringToItemType(token, options);
             return itemType;
         }
 
         public override void Write(Utf8JsonWriter writer, ItemType itemType, JsonSerializerOptions options)
         {
-            string token = FromItemTypeToString(itemType, options);
+            var token = FromItemTypeToString(itemType, options);
             writer.WriteStringValue(token);
         }
 
@@ -67,14 +67,14 @@ public static class Configuration
                 throw new NullReferenceException($"A value for {nameof(from)} must be provided");
 
             // Need to convert to PascalCase for Enum.Parse to work correctly
-            string pascalCase = options.PropertyNamingPolicy?.ConvertName(from) ?? from;
-            ItemType itemType = (ItemType)Enum.Parse(typeof(ItemType), pascalCase);
+            var pascalCase = options.PropertyNamingPolicy?.ConvertName(from) ?? from;
+            var itemType = (ItemType)Enum.Parse(typeof(ItemType), pascalCase);
             return itemType;
         }
 
         internal string FromItemTypeToString(ItemType value, JsonSerializerOptions options)
         {
-            string stringValue = value switch
+            var stringValue = value switch
             {
                 ItemType.Track => nameof(ItemType.Track),
                 ItemType.Album => nameof(ItemType.Album),
@@ -86,7 +86,7 @@ public static class Configuration
             };
 
             // Need to convert to snake case
-            string convertedValue = options.PropertyNamingPolicy?.ConvertName(stringValue) ?? stringValue;
+            var convertedValue = options.PropertyNamingPolicy?.ConvertName(stringValue) ?? stringValue;
             return convertedValue;
         }
     }

@@ -16,7 +16,7 @@ public class SpotifyJsonNamingPolicyTests
     [InlineData("camelCase", "CamelCase")]
     public void TestConvertName(string input, string expected)
     {
-        string actual = _namingPolicy.ConvertName(input);
+        var actual = _namingPolicy.ConvertName(input);
         Assert.Equal(expected, actual);
     }
 }

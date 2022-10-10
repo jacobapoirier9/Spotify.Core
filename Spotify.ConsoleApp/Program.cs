@@ -9,12 +9,12 @@ internal class Program
 
     private static void Main(string[] args)
     {
-        SpotifyClient client = new();
+        var client = new SpotifyClient();
 
-        Pagable<Playlist>? playlists = client.Request(new GetCurrentUsersPlaylists(), Token);
+        var playlists = client.Request(new GetCurrentUsersPlaylists(), Token);
         playlists.Items.ForEach(p => Console.WriteLine(p.Name + " " + p.Id));
 
-        System.Net.HttpStatusCode response = client.Request(new ChangePlaylistDetails
+        var response = client.Request(new ChangePlaylistDetails
         {
             PlaylistId = "3rXJqhT8GezYfEUpKXBOjd",
             Description = "TEST"

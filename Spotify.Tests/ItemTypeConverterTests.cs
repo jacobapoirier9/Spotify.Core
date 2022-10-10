@@ -15,7 +15,7 @@ public class ItemTypeConverterTests
     [InlineData(ItemType.Playlist, "playlist")]
     public void FromItemTypeToString_Success(ItemType input, string expected)
     {
-        string actual = _itemTypeConverter.FromItemTypeToString(input, Configuration.JsonSerializerOptions);
+        var actual = _itemTypeConverter.FromItemTypeToString(input, Configuration.JsonSerializerOptions);
         Assert.Equal(expected, actual);
     }
 
@@ -27,7 +27,7 @@ public class ItemTypeConverterTests
     [InlineData("playlist", ItemType.Playlist)]
     public void FromStringToItemType_Success(string input, ItemType expected)
     {
-        ItemType actual = _itemTypeConverter.FromStringToItemType(input, Configuration.JsonSerializerOptions);
+        var actual = _itemTypeConverter.FromStringToItemType(input, Configuration.JsonSerializerOptions);
         Assert.Equal(expected, actual);
     }
 
@@ -36,9 +36,9 @@ public class ItemTypeConverterTests
     [InlineData("failure")]
     public void FromStringToItemType_Failure(string input)
     {
-        _ = Assert.ThrowsAny<Exception>(() =>
+        Assert.ThrowsAny<Exception>(() =>
         {
-            ItemType actual = _itemTypeConverter.FromStringToItemType(input, Configuration.JsonSerializerOptions);
+            var actual = _itemTypeConverter.FromStringToItemType(input, Configuration.JsonSerializerOptions);
         });
     }
 }

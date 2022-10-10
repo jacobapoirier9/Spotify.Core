@@ -8,8 +8,8 @@ internal static class Helpers
 {
     public static string JoinToString(this IEnumerable<IConvertible> items, IConvertible seperator)
     {
-        string toReturn = string.Empty;
-        foreach (IConvertible item in items)
+        var toReturn = string.Empty;
+        foreach (var item in items)
         {
             toReturn += item.ToString() + seperator;
         }
@@ -29,7 +29,7 @@ internal static class Helpers
         }
         else if (value is IEnumerable enumerable)
         {
-            IEnumerator enumerator = enumerable.GetEnumerator();
+            var enumerator = enumerable.GetEnumerator();
             List<string> strings = new();
 
             while (enumerator.MoveNext())
@@ -45,14 +45,14 @@ internal static class Helpers
 
     public static string FromPascalToSnake(this string value)
     {
-        string caseConvertedUnderscorePrefix = Regex.Replace(value, "[A-Z]{1}", m => $"_{m.Value.ToLower()}");
+        var caseConvertedUnderscorePrefix = Regex.Replace(value, "[A-Z]{1}", m => $"_{m.Value.ToLower()}");
         return caseConvertedUnderscorePrefix.TrimStart('_');
     }
 
     public static string FromSnakeToPascal(this string snakeCaseValue)
     {
-        string caseConverted = Regex.Replace(snakeCaseValue, "(^|_)[a-z]", match => match.Value.ToUpper());
-        string underscoresRemoved = Regex.Replace(caseConverted, "_", match => string.Empty);
+        var caseConverted = Regex.Replace(snakeCaseValue, "(^|_)[a-z]", match => match.Value.ToUpper());
+        var underscoresRemoved = Regex.Replace(caseConverted, "_", match => string.Empty);
 
         return underscoresRemoved;
     }

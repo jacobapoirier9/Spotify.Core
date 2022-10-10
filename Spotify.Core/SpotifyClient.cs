@@ -19,26 +19,26 @@ public class SpotifyClient
 
     public TResponse? Request<TResponse>(IReturn<TResponse> requestDto, string? bearerToken = null)
     {
-        HttpRequestMessage httpRequest = BuildMessage(requestDto, bearerToken);
+        var httpRequest = BuildMessage(requestDto, bearerToken);
 
         Console.WriteLine(httpRequest);
         if (httpRequest.Content is not null)
         {
-            Task<string> task = httpRequest.Content.ReadAsStringAsync();
+            var task = httpRequest.Content.ReadAsStringAsync();
             task.Wait();
 
             Console.WriteLine(task.Result);
         }
 
-        HttpResponseMessage httpResponse = _httpClient.Send(httpRequest);
+        var httpResponse = _httpClient.Send(httpRequest);
 
         if (httpResponse.IsSuccessStatusCode)
         {
-            string json = httpResponse.Content.ReadAsStringAsync().Result;
+            var json = httpResponse.Content.ReadAsStringAsync().Result;
             Console.WriteLine(json);
             try
             {
-                TResponse? dto = JsonSerializer.Deserialize<TResponse>(json, Configuration.JsonSerializerOptions);
+                var dto = JsonSerializer.Deserialize<TResponse>(json, Configuration.JsonSerializerOptions);
                 return dto;
             }
             catch (Exception)
@@ -48,7 +48,7 @@ public class SpotifyClient
         }
         else
         {
-            string error = httpResponse.Content.ReadAsStringAsync().Result;
+            var error = httpResponse.Content.ReadAsStringAsync().Result;
             Console.WriteLine(error);
             return default;
         }
@@ -56,9 +56,9 @@ public class SpotifyClient
 
     internal static HttpRequestMessage BuildMessage<T>(T requestDto, string? bearerToken = null)
     {
-        Type? type = requestDto?.GetType();
-        List<PropertyInfo> properties = type.GetProperties().ToList();
-        RouteAttribute? route = type.GetCustomAttribute<RouteAttribute>();
+        var type = requestDto?.GetType();
+        var properties = type.GetProperties().ToList();
+        var route = type.GetCustomAttribute<RouteAttribute>();
 
         // Route validation
         if (route is null)
@@ -67,7 +67,7 @@ public class SpotifyClient
         if (route.Uri is null)
             throw new NullReferenceException($"You must specify {nameof(RouteAttribute.Uri)} for request type {type.FullName} on attribute {nameof(RouteAttribute)}");
 
-        HttpMethod httpMethod = route.Verb switch
+        var httpMethod = route.Verb switch
         {
             Verb.Get => HttpMethod.Get,
             Verb.Post => HttpMethod.Post,
@@ -77,17 +77,17 @@ public class SpotifyClient
             _ => throw new NullReferenceException($"You must specify {nameof(RouteAttribute.Verb)} for request type {type.FullName} on attribute {nameof(RouteAttribute)}")
         };
 
-        HttpRequestMessage httpRequestMessage = new(httpMethod, string.Empty);
+        var httpRequestMessage = new HttpRequestMessage(httpMethod, string.Empty);
 
-        string uri = route.Uri + "?";
-        ExpandoObject? expandoObject = new();
+        var uri = route.Uri + "?";
+        var expandoObject = new ExpandoObject();
 
-        foreach (PropertyInfo? property in properties)
+        foreach (var property in properties)
         {
-            Match match = Regex.Match(uri, $"{{{property.Name}}}");
+            var match = Regex.Match(uri, $"{{{property.Name}}}");
             if (match.Success)
             {
-                object? propertyValue = property.GetValue(requestDto);
+                var propertyValue = property.GetValue(requestDto);
 
                 if (propertyValue is null)
                     throw new NullReferenceException($"{property.Name} is a required field for endpoint {route.Uri}");
@@ -96,7 +96,7 @@ public class SpotifyClient
             }
             else if (property.GetCustomAttribute<BodyAttribute>() is BodyAttribute bodyParameter)
             {
-                object? propertyValue = property.GetValue(requestDto);
+                var propertyValue = property.GetValue(requestDto);
 
                 if (propertyValue is not null)
                 {
@@ -109,20 +109,20 @@ public class SpotifyClient
                     }
                     else
                     {
-                        string? uriParameterName = Configuration.JsonNamingPolicy?.ConvertName(bodyParameter.Alias ?? property.Name);
-                        string uriParameterValue = propertyValue.GetUriParameterValue();
-                        _ = (expandoObject?.TryAdd(uriParameterName, propertyValue));
+                        var uriParameterName = Configuration.JsonNamingPolicy?.ConvertName(bodyParameter.Alias ?? property.Name);
+                        var uriParameterValue = propertyValue.GetUriParameterValue();
+                        expandoObject?.TryAdd(uriParameterName, propertyValue);
                     }
                 }
             }
             else
             {
-                string? uriParameterName = Configuration.JsonNamingPolicy?.ConvertName(property.Name);
-                object? propertyValue = property.GetValue(requestDto);
+                var uriParameterName = Configuration.JsonNamingPolicy?.ConvertName(property.Name);
+                var propertyValue = property.GetValue(requestDto);
 
                 if (propertyValue is not null)
                 {
-                    string uriParameterValue = propertyValue.GetUriParameterValue();
+                    var uriParameterValue = propertyValue.GetUriParameterValue();
                     uri += $"{uriParameterName}={uriParameterValue}";
                 }
             }
