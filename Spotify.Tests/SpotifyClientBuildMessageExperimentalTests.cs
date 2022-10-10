@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Spotify.Tests;
 
-public class SpotifyClientBuildMessageExperimentalTests
+public class SpotifyClientBuildMessageTests
 {
     internal const string BaseUri = "https://jake.com";
 
@@ -21,7 +21,7 @@ public class SpotifyClientBuildMessageExperimentalTests
             Id = "ioehtrosadigdsje"
         };
 
-        var message = SpotifyClient.BuildRequestMessageExperimental(request);
+        var message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test/ioehtrosadigdsje/tracks", message.RequestUri?.ToString());
@@ -34,7 +34,7 @@ public class SpotifyClientBuildMessageExperimentalTests
         var request = new InlineQueryParameterRequest();
 
 
-        Assert.ThrowsAny<Exception>(() => SpotifyClient.BuildRequestMessageExperimental(request));
+        Assert.ThrowsAny<Exception>(() => SpotifyClient.BuildMessage(request));
     }
 
     [Fact]
@@ -45,7 +45,7 @@ public class SpotifyClientBuildMessageExperimentalTests
             String = "string"
         };
 
-        var message = SpotifyClient.BuildRequestMessageExperimental(request);
+        var message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test?string=string", message.RequestUri?.ToString());
@@ -60,7 +60,7 @@ public class SpotifyClientBuildMessageExperimentalTests
             StringList = new List<string> { "string1", "string2" }
         };
 
-        var message = SpotifyClient.BuildRequestMessageExperimental(request);
+        var message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test?string_list=string1,string2", message.RequestUri?.ToString());
@@ -75,7 +75,7 @@ public class SpotifyClientBuildMessageExperimentalTests
             Int = 100
         };
 
-        var message = SpotifyClient.BuildRequestMessageExperimental(request);
+        var message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test?int=100", message.RequestUri?.ToString());
@@ -90,7 +90,7 @@ public class SpotifyClientBuildMessageExperimentalTests
             IntList = new List<int> { 101, 102 }
         };
 
-        var message = SpotifyClient.BuildRequestMessageExperimental(request);
+        var message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test?int_list=101,102", message.RequestUri?.ToString());
@@ -105,7 +105,7 @@ public class SpotifyClientBuildMessageExperimentalTests
             ItemType = ItemType.Track
         };
 
-        var message = SpotifyClient.BuildRequestMessageExperimental(request);
+        var message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test?item_type=track", message.RequestUri?.ToString());
@@ -120,7 +120,7 @@ public class SpotifyClientBuildMessageExperimentalTests
             ItemTypeList = new List<ItemType> { ItemType.Artist, ItemType.Album, ItemType.Playlist }
         };
 
-        var message = SpotifyClient.BuildRequestMessageExperimental(request);
+        var message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test?item_type_list=artist,album,playlist", message.RequestUri?.ToString());
@@ -132,7 +132,7 @@ public class SpotifyClientBuildMessageExperimentalTests
     {
         var request = new MissingRoute();
 
-        Assert.ThrowsAny<Exception>(() => SpotifyClient.BuildRequestMessageExperimental(request));
+        Assert.ThrowsAny<Exception>(() => SpotifyClient.BuildMessage(request));
     }
 
     [Fact]
@@ -140,7 +140,7 @@ public class SpotifyClientBuildMessageExperimentalTests
     {
         var request = new MalformedRouteMissingUri();
 
-        Assert.ThrowsAny<Exception>(() => SpotifyClient.BuildRequestMessageExperimental(request));
+        Assert.ThrowsAny<Exception>(() => SpotifyClient.BuildMessage(request));
     }
 
     [Fact]
@@ -148,7 +148,7 @@ public class SpotifyClientBuildMessageExperimentalTests
     {
         var request = new MalformedRouteMissingVerb();
 
-        Assert.ThrowsAny<Exception>(() => SpotifyClient.BuildRequestMessageExperimental(request));
+        Assert.ThrowsAny<Exception>(() => SpotifyClient.BuildMessage(request));
     }
 
     [Fact]
@@ -159,7 +159,7 @@ public class SpotifyClientBuildMessageExperimentalTests
             String = "value"
         };
 
-        var message = SpotifyClient.BuildRequestMessageExperimental(request);
+        var message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test", message?.RequestUri?.ToString());
@@ -176,7 +176,7 @@ public class SpotifyClientBuildMessageExperimentalTests
             StringList = new List<string> { "string1", "string2" }
         };
 
-        var message = SpotifyClient.BuildRequestMessageExperimental(request);
+        var message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test", message?.RequestUri?.ToString());
@@ -193,7 +193,7 @@ public class SpotifyClientBuildMessageExperimentalTests
             Int = 100
         };
 
-        var message = SpotifyClient.BuildRequestMessageExperimental(request);
+        var message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test", message?.RequestUri?.ToString());
@@ -210,7 +210,7 @@ public class SpotifyClientBuildMessageExperimentalTests
             IntList = new List<int> { 101, 102 }
         };
 
-        var message = SpotifyClient.BuildRequestMessageExperimental(request);
+        var message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test", message?.RequestUri?.ToString());
@@ -227,7 +227,7 @@ public class SpotifyClientBuildMessageExperimentalTests
             ItemType = ItemType.Track
         };
 
-        var message = SpotifyClient.BuildRequestMessageExperimental(request);
+        var message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test", message?.RequestUri?.ToString());
@@ -244,7 +244,7 @@ public class SpotifyClientBuildMessageExperimentalTests
             ItemTypeList = new List<ItemType> { ItemType.Artist, ItemType.Album, ItemType.Playlist }
         };
 
-        var message = SpotifyClient.BuildRequestMessageExperimental(request);
+        var message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test", message?.RequestUri?.ToString());
@@ -266,7 +266,7 @@ public class SpotifyClientBuildMessageExperimentalTests
             ItemTypeList = new List<ItemType> { ItemType.Artist, ItemType.Album, ItemType.Playlist }
         };
 
-        var message = SpotifyClient.BuildRequestMessageExperimental(request);
+        var message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test", message?.RequestUri?.ToString());
@@ -283,7 +283,7 @@ public class SpotifyClientBuildMessageExperimentalTests
             StringBody = "hello"
         }; 
         
-        var message = SpotifyClient.BuildRequestMessageExperimental(request);
+        var message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test", message?.RequestUri?.ToString());
@@ -300,7 +300,7 @@ public class SpotifyClientBuildMessageExperimentalTests
             StringListBody = new List<string> { "string1", "string2" }
         };
 
-        var message = SpotifyClient.BuildRequestMessageExperimental(request);
+        var message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test", message?.RequestUri?.ToString());
@@ -318,7 +318,7 @@ public class SpotifyClientBuildMessageExperimentalTests
             StringListBody = new List<string> { "string1", "string2" }
         };
 
-        Assert.ThrowsAny<Exception>(() => SpotifyClient.BuildRequestMessageExperimental(request));
+        Assert.ThrowsAny<Exception>(() => SpotifyClient.BuildMessage(request));
     }
 
     private string GetContentString(HttpRequestMessage? message)
@@ -334,13 +334,13 @@ public class SpotifyClientBuildMessageExperimentalTests
     }
 }
 
-[Route($"{SpotifyClientBuildMessageExperimentalTests.BaseUri}/test/{{{nameof(Id)}}}/tracks", Verb.Get)]
+[Route($"{SpotifyClientBuildMessageTests.BaseUri}/test/{{{nameof(Id)}}}/tracks", Verb.Get)]
 public class InlineQueryParameterRequest
 {
     public string? Id { get; set; }
 }
 
-[Route($"{SpotifyClientBuildMessageExperimentalTests.BaseUri}/test", Verb.Get)]
+[Route($"{SpotifyClientBuildMessageTests.BaseUri}/test", Verb.Get)]
 public class QueryParameterRequest
 {
     public string? String { get; set; }
@@ -368,14 +368,14 @@ public class MalformedRouteMissingUri
 
 }
 
-[Route(SpotifyClientBuildMessageExperimentalTests.BaseUri, null)]
+[Route(SpotifyClientBuildMessageTests.BaseUri, null)]
 public class MalformedRouteMissingVerb
 {
 
 }
 #nullable restore
 
-[Route($"{SpotifyClientBuildMessageExperimentalTests.BaseUri}/test", Verb.Get)]
+[Route($"{SpotifyClientBuildMessageTests.BaseUri}/test", Verb.Get)]
 public class BodyParameterRequest
 {
     [Body]
@@ -397,12 +397,12 @@ public class BodyParameterRequest
     public List<ItemType>? ItemTypeList { get; set; }
 }
 
-[Route($"{SpotifyClientBuildMessageExperimentalTests.BaseUri}/test", Verb.Get)]
+[Route($"{SpotifyClientBuildMessageTests.BaseUri}/test", Verb.Get)]
 public class BodyParameterValueOnlyRequest
 {
-    [BodyParameter2(true)]
+    [Body(WriteValueOnly = true)]
     public string? StringBody { get; set; }
 
-    [BodyParameter2(true)]
+    [Body(WriteValueOnly = true)]
     public List<string>? StringListBody { get; set; }
 }

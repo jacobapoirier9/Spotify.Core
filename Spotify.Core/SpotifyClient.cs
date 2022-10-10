@@ -26,7 +26,7 @@ public class SpotifyClient
 
     public TResponse? Request<TResponse>(IReturn<TResponse> requestDto, string? bearerToken = null)
     {
-        var httpRequest = BuildRequestMessageExperimental(requestDto, bearerToken);
+        var httpRequest = BuildMessage(requestDto, bearerToken);
 
         Console.WriteLine(httpRequest);
         if (httpRequest.Content is not null)
@@ -62,7 +62,7 @@ public class SpotifyClient
         }
     }
 
-    internal static HttpRequestMessage BuildRequestMessageExperimental<T>(T requestDto, string? bearerToken = null)
+    internal static HttpRequestMessage BuildMessage<T>(T requestDto, string? bearerToken = null)
     {
         var type = requestDto?.GetType();
         var properties = type.GetProperties().ToList();
