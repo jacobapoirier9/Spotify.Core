@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Spotify.Core.Model;
+﻿namespace Spotify.Core.Model;
 
 public interface IReturn<T> { }
 

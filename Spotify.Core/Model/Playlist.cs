@@ -1,20 +1,5 @@
-﻿using Microsoft.VisualBasic;
-using Spotify.Core.Attributes;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Diagnostics.Metrics;
-using System.Linq;
+﻿using Spotify.Core.Attributes;
 using System.Net;
-using System.Reflection;
-using System.Reflection.Metadata;
-using System.Runtime.Intrinsics.X86;
-using System.Security.Cryptography;
-using System.Security.Principal;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Spotify.Core.Model;
 

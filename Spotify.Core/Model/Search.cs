@@ -1,13 +1,4 @@
 ﻿using Spotify.Core.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Spotify.Core.Model;
 

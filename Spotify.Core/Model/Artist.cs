@@ -1,5 +1,4 @@
 ﻿using Spotify.Core.Attributes;
-using System;
 
 namespace Spotify.Core.Model;
 

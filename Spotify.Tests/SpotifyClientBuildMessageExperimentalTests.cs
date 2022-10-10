@@ -1,11 +1,6 @@
 ﻿using Spotify.Core;
 using Spotify.Core.Attributes;
 using Spotify.Core.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Spotify.Tests;
 
@@ -16,12 +11,12 @@ public class SpotifyClientBuildMessageTests
     [Fact]
     public void InlineQueryParameter_InsertsValue()
     {
-        var request = new InlineQueryParameterRequest
+        InlineQueryParameterRequest request = new()
         {
             Id = "ioehtrosadigdsje"
         };
 
-        var message = SpotifyClient.BuildMessage(request);
+        HttpRequestMessage message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test/ioehtrosadigdsje/tracks", message.RequestUri?.ToString());
@@ -31,21 +26,21 @@ public class SpotifyClientBuildMessageTests
     [Fact]
     public void InlineQueryParameter_ThrowsExceptionWhenValueNotPresent()
     {
-        var request = new InlineQueryParameterRequest();
+        InlineQueryParameterRequest request = new();
 
 
-        Assert.ThrowsAny<Exception>(() => SpotifyClient.BuildMessage(request));
+        _ = Assert.ThrowsAny<Exception>(() => SpotifyClient.BuildMessage(request));
     }
 
     [Fact]
     public void QueryParameter_AppendsString()
     {
-        var request = new QueryParameterRequest
+        QueryParameterRequest request = new()
         {
             String = "string"
         };
 
-        var message = SpotifyClient.BuildMessage(request);
+        HttpRequestMessage message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test?string=string", message.RequestUri?.ToString());
@@ -55,12 +50,12 @@ public class SpotifyClientBuildMessageTests
     [Fact]
     public void QueryParameter_AppendsStringList()
     {
-        var request = new QueryParameterRequest
+        QueryParameterRequest request = new()
         {
             StringList = new List<string> { "string1", "string2" }
         };
 
-        var message = SpotifyClient.BuildMessage(request);
+        HttpRequestMessage message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test?string_list=string1,string2", message.RequestUri?.ToString());
@@ -70,12 +65,12 @@ public class SpotifyClientBuildMessageTests
     [Fact]
     public void QueryParameter_AppendsInt()
     {
-        var request = new QueryParameterRequest
+        QueryParameterRequest request = new()
         {
             Int = 100
         };
 
-        var message = SpotifyClient.BuildMessage(request);
+        HttpRequestMessage message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test?int=100", message.RequestUri?.ToString());
@@ -85,12 +80,12 @@ public class SpotifyClientBuildMessageTests
     [Fact]
     public void QueryParameter_AppendsIntList()
     {
-        var request = new QueryParameterRequest
+        QueryParameterRequest request = new()
         {
             IntList = new List<int> { 101, 102 }
         };
 
-        var message = SpotifyClient.BuildMessage(request);
+        HttpRequestMessage message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test?int_list=101,102", message.RequestUri?.ToString());
@@ -100,12 +95,12 @@ public class SpotifyClientBuildMessageTests
     [Fact]
     public void QueryParameter_AppendsItemType()
     {
-        var request = new QueryParameterRequest
+        QueryParameterRequest request = new()
         {
             ItemType = ItemType.Track
         };
 
-        var message = SpotifyClient.BuildMessage(request);
+        HttpRequestMessage message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test?item_type=track", message.RequestUri?.ToString());
@@ -115,12 +110,12 @@ public class SpotifyClientBuildMessageTests
     [Fact]
     public void QueryParameter_AppendsItemTypeList()
     {
-        var request = new QueryParameterRequest
+        QueryParameterRequest request = new()
         {
             ItemTypeList = new List<ItemType> { ItemType.Artist, ItemType.Album, ItemType.Playlist }
         };
 
-        var message = SpotifyClient.BuildMessage(request);
+        HttpRequestMessage message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test?item_type_list=artist,album,playlist", message.RequestUri?.ToString());
@@ -130,133 +125,133 @@ public class SpotifyClientBuildMessageTests
     [Fact]
     public void MissingRoute_ThrowsException()
     {
-        var request = new MissingRoute();
+        MissingRoute request = new();
 
-        Assert.ThrowsAny<Exception>(() => SpotifyClient.BuildMessage(request));
+        _ = Assert.ThrowsAny<Exception>(() => SpotifyClient.BuildMessage(request));
     }
 
     [Fact]
     public void MalformedRoute_MissingUriThrowsException()
     {
-        var request = new MalformedRouteMissingUri();
+        MalformedRouteMissingUri request = new();
 
-        Assert.ThrowsAny<Exception>(() => SpotifyClient.BuildMessage(request));
+        _ = Assert.ThrowsAny<Exception>(() => SpotifyClient.BuildMessage(request));
     }
 
     [Fact]
     public void MalformedRoute_MissingVerbThrowsException()
     {
-        var request = new MalformedRouteMissingVerb();
+        MalformedRouteMissingVerb request = new();
 
-        Assert.ThrowsAny<Exception>(() => SpotifyClient.BuildMessage(request));
+        _ = Assert.ThrowsAny<Exception>(() => SpotifyClient.BuildMessage(request));
     }
 
     [Fact]
     public void BodyParameterRequest_WritesString()
     {
-        var request = new BodyParameterRequest
+        BodyParameterRequest request = new()
         {
             String = "value"
         };
 
-        var message = SpotifyClient.BuildMessage(request);
+        HttpRequestMessage? message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test", message?.RequestUri?.ToString());
 
-        var json = GetContentString(message);
+        string json = GetContentString(message);
         Assert.Equal(@"{""string"":""value""}", json);
     }
 
     [Fact]
     public void BodyParameterRequest_WritesStringList()
     {
-        var request = new BodyParameterRequest
+        BodyParameterRequest request = new()
         {
             StringList = new List<string> { "string1", "string2" }
         };
 
-        var message = SpotifyClient.BuildMessage(request);
+        HttpRequestMessage? message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test", message?.RequestUri?.ToString());
 
-        var json = GetContentString(message);
+        string json = GetContentString(message);
         Assert.Equal(@"{""string_list"":[""string1"",""string2""]}", json);
     }
 
     [Fact]
     public void BodyParameterRequest_WritesInt()
     {
-        var request = new BodyParameterRequest
+        BodyParameterRequest request = new()
         {
             Int = 100
         };
 
-        var message = SpotifyClient.BuildMessage(request);
+        HttpRequestMessage? message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test", message?.RequestUri?.ToString());
 
-        var json = GetContentString(message);
+        string json = GetContentString(message);
         Assert.Equal(@"{""int"":100}", json);
     }
 
     [Fact]
     public void BodyParameterRequest_WritesIntList()
     {
-        var request = new BodyParameterRequest
+        BodyParameterRequest request = new()
         {
             IntList = new List<int> { 101, 102 }
         };
 
-        var message = SpotifyClient.BuildMessage(request);
+        HttpRequestMessage? message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test", message?.RequestUri?.ToString());
 
-        var json = GetContentString(message);
+        string json = GetContentString(message);
         Assert.Equal(@"{""int_list"":[101,102]}", json);
     }
 
     [Fact]
     public void BodyParameterRequest_WritesItemType()
     {
-        var request = new BodyParameterRequest
+        BodyParameterRequest request = new()
         {
             ItemType = ItemType.Track
         };
 
-        var message = SpotifyClient.BuildMessage(request);
+        HttpRequestMessage? message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test", message?.RequestUri?.ToString());
 
-        var json = GetContentString(message);
+        string json = GetContentString(message);
         Assert.Equal(@"{""item_type"":""track""}", json);
     }
 
     [Fact]
     public void BodyParameterRequest_WritesItemTypeList()
     {
-        var request = new BodyParameterRequest
+        BodyParameterRequest request = new()
         {
             ItemTypeList = new List<ItemType> { ItemType.Artist, ItemType.Album, ItemType.Playlist }
         };
 
-        var message = SpotifyClient.BuildMessage(request);
+        HttpRequestMessage? message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test", message?.RequestUri?.ToString());
 
-        var json = GetContentString(message);
+        string json = GetContentString(message);
         Assert.Equal(@"{""item_type_list"":[""artist"",""album"",""playlist""]}", json);
     }
 
     [Fact]
     public void BodyParameterRequest_WritesComplex()
     {
-        var request = new BodyParameterRequest
+        BodyParameterRequest request = new()
         {
             String = "value",
             StringList = new List<string> { "string1", "string2" },
@@ -266,59 +261,59 @@ public class SpotifyClientBuildMessageTests
             ItemTypeList = new List<ItemType> { ItemType.Artist, ItemType.Album, ItemType.Playlist }
         };
 
-        var message = SpotifyClient.BuildMessage(request);
+        HttpRequestMessage? message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test", message?.RequestUri?.ToString());
 
-        var json = GetContentString(message);
+        string json = GetContentString(message);
         Assert.Equal(@"{""string"":""value"",""string_list"":[""string1"",""string2""],""int"":100,""int_list"":[101,102],""item_type"":""track"",""item_type_list"":[""artist"",""album"",""playlist""]}", json);
     }
 
     [Fact]
     public void BodyParameterValueOnlyRequest_WritesString()
     {
-        var request = new BodyParameterValueOnlyRequest
+        BodyParameterValueOnlyRequest request = new()
         {
             StringBody = "hello"
-        }; 
-        
-        var message = SpotifyClient.BuildMessage(request);
+        };
+
+        HttpRequestMessage? message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test", message?.RequestUri?.ToString());
 
-        var json = GetContentString(message);
+        string json = GetContentString(message);
         Assert.Equal(@"""hello""", json);
     }
 
     [Fact]
     public void BodyParameterValueOnlyRequest_WritesStringList()
     {
-        var request = new BodyParameterValueOnlyRequest
+        BodyParameterValueOnlyRequest request = new()
         {
             StringListBody = new List<string> { "string1", "string2" }
         };
 
-        var message = SpotifyClient.BuildMessage(request);
+        HttpRequestMessage? message = SpotifyClient.BuildMessage(request);
 
         Assert.NotNull(message);
         Assert.Equal($"{BaseUri}/test", message?.RequestUri?.ToString());
 
-        var json = GetContentString(message);
+        string json = GetContentString(message);
         Assert.Equal(@"[""string1"",""string2""]", json);
     }
 
     [Fact]
     public void BodyParameterValueOnlyRequest_MoreThanOneSpecified_ThrowsException()
     {
-        var request = new BodyParameterValueOnlyRequest
+        BodyParameterValueOnlyRequest request = new()
         {
             StringBody = "hello",
             StringListBody = new List<string> { "string1", "string2" }
         };
 
-        Assert.ThrowsAny<Exception>(() => SpotifyClient.BuildMessage(request));
+        _ = Assert.ThrowsAny<Exception>(() => SpotifyClient.BuildMessage(request));
     }
 
     private string GetContentString(HttpRequestMessage? message)
@@ -326,8 +321,8 @@ public class SpotifyClientBuildMessageTests
         Assert.NotNull(message);
         Assert.NotNull(message?.Content);
 
-        using (var stream = message?.Content?.ReadAsStream())
-        using (var reader = new StreamReader(stream ?? throw new NullReferenceException()))
+        using (Stream? stream = message?.Content?.ReadAsStream())
+        using (StreamReader reader = new(stream ?? throw new NullReferenceException()))
         {
             return reader.ReadToEnd();
         }

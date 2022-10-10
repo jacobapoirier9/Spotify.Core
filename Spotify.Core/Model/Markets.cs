@@ -1,9 +1,4 @@
 ﻿using Spotify.Core.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Spotify.Core.Model;
 
@@ -12,7 +7,7 @@ namespace Spotify.Core.Model;
 /// </summary>
 [Route($"{Configuration.ApiUri}/markets", Verb.Get)]
 public class GetAvailableMarkets : IReturn<AvailableMarkets>
-{ 
+{
 }
 
 public class AvailableMarkets

@@ -1,11 +1,10 @@
-using Spotify.Core;
 using static Spotify.Core.Configuration;
 
 namespace Spotify.Tests;
 
 public class SpotifyJsonNamingPolicyTests
 {
-    private readonly SpotifyJsonNamingPolicy _namingPolicy = new SpotifyJsonNamingPolicy();
+    private readonly SpotifyJsonNamingPolicy _namingPolicy = new();
 
     [Theory]
     [InlineData("Name", "name")]
@@ -17,7 +16,7 @@ public class SpotifyJsonNamingPolicyTests
     [InlineData("camelCase", "CamelCase")]
     public void TestConvertName(string input, string expected)
     {
-        var actual = _namingPolicy.ConvertName(input);
+        string actual = _namingPolicy.ConvertName(input);
         Assert.Equal(expected, actual);
     }
 }

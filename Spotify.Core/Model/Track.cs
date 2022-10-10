@@ -1,13 +1,5 @@
 ﻿using Spotify.Core.Attributes;
-using System;
-using System.Diagnostics;
-using System.Diagnostics.Metrics;
 using System.Net;
-using System.Numerics;
-using System.Reflection.Metadata;
-using System.Runtime.InteropServices;
-using System.Security.Principal;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Spotify.Core.Model;
 

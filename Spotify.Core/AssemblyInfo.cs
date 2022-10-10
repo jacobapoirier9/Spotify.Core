@@ -1,4 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
 
-[assembly:InternalsVisibleTo("Spotify.ConsoleApp")]
-[assembly:InternalsVisibleTo("Spotify.Tests")]
+[assembly: InternalsVisibleTo("Spotify.ConsoleApp")]
+[assembly: InternalsVisibleTo("Spotify.Tests")]
