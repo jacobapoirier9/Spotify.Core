@@ -147,7 +147,7 @@ public class HttpMessageBuilderTests
     }
 }
 
-[Route($"{HttpMessageBuilderTests.BaseUri}/test")]
+[Route($"{HttpMessageBuilderTests.BaseUri}/test", Verb.Get)]
 public class QueryParametersOnly
 {
     public string? Id { get; set; }
@@ -155,14 +155,14 @@ public class QueryParametersOnly
     public int? Limit { get; set; }
 }
 
-[Route($"{HttpMessageBuilderTests.BaseUri}/test")]
+[Route($"{HttpMessageBuilderTests.BaseUri}/test", Verb.Get)]
 public class SimpleBodyParametersOnly
 {
     [BodyParameter]
     public List<string>? Ids { get; set; }
 }
 
-[Route($"{HttpMessageBuilderTests.BaseUri}/test")]
+[Route($"{HttpMessageBuilderTests.BaseUri}/test", Verb.Get)]
 public class HasTwoBodyParameters
 {
     [BodyParameter]
@@ -177,20 +177,20 @@ public class MissingRouteAttribute
 
 }
 
-[Route($"{HttpMessageBuilderTests.BaseUri}/test")]
+[Route($"{HttpMessageBuilderTests.BaseUri}/test", Verb.Get)]
 public class HasItemTypeInQuery
 {
     public ItemType Type { get; set; }
 }
 
-[Route($"{HttpMessageBuilderTests.BaseUri}/test")]
+[Route($"{HttpMessageBuilderTests.BaseUri}/test", Verb.Get)]
 public class HasItemTypeInBody
 {
     [BodyParameter]
     public List<ItemType>? Types { get; set; }
 }
 
-[Route($"{HttpMessageBuilderTests.BaseUri}/test/{{{nameof(Id)}}}")]
+[Route($"{HttpMessageBuilderTests.BaseUri}/test/{{{nameof(Id)}}}", Verb.Get)]
 public class ComplexRequest
 {
     public string? Id { get; set; }

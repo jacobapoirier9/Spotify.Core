@@ -420,7 +420,7 @@ public class GetRecommendations : IReturn<Recommendations>
 /// Get audio features for multiple tracks based on their Spotify IDs.
 /// </summary>
 [Obsolete($"This may be an expensive call, {nameof(GetTrackAudioFeatures)} should be used instead.")]
-[Route($"{Configuration.ApiUri}/audio-features")]
+[Route($"{Configuration.ApiUri}/audio-features", Verb.Get)]
 public class GetSeveralTrackAudioFeatures : IReturn<SeveralAudioFeatures>
 {
 

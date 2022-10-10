@@ -3,9 +3,9 @@
 public class RouteAttribute : Attribute
 {
     public string Uri { get; private set; }
-    public string? Verb { get; private set; }
+    public string Verb { get; private set; }
 
-    public RouteAttribute(string uri, string? verb = null)
+    public RouteAttribute(string uri, string verb)
     {
         Uri = uri;
         Verb = verb;
