@@ -70,26 +70,26 @@ public class ChangePlaylistDetails : IReturn<HttpStatusCode>
     /// <summary>
     /// The new name for the playlist, for example "My New Playlist Title"
     /// </summary>
-    [BodyParameter2]
+    [Body]
     public string? Name { get; set; }
 
     /// <summary>
     /// If true the playlist will be public, if false it will be private.
     /// </summary>
-    [BodyParameter2]
+    [Body]
     public bool? Public { get; set; }
 
     /// <summary>
     /// If true, the playlist will become collaborative and other users will be able to modify the playlist in their Spotify client.
     /// Note: You can only set collaborative to true on non-public playlists.
     /// </summary>
-    [BodyParameter2]
+    [Body]
     public bool? Collaborative { get; set; }
 
     /// <summary>
     /// Value for playlist description as displayed in Spotify Clients and in the Web API.
     /// </summary>
-    [BodyParameter2]
+    [Body]
     public string? Description { get; set; }
 }
 
@@ -171,7 +171,7 @@ public class AddItemsToPlaylist : IReturn<Snapshot>
     /// A JSON array of the Spotify URIs to add. 
     /// For example: {"uris": ["spotify:track:4iV5W9uYEdYUVa79Axb7Rh","spotify:track:1301WleyT98MSxVHPZCA6M", "spotify:episode:512ojhOuo1ktJprKbVcKyQ"]}
     /// </summary>
-    [BodyParameter2]
+    [Body]
     public List<string>? UrisBody { get; set; }
 
     /// <summary>
@@ -179,7 +179,7 @@ public class AddItemsToPlaylist : IReturn<Snapshot>
     /// to insert the items in the third position: position=2. If omitted, the items will be appended to the playlist. 
     /// Items are added in the order they appear in the uris array. For example: {"uris": ["spotify:track:4iV5W9uYEdYUVa79Axb7Rh","spotify:track:1301WleyT98MSxVHPZCA6M"], "position": 3}
     /// </summary>
-    [BodyParameter2]
+    [Body]
     public int? PositionBody { get; set; }
 }
 
@@ -210,13 +210,13 @@ public class UpdatePlaylistItems : IReturn<Snapshot>
     /// A comma-separated list of Spotify URIs to set, can be track or episode URIs. For example: uris=spotify:track:4iV5W9uYEdYUVa79Axb7Rh,spotify:track:1301WleyT98MSxVHPZCA6M,spotify:episode:512ojhOuo1ktJprKbVcKyQ
     /// A maximum of 100 items can be set in one request.
     /// </summary>
-    [BodyParameter2]
+    [Body]
     public List<string>? UrisBody { get; set; }
 
     /// <summary>
     /// The position of the first item to be reordered.
     /// </summary>
-    [BodyParameter2]
+    [Body]
     public int? RangeStart { get; set; }
 
     /// <summary>
@@ -226,7 +226,7 @@ public class UpdatePlaylistItems : IReturn<Snapshot>
     /// To reorder the first item to the last position in a playlist with 10 items, set range_start to 0, and insert_before to 10.
     /// To reorder the last item in a playlist with 10 items to the start of the playlist, set range_start to 9, and insert_before to 0.
     /// </summary>
-    [BodyParameter2]
+    [Body]
     public int? InsertBefore { get; set; }
 
     /// <summary>
@@ -235,13 +235,13 @@ public class UpdatePlaylistItems : IReturn<Snapshot>
     /// Example:
     /// To move the items at index 9-10 to the start of the playlist, range_start is set to 9, and range_length is set to 2.
     /// </summary>
-    [BodyParameter2]
+    [Body]
     public int? RangeLength { get; set; }
 
     /// <summary>
     /// The playlist's snapshot ID against which you want to make the changes.
     /// </summary>
-    [BodyParameter2]
+    [Body]
     public string? SnapshotId { get; set; }
 }
 
@@ -260,14 +260,14 @@ public class RemovePlaylistItems : IReturn<Snapshot>
     /// For example: { "tracks": [{ "uri": "spotify:track:4iV5W9uYEdYUVa79Axb7Rh" },{ "uri": "spotify:track:1301WleyT98MSxVHPZCA6M" }] }. 
     /// A maximum of 100 objects can be sent at once.
     /// </summary>
-    [BodyParameter2]
+    [Body]
     public List<Track>? Tracks { get; set; }
 
     /// <summary>
     /// The playlist's snapshot ID against which you want to make the changes. The API will validate that the specified items exist and in the 
     /// specified positions and make the changes, even if more recent changes have been made to the playlist.
     /// </summary>
-    [BodyParameter2]
+    [Body]
     public string? SnapshotId { get; set; }
 }
 
@@ -324,26 +324,26 @@ public class CreatePlaylist : IReturn<Playlist>
     /// <summary>
     /// The name for the new playlist, for example "Your Coolest Playlist". This name does not need to be unique; a user may have several playlists with the same name.
     /// </summary>
-    [BodyParameter2]
+    [Body]
     public string? Name { get; set; }
 
     /// <summary>
     /// Defaults to true. If true the playlist will be public, if false it will be private. To be able to create private playlists, the user must have granted the playlist-modify-private scope
     /// </summary>
-    [BodyParameter2]
+    [Body]
     public bool? Public { get; set; }
 
     /// <summary>
     /// Defaults to false. If true the playlist will be collaborative. Note: to create a collaborative playlist you must also set public to false. 
     /// To create collaborative playlists you must have granted playlist-modify-private and playlist-modify-public scopes.
     /// </summary>
-    [BodyParameter2]
+    [Body]
     public bool? Collaborative { get; set; }
 
     /// <summary>
     /// value for playlist description as displayed in Spotify Clients and in the Web API.
     /// </summary>
-    [BodyParameter2]
+    [Body]
     public string? Description { get; set; }
 }
 

@@ -102,7 +102,7 @@ public class SpotifyClient
 
                 uri = uri.Replace($"{{{property.Name}}}", propertyValue.GetUriParameterValue());
             }
-            else if (property.GetCustomAttribute<BodyParameter2Attribute>() is BodyParameter2Attribute bodyParameter)
+            else if (property.GetCustomAttribute<BodyAttribute>() is BodyAttribute bodyParameter)
             {
                 var propertyValue = property.GetValue(requestDto);
 
@@ -111,7 +111,7 @@ public class SpotifyClient
                     if (bodyParameter.WriteValueOnly)
                     {
                         if (httpRequestMessage.Content is not null)
-                            throw new ApplicationException($"You may only specificy one property with {nameof(BodyParameter2Attribute)}.{nameof(BodyParameter2Attribute.WriteValueOnly)} on type {type.FullName} set to {true}");
+                            throw new ApplicationException($"You may only specificy one property with {nameof(BodyAttribute)}.{nameof(BodyAttribute.WriteValueOnly)} on type {type.FullName} set to {true}");
 
                         httpRequestMessage.Content = JsonContent.Create(propertyValue, options: Configuration.JsonSerializerOptions);
                     }

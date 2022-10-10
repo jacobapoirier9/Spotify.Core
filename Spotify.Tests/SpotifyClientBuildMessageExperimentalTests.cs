@@ -378,22 +378,22 @@ public class MalformedRouteMissingVerb
 [Route($"{SpotifyClientBuildMessageExperimentalTests.BaseUri}/test", Verb.Get)]
 public class BodyParameterRequest
 {
-    [BodyParameter2]
+    [Body]
     public string? String { get; set; }
 
-    [BodyParameter2]
+    [Body]
     public List<string>? StringList { get; set; }
 
-    [BodyParameter2]
+    [Body]
     public int? Int { get; set; }
 
-    [BodyParameter2]
+    [Body]
     public List<int>? IntList { get; set; }
 
-    [BodyParameter2]
+    [Body]
     public ItemType? ItemType { get; set; }
 
-    [BodyParameter2]
+    [Body]
     public List<ItemType>? ItemTypeList { get; set; }
 }
 
