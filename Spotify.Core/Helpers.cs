@@ -21,22 +21,23 @@ internal static class Helpers
     {
         if (value is ItemType itemType)
         {
-            return itemType.ToString().ToLower();
+            return Configuration.ItemTypeConverter.FromItemTypeToString(itemType, Configuration.JsonSerializerOptions);
         }
         else if (value is IConvertible convertible)
         {
             return convertible?.ToString() ?? throw new NullReferenceException();
         }
-        else if (value is IEnumerable rawEnumerable)
+        else if (value is IEnumerable enumerable)
         {
-            if (rawEnumerable.Cast<ItemType>() is IEnumerable<ItemType> itemTypes)
+            var enumerator = enumerable.GetEnumerator();
+            var strings = new List<string>();
+
+            while (enumerator.MoveNext())
             {
-                return itemTypes.Select(it => it.ToString().ToLower()).JoinToString(",");
+                strings.Add(GetUriParameterValue(enumerator.Current));
             }
-            else if (rawEnumerable.Cast<IConvertible>() is IEnumerable<IConvertible> castedEnumerable)
-            {
-                return castedEnumerable.JoinToString(",");
-            }
+
+            return strings.JoinToString(",");
         }
 
         throw new ApplicationException($"Value {value} is not supported in uri query strings.");

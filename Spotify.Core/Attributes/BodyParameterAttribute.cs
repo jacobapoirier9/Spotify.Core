@@ -9,3 +9,13 @@ public class BodyParameterAttribute : Attribute
         IncludePropertyName = includePropertyName;
     }
 }
+
+public class BodyParameter2Attribute : Attribute
+{
+    public bool WriteValueAsBody { get; private set; }
+
+    public BodyParameter2Attribute(bool writeValueAsBody = false)
+    {
+        WriteValueAsBody = writeValueAsBody;
+    }
+}
