@@ -22,7 +22,7 @@ public class HttpMessageBuilderTests
             Limit = 20
         };
 
-        var httpRequest = HttpRequestMessageBuilder.BuildRequestMessage(request);
+        var httpRequest = SpotifyClient.BuildRequestMessage(request);
 
         Assert.NotNull(httpRequest);
         Assert.Null(httpRequest.Content);
@@ -38,7 +38,7 @@ public class HttpMessageBuilderTests
             Ids = new List<string> { "id1", "id2", "id3" }
         };
 
-        var httpRequest = HttpRequestMessageBuilder.BuildRequestMessage(request);
+        var httpRequest = SpotifyClient.BuildRequestMessage(request);
 
         Assert.NotNull(httpRequest);
         Assert.Equal($"{BaseUri}/test", httpRequest.RequestUri?.ToString());
@@ -63,7 +63,7 @@ public class HttpMessageBuilderTests
 
         Assert.ThrowsAny<Exception>(() =>
         {
-            var httpRequest = HttpRequestMessageBuilder.BuildRequestMessage(request);
+            var httpRequest = SpotifyClient.BuildRequestMessage(request);
         });
     }
 
@@ -74,7 +74,7 @@ public class HttpMessageBuilderTests
 
         Assert.ThrowsAny<Exception>(() =>
         {
-            var httpRequest = HttpRequestMessageBuilder.BuildRequestMessage(request);
+            var httpRequest = SpotifyClient.BuildRequestMessage(request);
         });
     }
 
@@ -86,7 +86,7 @@ public class HttpMessageBuilderTests
             Type = ItemType.Track
         };
 
-        var httpRequest = HttpRequestMessageBuilder.BuildRequestMessage(request);
+        var httpRequest = SpotifyClient.BuildRequestMessage(request);
 
         Assert.NotNull(httpRequest);
         Assert.Equal($"{BaseUri}/test?type=track", httpRequest.RequestUri?.ToString());
@@ -102,7 +102,7 @@ public class HttpMessageBuilderTests
             Types = new List<ItemType> { ItemType.Track, ItemType.Playlist }
         };
 
-        var httpRequest = HttpRequestMessageBuilder.BuildRequestMessage(request);
+        var httpRequest = SpotifyClient.BuildRequestMessage(request);
 
         Assert.NotNull(httpRequest);
         Assert.Equal($"{BaseUri}/test", httpRequest.RequestUri?.ToString());
@@ -132,7 +132,7 @@ public class HttpMessageBuilderTests
             }
         };
 
-        var httpRequest = HttpRequestMessageBuilder.BuildRequestMessage(request);
+        var httpRequest = SpotifyClient.BuildRequestMessage(request);
 
         Assert.NotNull(httpRequest);
         Assert.Equal($"{BaseUri}/test/testid", httpRequest.RequestUri?.ToString());
