@@ -1,21 +1,11 @@
 ﻿namespace Spotify.Core.Attributes;
 
-//public class BodyParameterAttribute : Attribute 
-//{
-//    public bool IncludePropertyName { get; private set; }
-
-//    public BodyParameterAttribute(bool includePropertyName = false)
-//    {
-//        IncludePropertyName = includePropertyName;
-//    }
-//}
-
 public class BodyParameter2Attribute : Attribute
 {
-    public bool WriteValueAsBody { get; private set; }
+    public string? Alias { get; set; }
+    public bool WriteValueOnly { get; set; } = false;
 
-    public BodyParameter2Attribute(bool writeValueAsBody = false)
+    public BodyParameter2Attribute()
     {
-        WriteValueAsBody = writeValueAsBody;
     }
 }

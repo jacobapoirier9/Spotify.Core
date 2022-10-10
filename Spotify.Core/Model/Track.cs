@@ -88,7 +88,7 @@ public class SaveTracks : IReturn<HttpStatusCode>
     /// <summary>
     /// A maximum of 50 items can be specified in one request. Note: if the ids parameter is present in the query string, any IDs listed here in the body will be ignored.
     /// </summary>
-    [BodyParameter2(true)]
+    [BodyParameter2(WriteValueOnly = true)]
     public List<string>? IdsBody { get; set; }
 }
 

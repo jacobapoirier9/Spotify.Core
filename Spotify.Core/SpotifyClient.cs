@@ -24,19 +24,18 @@ public class SpotifyClient
         _httpClient = new HttpClient();
     }
 
-
-    public TResponse? Get<TResponse>(IReturn<TResponse> requestDto, string? bearerToken = null)
-        => GetHttpResponse(requestDto, bearerToken);
-
-    public TResponse? Put<TResponse>(IReturn<TResponse> requestDto, string? bearerToken = null)
-        => GetHttpResponse(requestDto, bearerToken);
-
-    public TResponse? Delete<TResponse>(IReturn<TResponse> requestDto, string? bearerToken = null)
-        => GetHttpResponse(requestDto, bearerToken);
-
-    private TResponse? GetHttpResponse<TResponse>(IReturn<TResponse> requestDto, string? bearerToken = null)
+    public TResponse? Request<TResponse>(IReturn<TResponse> requestDto, string? bearerToken = null)
     {
         var httpRequest = BuildRequestMessageExperimental(requestDto, bearerToken);
+
+        Console.WriteLine(httpRequest);
+        if (httpRequest.Content is not null)
+        {
+            var task = httpRequest.Content.ReadAsStringAsync();
+            task.Wait();
+
+            Console.WriteLine(task.Result);
+        }
 
         var httpResponse = _httpClient.Send(httpRequest);
 
@@ -44,6 +43,7 @@ public class SpotifyClient
         {
             var json = httpResponse.Content.ReadAsStringAsync().Result;
             Console.WriteLine(json);
+
             try
             {
                 var dto = JsonSerializer.Deserialize<TResponse>(json, Configuration.JsonSerializerOptions);
@@ -108,16 +108,16 @@ public class SpotifyClient
 
                 if (propertyValue is not null)
                 {
-                    if (bodyParameter.WriteValueAsBody)
+                    if (bodyParameter.WriteValueOnly)
                     {
                         if (httpRequestMessage.Content is not null)
-                            throw new ApplicationException($"You may only specificy one property with {nameof(BodyParameter2Attribute)}.{nameof(BodyParameter2Attribute.WriteValueAsBody)} on type {type.FullName} set to {true}");
+                            throw new ApplicationException($"You may only specificy one property with {nameof(BodyParameter2Attribute)}.{nameof(BodyParameter2Attribute.WriteValueOnly)} on type {type.FullName} set to {true}");
 
                         httpRequestMessage.Content = JsonContent.Create(propertyValue, options: Configuration.JsonSerializerOptions);
                     }
                     else
                     {
-                        var uriParameterName = Configuration.JsonNamingPolicy?.ConvertName(property.Name);
+                        var uriParameterName = Configuration.JsonNamingPolicy?.ConvertName(bodyParameter.Alias ?? property.Name);
                         var uriParameterValue = propertyValue.GetUriParameterValue();
                         expandoObject?.TryAdd(uriParameterName, propertyValue);
                     }

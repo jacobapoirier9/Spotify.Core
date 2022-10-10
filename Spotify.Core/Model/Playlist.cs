@@ -70,22 +70,26 @@ public class ChangePlaylistDetails : IReturn<HttpStatusCode>
     /// <summary>
     /// The new name for the playlist, for example "My New Playlist Title"
     /// </summary>
+    [BodyParameter2]
     public string? Name { get; set; }
 
     /// <summary>
     /// If true the playlist will be public, if false it will be private.
     /// </summary>
+    [BodyParameter2]
     public bool? Public { get; set; }
 
     /// <summary>
     /// If true, the playlist will become collaborative and other users will be able to modify the playlist in their Spotify client.
     /// Note: You can only set collaborative to true on non-public playlists.
     /// </summary>
+    [BodyParameter2]
     public bool? Collaborative { get; set; }
 
     /// <summary>
     /// Value for playlist description as displayed in Spotify Clients and in the Web API.
     /// </summary>
+    [BodyParameter2]
     public string? Description { get; set; }
 }
 
@@ -163,25 +167,20 @@ public class AddItemsToPlaylist : IReturn<Snapshot>
     /// </summary>
     public List<string>? Uris { get; set; }
 
-    [Obsolete("Once aliasing is implemented, move this to root level and use new body writing")]
-    [BodyParameter2(false)]
-    public BodyObject? Body { get; set; }
+    /// <summary>
+    /// A JSON array of the Spotify URIs to add. 
+    /// For example: {"uris": ["spotify:track:4iV5W9uYEdYUVa79Axb7Rh","spotify:track:1301WleyT98MSxVHPZCA6M", "spotify:episode:512ojhOuo1ktJprKbVcKyQ"]}
+    /// </summary>
+    [BodyParameter2]
+    public List<string>? UrisBody { get; set; }
 
-    public class BodyObject
-    {
-        /// <summary>
-        /// A JSON array of the Spotify URIs to add. 
-        /// For example: {"uris": ["spotify:track:4iV5W9uYEdYUVa79Axb7Rh","spotify:track:1301WleyT98MSxVHPZCA6M", "spotify:episode:512ojhOuo1ktJprKbVcKyQ"]}
-        /// </summary>
-        public List<string>? Uris { get; set; }
-
-        /// <summary>
-        /// The position to insert the items, a zero-based index. For example, to insert the items in the first position: position=0 ; 
-        /// to insert the items in the third position: position=2. If omitted, the items will be appended to the playlist. 
-        /// Items are added in the order they appear in the uris array. For example: {"uris": ["spotify:track:4iV5W9uYEdYUVa79Axb7Rh","spotify:track:1301WleyT98MSxVHPZCA6M"], "position": 3}
-        /// </summary>
-        public int? Position { get; set; }
-    }
+    /// <summary>
+    /// The position to insert the items, a zero-based index. For example, to insert the items in the first position: position=0 ; 
+    /// to insert the items in the third position: position=2. If omitted, the items will be appended to the playlist. 
+    /// Items are added in the order they appear in the uris array. For example: {"uris": ["spotify:track:4iV5W9uYEdYUVa79Axb7Rh","spotify:track:1301WleyT98MSxVHPZCA6M"], "position": 3}
+    /// </summary>
+    [BodyParameter2]
+    public int? PositionBody { get; set; }
 }
 
 /// <summary>
@@ -207,45 +206,43 @@ public class UpdatePlaylistItems : IReturn<Snapshot>
     /// </summary>
     public List<string>? Uris { get; set; }
 
-    [Obsolete("Once aliasing is implemented, move this to root level and use new body writing")]
-    [BodyParameter2(false)]
-    public BodyObject? Body { get; set; }
+    /// <summary>
+    /// A comma-separated list of Spotify URIs to set, can be track or episode URIs. For example: uris=spotify:track:4iV5W9uYEdYUVa79Axb7Rh,spotify:track:1301WleyT98MSxVHPZCA6M,spotify:episode:512ojhOuo1ktJprKbVcKyQ
+    /// A maximum of 100 items can be set in one request.
+    /// </summary>
+    [BodyParameter2]
+    public List<string>? UrisBody { get; set; }
 
-    public class BodyObject
-    {
-        /// <summary>
-        /// A comma-separated list of Spotify URIs to set, can be track or episode URIs. For example: uris=spotify:track:4iV5W9uYEdYUVa79Axb7Rh,spotify:track:1301WleyT98MSxVHPZCA6M,spotify:episode:512ojhOuo1ktJprKbVcKyQ
-        /// A maximum of 100 items can be set in one request.
-        /// </summary>
-        public List<string>? Uris { get; set; }
+    /// <summary>
+    /// The position of the first item to be reordered.
+    /// </summary>
+    [BodyParameter2]
+    public int? RangeStart { get; set; }
 
-        /// <summary>
-        /// The position of the first item to be reordered.
-        /// </summary>
-        public int? RangeStart { get; set; }
+    /// <summary>
+    /// The position where the items should be inserted.
+    /// To reorder the items to the end of the playlist, simply set insert_before to the position after the last item.
+    /// Examples:
+    /// To reorder the first item to the last position in a playlist with 10 items, set range_start to 0, and insert_before to 10.
+    /// To reorder the last item in a playlist with 10 items to the start of the playlist, set range_start to 9, and insert_before to 0.
+    /// </summary>
+    [BodyParameter2]
+    public int? InsertBefore { get; set; }
 
-        /// <summary>
-        /// The position where the items should be inserted.
-        /// To reorder the items to the end of the playlist, simply set insert_before to the position after the last item.
-        /// Examples:
-        /// To reorder the first item to the last position in a playlist with 10 items, set range_start to 0, and insert_before to 10.
-        /// To reorder the last item in a playlist with 10 items to the start of the playlist, set range_start to 9, and insert_before to 0.
-        /// </summary>
-        public int? InsertBefore { get; set; }
+    /// <summary>
+    /// The amount of items to be reordered. Defaults to 1 if not set.
+    /// The range of items to be reordered begins from the range_start position, and includes the range_length subsequent items.
+    /// Example:
+    /// To move the items at index 9-10 to the start of the playlist, range_start is set to 9, and range_length is set to 2.
+    /// </summary>
+    [BodyParameter2]
+    public int? RangeLength { get; set; }
 
-        /// <summary>
-        /// The amount of items to be reordered. Defaults to 1 if not set.
-        /// The range of items to be reordered begins from the range_start position, and includes the range_length subsequent items.
-        /// Example:
-        /// To move the items at index 9-10 to the start of the playlist, range_start is set to 9, and range_length is set to 2.
-        /// </summary>
-        public int? RangeLength { get; set; }
-
-        /// <summary>
-        /// The playlist's snapshot ID against which you want to make the changes.
-        /// </summary>
-        public string? SnapshotId { get; set; }
-    }
+    /// <summary>
+    /// The playlist's snapshot ID against which you want to make the changes.
+    /// </summary>
+    [BodyParameter2]
+    public string? SnapshotId { get; set; }
 }
 
 /// <summary>

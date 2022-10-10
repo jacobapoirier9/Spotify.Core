@@ -131,8 +131,7 @@ public class FollowArtistsOrUsers : IReturn<HttpStatusCode>
     /// Allowed values: <see cref="ItemType.Artist"/>, <see cref="ItemType.User"/>
     /// This is written to the body.
     /// </summary>
-    [DataMember(Name = nameof(Ids))]
-    [BodyParameter2]
+    [BodyParameter2(Alias = nameof(Ids))]
     public List<string>? IdsBody { get; set; }
 }
 
@@ -158,8 +157,7 @@ public class UnfollowArtistsOrUsers : IReturn<HttpStatusCode>
     /// Allowed values: <see cref="ItemType.Artist"/>, <see cref="ItemType.User"/>
     /// This is written to the body.
     /// </summary>
-    [DataMember(Name = nameof(Ids))]
-    [BodyParameter2]
+    [BodyParameter2(Alias = nameof(Ids))]
     public List<string>? IdsBody { get; set; }
 }
 
