@@ -163,7 +163,8 @@ public class AddItemsToPlaylist : IReturn<Snapshot>
     /// </summary>
     public List<string>? Uris { get; set; }
 
-    [BodyParameter]
+    [Obsolete("Once aliasing is implemented, move this to root level and use new body writing")]
+    [BodyParameter2(false)]
     public BodyObject? Body { get; set; }
 
     public class BodyObject
@@ -206,7 +207,8 @@ public class UpdatePlaylistItems : IReturn<Snapshot>
     /// </summary>
     public List<string>? Uris { get; set; }
 
-    [BodyParameter]
+    [Obsolete("Once aliasing is implemented, move this to root level and use new body writing")]
+    [BodyParameter2(false)]
     public BodyObject? Body { get; set; }
 
     public class BodyObject
@@ -257,24 +259,19 @@ public class RemovePlaylistItems : IReturn<Snapshot>
     /// </summary>
     public string? PlaylistId { get; set; }
 
-    [BodyParameter]
-    public BodyObject? Body { get; set; }
+    /// An array of objects containing Spotify URIs of the tracks or episodes to remove. 
+    /// For example: { "tracks": [{ "uri": "spotify:track:4iV5W9uYEdYUVa79Axb7Rh" },{ "uri": "spotify:track:1301WleyT98MSxVHPZCA6M" }] }. 
+    /// A maximum of 100 objects can be sent at once.
+    /// </summary>
+    [BodyParameter2]
+    public List<Track>? Tracks { get; set; }
 
-    public class BodyObject
-    {
-        /// <summary>
-        /// An array of objects containing Spotify URIs of the tracks or episodes to remove. 
-        /// For example: { "tracks": [{ "uri": "spotify:track:4iV5W9uYEdYUVa79Axb7Rh" },{ "uri": "spotify:track:1301WleyT98MSxVHPZCA6M" }] }. 
-        /// A maximum of 100 objects can be sent at once.
-        /// </summary>
-        public List<Track>? Tracks { get; set; }
-
-        /// <summary>
-        /// The playlist's snapshot ID against which you want to make the changes. The API will validate that the specified items exist and in the 
-        /// specified positions and make the changes, even if more recent changes have been made to the playlist.
-        /// </summary>
-        public string? SnapshotId { get; set; }
-    }
+    /// <summary>
+    /// The playlist's snapshot ID against which you want to make the changes. The API will validate that the specified items exist and in the 
+    /// specified positions and make the changes, even if more recent changes have been made to the playlist.
+    /// </summary>
+    [BodyParameter2]
+    public string? SnapshotId { get; set; }
 }
 
 /// <summary>
@@ -327,32 +324,30 @@ public class CreatePlaylist : IReturn<Playlist>
     /// </summary>
     public string? UserId { get; set; }
 
-    [BodyParameter]
-    public BodyObject? Body { get; set; }
+    /// <summary>
+    /// The name for the new playlist, for example "Your Coolest Playlist". This name does not need to be unique; a user may have several playlists with the same name.
+    /// </summary>
+    [BodyParameter2]
+    public string? Name { get; set; }
 
-    public class BodyObject
-    {
-        /// <summary>
-        /// The name for the new playlist, for example "Your Coolest Playlist". This name does not need to be unique; a user may have several playlists with the same name.
-        /// </summary>
-        public string? Name { get; set; }
+    /// <summary>
+    /// Defaults to true. If true the playlist will be public, if false it will be private. To be able to create private playlists, the user must have granted the playlist-modify-private scope
+    /// </summary>
+    [BodyParameter2]
+    public bool? Public { get; set; }
 
-        /// <summary>
-        /// Defaults to true. If true the playlist will be public, if false it will be private. To be able to create private playlists, the user must have granted the playlist-modify-private scope
-        /// </summary>
-        public bool? Public { get; set; }
+    /// <summary>
+    /// Defaults to false. If true the playlist will be collaborative. Note: to create a collaborative playlist you must also set public to false. 
+    /// To create collaborative playlists you must have granted playlist-modify-private and playlist-modify-public scopes.
+    /// </summary>
+    [BodyParameter2]
+    public bool? Collaborative { get; set; }
 
-        /// <summary>
-        /// Defaults to false. If true the playlist will be collaborative. Note: to create a collaborative playlist you must also set public to false. 
-        /// To create collaborative playlists you must have granted playlist-modify-private and playlist-modify-public scopes.
-        /// </summary>
-        public bool? Collaborative { get; set; }
-
-        /// <summary>
-        /// value for playlist description as displayed in Spotify Clients and in the Web API.
-        /// </summary>
-        public string? Description { get; set; }
-    }
+    /// <summary>
+    /// value for playlist description as displayed in Spotify Clients and in the Web API.
+    /// </summary>
+    [BodyParameter2]
+    public string? Description { get; set; }
 }
 
 /// <summary>

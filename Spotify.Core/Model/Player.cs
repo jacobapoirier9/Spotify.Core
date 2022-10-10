@@ -32,24 +32,20 @@ public class GetPlaybackState : IReturn<PlaybackState>
 [Route($"{Configuration.ApiUri}/me/player", Verb.Put)]
 public class TransferPlayback : IReturn<HttpStatusCode>
 {
-    [BodyParameter]
-    public BodyObject? Body { get; set; }
+    /// <summary>
+    /// A JSON array containing the ID of the device on which playback should be started/transferred.
+    /// For example:{device_ids:["74ASZWbe4lXaubB36ztrGX"]}
+    /// Note: Although an array is accepted, only a single device_id is currently supported.Supplying more than one will return 400 Bad Request
+    /// </summary>
+    [BodyParameter2]
+    public List<string>? DeviceIds { get; set; }
 
-    public class BodyObject
-    {
-        /// <summary>
-        /// A JSON array containing the ID of the device on which playback should be started/transferred.
-        /// For example:{device_ids:["74ASZWbe4lXaubB36ztrGX"]}
-        /// Note: Although an array is accepted, only a single device_id is currently supported.Supplying more than one will return 400 Bad Request
-        /// </summary>
-        public List<string>? DeviceIds { get; set; }
-
-        /// <summary>
-        /// true: ensure playback happens on new device.
-        /// false or not provided: keep the current playback state.
-        /// </summary>
-        public bool? Play { get; set; }
-    }
+    /// <summary>
+    /// true: ensure playback happens on new device.
+    /// false or not provided: keep the current playback state.
+    /// </summary>
+    [BodyParameter2]
+    public bool? Play { get; set; }
 }
 
 /// <summary>
@@ -94,34 +90,32 @@ public class StartPlayback : IReturn<HttpStatusCode>
     /// </summary>
     public string? DeviceId { get; set; }
 
-    [BodyParameter]
-    public BodyObject? Body { get; set; }
+    [BodyParameter2]
+    /// <summary>
+    /// Optional. Spotify URI of the context to play. Valid contexts are albums, artists & playlists. {context_uri:"spotify:album:1Je1IMUlBXcx1Fz0WE7oPT"}
+    /// </summary>
+    public string? ContextUri { get; set; }
 
-    public class BodyObject
-    {
-        /// <summary>
-        /// Optional. Spotify URI of the context to play. Valid contexts are albums, artists & playlists. {context_uri:"spotify:album:1Je1IMUlBXcx1Fz0WE7oPT"}
-        /// </summary>
-        public string? ContextUri { get; set; }
+    /// <summary>
+    /// Optional. A JSON array of the Spotify track URIs to play. For example: {"uris": ["spotify:track:4iV5W9uYEdYUVa79Axb7Rh", "spotify:track:1301WleyT98MSxVHPZCA6M"]}
+    /// </summary>
+    [BodyParameter2]
+    public List<string>? Uris { get; set; }
 
-        /// <summary>
-        /// Optional. A JSON array of the Spotify track URIs to play. For example: {"uris": ["spotify:track:4iV5W9uYEdYUVa79Axb7Rh", "spotify:track:1301WleyT98MSxVHPZCA6M"]}
-        /// </summary>
-        public List<string>? Uris { get; set; }
+    /// <summary>
+    /// Optional. Indicates from where in the context playback should start. Only available when context_uri corresponds to an album or playlist 
+    /// object "position" is zero based and can’t be negative. 
+    /// Example: "offset": {"position": 5} "uri" is a string representing the uri of the item to start at. 
+    /// Example: "offset": {"uri": "spotify:track:1301WleyT98MSxVHPZCA6M"}
+    /// </summary>
+    [BodyParameter2]
+    public Offset? Offset { get; set; }
 
-        /// <summary>
-        /// Optional. Indicates from where in the context playback should start. Only available when context_uri corresponds to an album or playlist 
-        /// object "position" is zero based and can’t be negative. 
-        /// Example: "offset": {"position": 5} "uri" is a string representing the uri of the item to start at. 
-        /// Example: "offset": {"uri": "spotify:track:1301WleyT98MSxVHPZCA6M"}
-        /// </summary>
-        public Offset? Offset { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int? PositionMs { get; set; }
-    }
+    /// <summary>
+    /// 
+    /// </summary>
+    [BodyParameter2]
+    public int? PositionMs { get; set; }
 }
 
 /// <summary>

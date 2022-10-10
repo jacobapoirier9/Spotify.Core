@@ -71,7 +71,7 @@ public class FollowPlaylist : IReturn<HttpStatusCode>
     /// <summary>
     /// Defaults to true. If true the playlist will be included in user's public playlists, if false it will remain private.
     /// </summary>
-    [BodyParameter(true)]
+    [BodyParameter2]
     public bool? Public { get; set; }
 }
 
@@ -132,7 +132,7 @@ public class FollowArtistsOrUsers : IReturn<HttpStatusCode>
     /// This is written to the body.
     /// </summary>
     [DataMember(Name = nameof(Ids))]
-    [BodyParameter(true)]
+    [BodyParameter2]
     public List<string>? IdsBody { get; set; }
 }
 
@@ -159,7 +159,7 @@ public class UnfollowArtistsOrUsers : IReturn<HttpStatusCode>
     /// This is written to the body.
     /// </summary>
     [DataMember(Name = nameof(Ids))]
-    [BodyParameter(true)]
+    [BodyParameter2]
     public List<string>? IdsBody { get; set; }
 }
 

@@ -123,7 +123,7 @@ public class SaveAlbums : IReturn<HttpStatusCode>
     /// <summary>
     /// A maximum of 50 items can be specified in one request. Note: if the ids parameter is present in the query string, any IDs listed here in the body will be ignored.
     /// </summary>
-    [BodyParameter]
+    [BodyParameter2(true)]
     public List<string>? IdsBody { get; set; }
 }
 
@@ -142,7 +142,7 @@ public class RemoveSavedAlbums : IReturn<HttpStatusCode>
     /// <summary>
     /// A maximum of 50 items can be specified in one request. Note: if the ids parameter is present in the query string, any IDs listed here in the body will be ignored.
     /// </summary>
-    [BodyParameter]
+    [BodyParameter2(true)]
     public List<string>? IdsBody { get; set; }
 }
 
