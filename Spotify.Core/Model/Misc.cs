@@ -2,8 +2,6 @@
 
 public interface IReturn<T> { }
 
-public interface IReturnVoid { }
-
 public enum ItemType
 {
     Unknown,
