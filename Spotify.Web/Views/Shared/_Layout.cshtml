@@ -1,49 +1,49 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Spotify.Web</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Spotify.Web.styles.css" asp-append-version="true" />
+    <meta charset="utf-8">
+    <title>Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    @using Microsoft.Extensions.Configuration
+    @inject IConfiguration _config
+
+    <!-- My content -->
+@*    <script src="~/assets/js/router.js"></script>
+    <script>
+        router.init('@(_config.GetValue<string>("Temp:HomeUrl"))') // Need to figure out how to calculate this value
+    </script>
+*@
+    <!-- JQuery -->
+    <script src="~/lib/jquery-3.6.1/jquery-3.6.1.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="~/lib/bootstrap-5.0.2-dist/css/bootstrap.css" />
+    <script src="~/lib/bootstrap-5.0.2-dist/js/bootstrap.js"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/lib/fontawesome-free-6.1.2-web/fontawesome-free-6.1.2-web/css/all.css" />
+
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Spotify.Web</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+<body class="bg-dark p-0">
+    <div class="container-md p-0">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 offset-md-4">
+            <div class="card border-2 border border-success">
+                <div class="card-header bg-success text-dark fs-4 rounded-0 text-end">@ViewBag.Title</div>
+                <div class="card-body bg-dark">
+                    @RenderBody()
+                </div>
+                <div class="card-footer bg-dark text-center text-white fs-4 rounded-0 d-flex justify-content-evenly">
+                    <a class="btn btn-dark text-success" asp-controller="Home" asp-action="About">About</a>
+                    <a class="btn btn-dark text-success" asp-controller="Home" asp-action="OpenCurrentlyPlaying">Playing</a>
+          @*          <a class="btn btn-dark text-success" asp-controller="Home" asp-action="@nameof(HomeController.PlaylistMultiple)">Playlists</a>
+                    <a class="btn btn-dark text-success" asp-controller="Home" asp-action="@nameof(HomeController.GroupMultiple)">Groups</a>*@
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - Spotify.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+        <div class="col-md-4"></div>
+    </div>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
