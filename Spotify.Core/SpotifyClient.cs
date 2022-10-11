@@ -36,6 +36,11 @@ public class SpotifyClient
             Console.WriteLine(task.Result);
         }
 
+        return GetResponse<TResponse>(httpRequest);
+    }
+
+    private TResponse? GetResponse<TResponse>(HttpRequestMessage httpRequest)
+    {
         var httpResponse = _httpClient.Send(httpRequest);
 
         if (httpResponse.IsSuccessStatusCode)
