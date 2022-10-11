@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Spotify.Core;
 
 namespace Spotify.Web;
@@ -17,6 +20,28 @@ public class Program
             clientSecret: builder.Configuration.GetValue<string>("Spotify:ClientSecret"),
             redirectUri: builder.Configuration.GetValue<string>("Spotify:RedirectUri")));
 
+        builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
+            {
+                options.Cookie.Name = builder.Configuration["Auth:Cookie:Name"];
+
+                options.LoginPath = "/Auth/Login";
+                options.AccessDeniedPath = "/Auth/Denied";
+
+                options.Cookie.MaxAge = TimeSpan.FromHours(1);
+
+                //options.SlidingExpiration = true;
+                options.ExpireTimeSpan = TimeSpan.FromHours(1);
+                options.Cookie.SameSite = SameSiteMode.Lax;
+            });
+
+        builder.Services.AddAuthorization();
+
+        builder.Services.Configure<MvcOptions>(options =>
+        {
+            options.Filters.Add(new AuthorizeFilter());
+        });
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -32,6 +57,7 @@ public class Program
 
         app.UseRouting();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllerRoute(

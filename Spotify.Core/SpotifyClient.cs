@@ -208,7 +208,7 @@ public class SpotifyClient
 
     public SpotifyToken CodeForAccessToken(string code)
     {
-        var request = WebRequest.Create($"{_tokenUri}/?grant_type=grant_type&code={code}&redirect_uri={_redirectUri}");
+        var request = WebRequest.Create($"{_tokenUri}/?grant_type=authorization_code&code={code}&redirect_uri={_redirectUri}");
         request.Method = "POST";
         request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes($"{_clientId}:{_clientSecret}")));
 

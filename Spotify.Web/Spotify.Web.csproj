@@ -10,8 +10,4 @@
     <ProjectReference Include="..\Spotify.Core\Spotify.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
 </Project>
