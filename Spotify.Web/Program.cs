@@ -13,9 +13,9 @@ public class Program
         builder.Services.AddControllersWithViews();
 
         builder.Services.AddSingleton(new SpotifyTokenClient(
-            clientId: builder.Configuration.GetValue<string>("Spotify.ClientId"),
-            clientSecret: builder.Configuration.GetValue<string>("Spotify.ClientSecret"),
-            redirectUri: builder.Configuration.GetValue<string>("Spotify.RedirectUri")));
+            clientId: builder.Configuration.GetValue<string>("Spotify:ClientId"),
+            clientSecret: builder.Configuration.GetValue<string>("Spotify:ClientSecret"),
+            redirectUri: builder.Configuration.GetValue<string>("Spotify:RedirectUri")));
 
         builder.Services.AddSingleton(new SpotifyClient());
 
