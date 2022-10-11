@@ -10,12 +10,10 @@ namespace Spotify.Web.Controllers;
 
 public class AuthController : Controller
 {
-    private readonly SpotifyTokenClient _spotifyTokenClient;
     private readonly SpotifyClient _spotifyClient;
     private readonly IConfiguration _configuration;
-    public AuthController(SpotifyTokenClient spotifyTokenClient, SpotifyClient spotifyClient, IConfiguration configuration)
+    public AuthController(SpotifyClient spotifyClient, IConfiguration configuration)
     {
-        _spotifyTokenClient = spotifyTokenClient;
         _spotifyClient = spotifyClient;
         _configuration = configuration;
     }
@@ -67,7 +65,7 @@ public class AuthController : Controller
         }
         else
         {
-            var token = _spotifyTokenClient.CodeForAccessToken(code);
+            var token = _spotifyClient.CodeForAccessToken(code);
             var user = _spotifyClient.Request(new GetCurrentUserProfile(), token.AccessToken);
 
             var claims = new List<Claim>();
