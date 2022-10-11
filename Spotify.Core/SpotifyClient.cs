@@ -1,6 +1,7 @@
 ﻿using Spotify.Core.Attributes;
 using Spotify.Core.Model;
 using System.Dynamic;
+using System.Net.Http;
 using System.Net.Http.Json;
 using System.Reflection;
 using System.Text.Json;
@@ -19,7 +20,12 @@ public class SpotifyClient
 
     public TResponse? Request<TResponse>(IReturn<TResponse> requestDto, string? bearerToken = null)
     {
-        var httpRequest = BuildMessage(requestDto, bearerToken);
+        var httpRequest = BuildMessage(requestDto);
+
+        if (bearerToken is not null)
+        {
+            httpRequest.Headers.Add("Authorization", "Bearer " + bearerToken);
+        }
 
         Console.WriteLine(httpRequest);
         if (httpRequest.Content is not null)
@@ -131,11 +137,6 @@ public class SpotifyClient
         if (httpRequestMessage.Content is null && expandoObject.Count() > 0)
         {
             httpRequestMessage.Content = JsonContent.Create(expandoObject, options: Configuration.JsonSerializerOptions);
-        }
-
-        if (bearerToken is not null)
-        {
-            httpRequestMessage.Headers.Add("Authorization", "Bearer " + bearerToken);
         }
 
         httpRequestMessage.RequestUri = new Uri(uri.TrimEnd('&', '?'));
