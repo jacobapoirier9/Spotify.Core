@@ -23,7 +23,7 @@ public class GetUsersTopItems<T> : IReturn<Pagable<T>>
     /// The type of entity to return. Valid values: artists or tracks
     /// Default to <see cref="T"/>s
     /// </summary>
-    public string? Type => typeof(T).Name.ToLower() + "s";
+    public string? Type => Configuration.JsonNamingPolicy.ConvertName(typeof(T).Name) + "s";
 
     /// <summary>
     /// The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.
