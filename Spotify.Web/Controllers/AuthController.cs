@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Text.RegularExpressions;
 using Spotify.Core;
 using Spotify.Core.Model;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Spotify.Web.Controllers;
 
@@ -42,6 +43,7 @@ public class AuthController : Controller
         return uri;
     }
 
+    [AllowAnonymous]
     public IActionResult Login(string? code)
     {
         if (code is null)
@@ -78,6 +80,5 @@ public class AuthController : Controller
             //_logger.Debug("Spotify user signed in is {Username}", user.DisplayName);
             return RedirectToAction("Index", "Home");
         }
-        return View();
     }
 }
