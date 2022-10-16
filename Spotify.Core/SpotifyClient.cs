@@ -144,7 +144,12 @@ public class SpotifyClient
                     {
                         var uriParameterName = Configuration.JsonNamingPolicy?.ConvertName(bodyParameter.Alias ?? property.Name);
                         var uriParameterValue = propertyValue.GetUriParameterValue();
+
+                        // Disable the below warning as no combination seems to correct this error even though this will not be null here
+                        // Argument cannot be used for parameter due to differences in the nullability of reference types.
+#pragma warning disable CS8620
                         expandoObject?.TryAdd(uriParameterName, propertyValue);
+                        #pragma warning restore CS8620
                     }
                 }
             }
