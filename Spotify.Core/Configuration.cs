@@ -8,6 +8,7 @@ namespace Spotify.Core;
 public static class Configuration
 {
     public const string ApiUri = "https://api.spotify.com/v1";
+    public const string TokenUri = "https://accounts.spotify.com/api/token";
 
     public static readonly JsonSerializerOptions JsonSerializerOptions;
     public static readonly ItemTypeJsonConverter ItemTypeConverter;

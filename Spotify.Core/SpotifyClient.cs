@@ -195,7 +195,7 @@ public class SpotifyClient
         public bool IsExpired() => DateTime.Now >= Expiration;
     }
 
-    [Route($"{_tokenUri}", Verb.Post)]
+    [Route($"{Configuration.TokenUri}", Verb.Post)]
     public class ExchangeCodeForToken : IReturn<Token>
     {
         public string? GrantType { get; set; }
@@ -205,12 +205,10 @@ public class SpotifyClient
         public string? RedirectUri { get; set; }
     }
 
-    [Route($"{_tokenUri}", Verb.Post)]
+    [Route($"{Configuration.TokenUri}", Verb.Post)]
     public class RefreshTokenForToken : IReturn<Token>
     {
     }
-
-    private const string _tokenUri = "https://accounts.spotify.com/api/token";
 
     public Token? CodeForAccessToken(string code)
     {
