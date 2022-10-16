@@ -23,7 +23,7 @@ public class SpotifyClient
     /// Initializes a new <see cref="SpotifyClient"/> with default settings
     /// </summary>
     /// <remarks>
-    /// <see cref="CodeForAccessToken(string)"/> and <see cref="ValidateAccessToken(SpotifyToken)"/> will be unavailable.
+    /// <see cref="CodeForAccessToken(string)"/> and <see cref="ValidateAccessToken(Token)"/> will be unavailable.
     /// To enable, please use the <see cref="SpotifyClient"/> constructor with a client id, client secret, and redirect uri.
     /// </remarks>
     public SpotifyClient()
@@ -156,7 +156,7 @@ public class SpotifyClient
                 if (propertyValue is not null)
                 {
                     var uriParameterValue = propertyValue.GetUriParameterValue();
-                    uri += $"{uriParameterName}={uriParameterValue}";
+                    uri += $"{uriParameterName}={uriParameterValue}&";
                 }
             }
         }
@@ -193,7 +193,7 @@ public class SpotifyClient
         public double? ExpiresIn { get; set; }
     }
 
-    public class SpotifyToken
+    public class Token
     {
         public string? AccessToken { get; set; }
 
@@ -204,59 +204,36 @@ public class SpotifyClient
         public bool IsExpired() => DateTime.Now >= Expiration;
     }
 
-    private const string _tokenUri = "https://accounts.spotify.com/api/token";
-
-    public SpotifyToken CodeForAccessToken(string code)
+    [Route($"{_tokenUri}", Verb.Post)]
+    public class ExchangeCodeForToken : IReturn<Token>
     {
-        var request = WebRequest.Create($"{_tokenUri}/?grant_type=authorization_code&code={code}&redirect_uri={_redirectUri}");
-        request.Method = "POST";
-        request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes($"{_clientId}:{_clientSecret}")));
+        public string? GrantType { get; set; }
 
-        request.ContentLength = string.Empty.Length;
-        request.ContentType = "application/x-www-form-urlencoded";
+        public string? Code { get; set; }
 
-        try
-        {
-            using (var response = request.GetResponse())
-            using (var stream = response.GetResponseStream())
-            using (var reader = new StreamReader(stream))
-            {
-                var json = reader.ReadToEnd();
-                var rawToken = JsonSerializer.Deserialize<RawAccessTokenResponse>(json, options: Configuration.JsonSerializerOptions);
-
-                var token = new SpotifyToken
-                {
-                    AccessToken = rawToken.AccessToken,
-                    RefreshToken = rawToken.RefreshToken,
-                    Expiration = DateTime.Now.AddSeconds(rawToken?.ExpiresIn ?? 0)
-                };
-
-                //if (_configuration.GetValue<bool>("DeepLogging:API"))
-                //{
-                //    _logger.Trace("Token exchange was successful. New token: {Token}", rawToken.AccessToken);
-                //}
-
-                return token;
-            }
-        }
-        catch (WebException ex)
-        {
-            using (var stream = ex.Response.GetResponseStream())
-            using (var reader = new StreamReader(stream))
-            {
-                Console.WriteLine(reader.ReadToEnd());
-                return default;
-                //var json = reader.ReadToEnd();
-                //var error = JsonSerializer.Deserialize<ErrorWrapper>(json).Error;
-
-                ////_logger.Error("Failed to get a spotify token. Spotify Error: {Error}", error?.Message ?? "None");
-
-                //throw new WebException(ex.Message);
-            }
-        }
+        public string? RedirectUri { get; set; }
     }
 
-    public SpotifyToken ValidateAccessToken(SpotifyToken token)
+    private const string _tokenUri = "https://accounts.spotify.com/api/token";
+
+    public Token? CodeForAccessToken(string code)
+    {
+        var request = new ExchangeCodeForToken
+        {
+            Code = code,
+            GrantType = "authorization_code",
+            RedirectUri = _redirectUri
+        };
+
+        var message = BuildMessage(request);
+        message.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes($"{_clientId}:{_clientSecret}")));
+        message.Content = new StringContent(string.Empty, Encoding.Default, "application/x-www-form-urlencoded");
+
+        var token = GetResponse<Token>(message);
+        return token;
+    }
+
+    public Token ValidateAccessToken(Token token)
     {
         if (token.IsExpired())
         {
@@ -290,7 +267,7 @@ public class SpotifyClient
                     var json = reader.ReadToEnd();
                     var rawToken = JsonSerializer.Deserialize<RawAccessTokenResponse>(json);
 
-                    token = new SpotifyToken
+                    token = new Token
                     {
                         AccessToken = rawToken.AccessToken,
                         RefreshToken = rawToken.RefreshToken,
