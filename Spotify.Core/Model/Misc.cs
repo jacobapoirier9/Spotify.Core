@@ -89,3 +89,16 @@ public class Copyright
     /// </summary>
     public string? Type { get; set; }
 }
+
+public class ErrorWrapper
+{
+    public Error? Error { get; set; }
+}
+
+public class Error
+{
+    public string? Message { get; set; }
+
+    public int? Status { get; set; }
+}
+

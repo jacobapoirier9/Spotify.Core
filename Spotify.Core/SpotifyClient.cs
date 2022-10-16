@@ -7,6 +7,7 @@ using System.Net.Http.Json;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 namespace Spotify.Core;
@@ -81,8 +82,9 @@ public class SpotifyClient
         }
         else
         {
-            var error = httpResponse.Content.ReadAsStringAsync().Result;
-            Console.WriteLine(error);
+            var response = httpResponse.Content.ReadAsStringAsync().Result;
+            var error = JsonSerializer.Deserialize<ErrorWrapper>(response, options: Configuration.JsonSerializerOptions);
+            Console.WriteLine(error?.Error?.Message);
             return default;
         }
     }
