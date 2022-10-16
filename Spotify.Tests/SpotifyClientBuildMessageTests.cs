@@ -108,6 +108,22 @@ public class SpotifyClientBuildMessageTests
     }
 
     [Fact]
+    public void QueryParameter_ComplexRequest()
+    {
+        var request = new QueryParameterRequest
+        {
+            Int = 4,
+            IntList = new List<int> { 1, 2, 3 }
+        };
+
+        var message = SpotifyClient.BuildMessage(request);
+
+        Assert.NotNull(message);
+        Assert.Equal($"{BaseUri}/test?int=4&int_list=1,2,3", message.RequestUri?.ToString());
+        Assert.Null(message.Content);
+    }
+
+    [Fact]
     public void QueryParameter_AppendsItemTypeList()
     {
         var request = new QueryParameterRequest()
