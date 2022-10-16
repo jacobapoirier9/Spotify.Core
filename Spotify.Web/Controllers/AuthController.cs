@@ -68,11 +68,11 @@ public class AuthController : Controller
         else
         {
             var token = _spotifyClient.CodeForAccessToken(code);
-            var user = _spotifyClient.CallApi(new GetCurrentUserProfile(), token.AccessToken);
+            var user = _spotifyClient.CallApi(new GetCurrentUserProfile(), token?.AccessToken);
 
             var claims = new List<Claim>();
-            claims.Add(new Claim("Username", user.DisplayName));
-            claims.Add(new Claim("AccessToken", token.AccessToken));
+            claims.Add(new Claim("Username", user?.DisplayName ?? string.Empty));
+            claims.Add(new Claim("AccessToken", token?.AccessToken ?? string.Empty));
 
             var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme));
             HttpContext.SignInAsync(claimsPrincipal);
