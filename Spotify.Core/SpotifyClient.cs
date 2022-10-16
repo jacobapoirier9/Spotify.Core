@@ -182,22 +182,13 @@ public class SpotifyClient
 
 
     #region Spotify Tokens
-    public class RawAccessTokenResponse
-    {
-        public string? AccessToken { get; set; }
-
-        public string? RefreshToken { get; set; }
-
-        public string? TokenType { get; set; }
-
-        public double? ExpiresIn { get; set; }
-    }
-
     public class Token
     {
         public string? AccessToken { get; set; }
 
         public string? RefreshToken { get; set; }
+
+        public int? ExpiresIn { get; set; }
 
         public DateTime? Expiration { get; set; }
 
@@ -235,6 +226,7 @@ public class SpotifyClient
         message.Content = new StringContent(string.Empty, Encoding.Default, "application/x-www-form-urlencoded");
 
         var token = GetResponse<Token>(message);
+        ApplyTokenExpiration(token);
         return token;
     }
 
@@ -247,7 +239,16 @@ public class SpotifyClient
         message.Content = new StringContent($"grant_type=refresh_token&refresh_token={refreshToken}", Encoding.Default, "application/x-www-form-urlencoded");
 
         var token = GetResponse<Token>(message);
+        ApplyTokenExpiration(token);
         return token;
+    }
+
+    private void ApplyTokenExpiration(Token? token)
+    {
+        if (token?.ExpiresIn is not null)
+        {
+            token.Expiration = DateTime.Now.AddSeconds((double)token.ExpiresIn);
+        }
     }
     #endregion
 }
