@@ -214,6 +214,11 @@ public class SpotifyClient
         public string? RedirectUri { get; set; }
     }
 
+    [Route($"{_tokenUri}", Verb.Post)]
+    public class RefreshTokenForToken : IReturn<Token>
+    {
+    }
+
     private const string _tokenUri = "https://accounts.spotify.com/api/token";
 
     public Token? CodeForAccessToken(string code)
@@ -233,72 +238,16 @@ public class SpotifyClient
         return token;
     }
 
-    public Token ValidateAccessToken(Token token)
+    public Token? RefreshToken(string refreshToken)
     {
-        if (token.IsExpired())
-        {
-            var requestObj = new
-            {
-                grant_type = "refresh_token",
-                refresh_token = token.RefreshToken
-            };
+        var request = new RefreshTokenForToken();
 
-            var request = WebRequest.Create(_tokenUri);
-            request.Method = "POST";
-            request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes($"{_clientId}:{_clientSecret}")));
+        var message = BuildMessage(request);
+        message.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes($"{_clientId}:{_clientSecret}")));
+        message.Content = new StringContent($"grant_type=refresh_token&refresh_token={refreshToken}", Encoding.Default, "application/x-www-form-urlencoded");
 
-            var body = $"grant_type=request_token&refresh_token=" + token.RefreshToken;
-
-            request.ContentLength = body.Length;
-            request.ContentType = "application/x-www-form-urlencoded";
-
-            using (var stream = request.GetRequestStream())
-            using (var writer = new StreamWriter(stream))
-            {
-                writer.Write(body);
-            }
-
-            try
-            {
-                using (var response = request.GetResponse())
-                using (var stream = response.GetResponseStream())
-                using (var reader = new StreamReader(stream))
-                {
-                    var json = reader.ReadToEnd();
-                    var rawToken = JsonSerializer.Deserialize<RawAccessTokenResponse>(json);
-
-                    token = new Token
-                    {
-                        AccessToken = rawToken.AccessToken,
-                        RefreshToken = rawToken.RefreshToken,
-                        Expiration = DateTime.Now.AddSeconds(rawToken?.ExpiresIn ?? 0)
-                    };
-
-                    //_logger.Trace("Refresh for token exchange was successful. New token: {Token}", token.AccessToken);
-
-                    return token;
-                }
-            }
-            catch (WebException ex)
-            {
-                using (var stream = ex.Response.GetResponseStream())
-                using (var reader = new StreamReader(stream))
-                {
-                    Console.WriteLine(reader.ReadToEnd());
-                    return default;
-                    //var json = reader.ReadToEnd();
-                    //var error = JsonSerializer.Deserialize<ErrorWrapper>(json).Error;
-
-                    ////_logger.Error("Failed to get a spotify token. Spotify Error: {Error}", error.Message ?? "None");
-
-                    //throw new WebException(ex.Message);
-                }
-            }
-        }
-        else
-        {
-            return token;
-        }
+        var token = GetResponse<Token>(message);
+        return token;
     }
     #endregion
 }
