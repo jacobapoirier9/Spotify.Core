@@ -68,7 +68,7 @@ public class AuthController : Controller
         else
         {
             var token = _spotifyClient.CodeForAccessToken(code);
-            var user = _spotifyClient.Send(new GetCurrentUserProfile(), token.AccessToken);
+            var user = _spotifyClient.CallApi(new GetCurrentUserProfile(), token.AccessToken);
 
             var claims = new List<Claim>();
             claims.Add(new Claim("Username", user.DisplayName));

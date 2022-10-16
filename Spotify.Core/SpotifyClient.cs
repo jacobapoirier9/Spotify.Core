@@ -40,7 +40,7 @@ public class SpotifyClient
         _httpClient = new HttpClient();
     }
 
-    public TResponse? Send<TResponse>(IReturn<TResponse> requestDto, string? bearerToken = null)
+    public TResponse? CallApi<TResponse>(IReturn<TResponse> requestDto, string? bearerToken = null)
     {
         var httpRequest = BuildMessage(requestDto);
 
