@@ -77,6 +77,8 @@ public class AuthController : Controller
             var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme));
             HttpContext.SignInAsync(claimsPrincipal);
 
+            System.IO.File.WriteAllText("D:\\SpotifyToken.txt", token?.AccessToken);
+
             //_logger.Debug("Spotify user signed in is {Username}", user.DisplayName);
             return RedirectToAction("Index", "Home");
         }

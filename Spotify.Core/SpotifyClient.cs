@@ -41,6 +41,12 @@ public class SpotifyClient
         _httpClient = new HttpClient();
     }
 
+    public Action<HttpRequestMessage>? LogRequests { get; set; }
+
+    public Action<HttpRequestMessage, HttpResponseMessage>? LogResponses { get; set; }
+
+    public Action<HttpRequestMessage, HttpResponseMessage, Exception>? LogErrors { get; set; }
+
     public TResponse? CallApi<TResponse>(IReturn<TResponse> requestDto, string? bearerToken = null)
     {
         var httpRequest = BuildMessage(requestDto);
@@ -50,13 +56,12 @@ public class SpotifyClient
             httpRequest.Headers.Add("Authorization", "Bearer " + bearerToken);
         }
 
-        Console.WriteLine(httpRequest);
+        LogRequests?.Invoke(httpRequest);
+
         if (httpRequest.Content is not null)
         {
             var task = httpRequest.Content.ReadAsStringAsync();
             task.Wait();
-
-            Console.WriteLine(task.Result);
         }
 
         return GetResponse<TResponse>(httpRequest);
@@ -69,23 +74,28 @@ public class SpotifyClient
         if (httpResponse.IsSuccessStatusCode)
         {
             var json = httpResponse.Content.ReadAsStringAsync().Result;
-            Console.WriteLine(json);
+
+            LogResponses?.Invoke(httpRequest, httpResponse);
+
             try
             {
                 var dto = JsonSerializer.Deserialize<TResponse>(json, Configuration.JsonSerializerOptions);
                 return dto;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return (TResponse)Convert.ChangeType(httpResponse.StatusCode, typeof(TResponse));
+                LogErrors?.Invoke(httpRequest, httpResponse, ex);
+                throw;
             }
         }
         else
         {
             var response = httpResponse.Content.ReadAsStringAsync().Result;
             var error = JsonSerializer.Deserialize<ErrorWrapper>(response, options: Configuration.JsonSerializerOptions);
-            Console.WriteLine(error?.Error?.Message);
-            return default;
+
+            var ex = new Exception(error?.Error?.Message);
+            LogErrors?.Invoke(httpRequest, httpResponse, ex);
+            throw ex;
         }
     }
 
