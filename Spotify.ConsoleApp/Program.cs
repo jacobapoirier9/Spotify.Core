@@ -17,15 +17,7 @@ internal static class Program
                 Console.WriteLine($"{request.Method} {response.StatusCode} {request?.RequestUri?.ToString()}");
             }
         };
-
-        var test1 = client.Invoke(new GetFeaturedPlaylists(), Token);
-
-        var test2 = client.InvokePagable(new GetFeaturedPlaylists(), response => response!.Playlists!, Token);
-
-
-
     }
-
 }
 
 
