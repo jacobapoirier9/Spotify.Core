@@ -129,7 +129,7 @@ public class SpotifyClient
 
     internal static HttpRequestMessage BuildMessage<T>(T requestDto, string? bearerToken = null)
     {
-        var type = requestDto?.GetType();
+        var type = requestDto?.GetType()!;
         var properties = type.GetProperties().ToList();
         var route = type.GetCustomAttribute<RouteAttribute>();
 
@@ -187,7 +187,7 @@ public class SpotifyClient
 
                         // Disable the below warning as no combination seems to correct this error even though this will not be null here
                         // Argument cannot be used for parameter due to differences in the nullability of reference types.
-#pragma warning disable CS8620
+                    #pragma warning disable CS8620
                         expandoObject?.TryAdd(uriParameterName, propertyValue);
                         #pragma warning restore CS8620
                     }

@@ -546,7 +546,6 @@ public class Recommendations
     public List<Track>? Tracks { get; set; }
 }
 
-[Obsolete("Need to verify the conversion of afterFilteringSize to AfterFilteringSize")]
 public class Seed
 {
     /// <summary>

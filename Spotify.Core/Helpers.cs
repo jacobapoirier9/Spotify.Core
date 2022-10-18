@@ -6,17 +6,6 @@ namespace Spotify.Core;
 
 internal static class Helpers
 {
-    public static string JoinToString(this IEnumerable<IConvertible> items, IConvertible seperator)
-    {
-        var toReturn = string.Empty;
-        foreach (var item in items)
-        {
-            toReturn += item.ToString() + seperator;
-        }
-
-        return toReturn == string.Empty ? string.Empty : toReturn.Substring(0, toReturn.Length - seperator.ToString().Length);
-    }
-
     public static string GetUriParameterValue(this object value)
     {
         if (value is ItemType itemType)
@@ -37,7 +26,7 @@ internal static class Helpers
                 strings.Add(GetUriParameterValue(enumerator.Current));
             }
 
-            return strings.JoinToString(",");
+            return string.Join(',', strings);
         }
 
         throw new ApplicationException($"Value {value} is not supported in uri query strings.");
