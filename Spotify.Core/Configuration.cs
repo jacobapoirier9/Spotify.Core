@@ -34,12 +34,14 @@ public static class Configuration
         {
             if (Regex.IsMatch(name, "^[A-Z]"))
             {
-                var snakeCase = name.FromPascalToSnake();
+                var snakeCase = Regex.Replace(name, "[A-Z]{1}", m => $"_{m.Value.ToLower()}").TrimStart('_');
                 return snakeCase;
             }
             else if (Regex.IsMatch(name, "^[a-z]"))
             {
-                var pascalCase = name.FromSnakeToPascal();
+                var caseConverted = Regex.Replace(name, "(^|_)[a-z]", match => match.Value.ToUpper());
+                var pascalCase = Regex.Replace(caseConverted, "_", match => string.Empty);
+
                 return pascalCase;
             }
 
