@@ -1,9 +1,10 @@
 ﻿using Spotify.Core;
 using Spotify.Core.Model;
+using System.Runtime.CompilerServices;
 
 namespace Spotify.ConsoleApp;
 
-internal class Program
+internal static class Program
 {
     private static readonly string Token = File.ReadAllText("D:\\SpotifyToken.txt");
 
@@ -17,9 +18,11 @@ internal class Program
             }
         };
 
-        client.CallApi(new GetCurrentUsersPlaylists(), Token);
+        var playlists = client.InvokePagable(new GetCurrentUsersPlaylists(), response => response, Token);
     }
+
 }
+
 
 public static class Helpers
 {

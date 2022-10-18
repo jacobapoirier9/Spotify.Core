@@ -47,7 +47,7 @@ public class SpotifyClient
 
     public Action<HttpRequestMessage, HttpResponseMessage, Exception>? LogErrors { get; set; }
 
-    public TResponse? CallApi<TResponse>(IReturn<TResponse> requestDto, string? bearerToken = null)
+    public TResponse? Invoke<TResponse>(IReturn<TResponse> requestDto, string? bearerToken = null)
     {
         var httpRequest = BuildMessage(requestDto);
 
@@ -65,6 +65,34 @@ public class SpotifyClient
         }
 
         return GetResponse<TResponse>(httpRequest);
+    }
+
+    public List<TOut> InvokePagable<TResponse, TOut>(IReturnPagable<TResponse> request, Func<TResponse, Pagable<TOut>> func, string bearerToken)
+    {
+        var list = new List<TOut>();
+        var response = default(TResponse);
+        var pager = default(Pagable<TOut>);
+
+        do
+        {
+            // Apply default offset if none is specified
+            request.Offset = request.Offset ?? 0;
+
+            // Call API
+            response = Invoke(request, bearerToken);
+
+            // Extract the Pagable<TOut>
+            pager = func(response!);
+
+            // Append results to list
+            list.AddRange(pager.Items!);
+
+            // Incrememt the offset for next request
+            request.Offset += pager.Limit;
+
+            //Console.WriteLine("Offset: {0}, Limit: {1}, Total: {2}", pager.Offset, pager.Limit, pager.Total);
+        } while (pager.Next is not null && list.Count < pager.Total);
+        return list;
     }
 
     private TResponse? GetResponse<TResponse>(HttpRequestMessage httpRequest)

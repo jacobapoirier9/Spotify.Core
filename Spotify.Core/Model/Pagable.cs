@@ -1,5 +1,12 @@
 ﻿namespace Spotify.Core.Model;
 
+public interface IReturnPagable<T> : IReturn<T>
+{
+    public int? Offset { get; set; }
+
+    public int? Limit { get; set; }
+}
+
 public class Pagable<T>
 {
     /// <summary>

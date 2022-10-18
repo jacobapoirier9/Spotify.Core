@@ -260,7 +260,7 @@ public class RemovePlaylistItems : IReturn<Snapshot>
 /// Get a list of the playlists owned or followed by the current Spotify user.
 /// </summary>
 [Route($"{Configuration.ApiUri}/me/playlists", Verb.Get)]
-public class GetCurrentUsersPlaylists : IReturn<Pagable<Playlist>>
+public class GetCurrentUsersPlaylists : IReturnPagable<Pagable<Playlist>>
 {
     /// <summary>
     /// The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.
