@@ -47,7 +47,7 @@ public class GetSeveralShows
 /// Get Spotify catalog information about an show’s episodes. Optional parameters can be used to limit the number of episodes returned.
 /// </summary>
 [Route($"{Configuration.ApiUri}/shows/{{{nameof(Id)}}}/episodes", Verb.Get)]
-public class GetShowEpisodes : IReturn<Pagable<Episode>>
+public class GetShowEpisodes : IReturnPagable<Pagable<Episode>>
 {
     /// <summary>
     /// The Spotify ID for the show.
@@ -77,7 +77,7 @@ public class GetShowEpisodes : IReturn<Pagable<Episode>>
 /// Get a list of shows saved in the current Spotify user's library. Optional parameters can be used to limit the number of shows returned.
 /// </summary>
 [Route($"{Configuration.ApiUri}/me/shows", Verb.Get)]
-public class GetSavedShows : IReturn<Pagable<SavedShowContextWrapper>>
+public class GetSavedShows : IReturnPagable<Pagable<SavedShowContextWrapper>>
 {
     /// <summary>
     /// The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.

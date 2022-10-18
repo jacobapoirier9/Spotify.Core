@@ -7,7 +7,7 @@ namespace Spotify.Core.Model;
 /// Note: Audiobooks are only available for the US market.
 /// </summary>
 [Route($"{Configuration.ApiUri}/search", Verb.Get)]
-public class Search : IReturn<SearchResponse>
+public class Search : IReturnPagable<SearchResponse>
 {
     /// <summary>
     /// Your search query.

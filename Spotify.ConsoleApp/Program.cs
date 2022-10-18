@@ -18,7 +18,12 @@ internal static class Program
             }
         };
 
-        var playlists = client.InvokePagable(new GetCurrentUsersPlaylists(), response => response, Token);
+        var test1 = client.Invoke(new GetFeaturedPlaylists(), Token);
+
+        var test2 = client.InvokePagable(new GetFeaturedPlaylists(), response => response!.Playlists!, Token);
+
+
+
     }
 
 }

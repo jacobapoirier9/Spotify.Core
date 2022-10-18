@@ -230,6 +230,7 @@ public class SetPlaybackShuffle : IReturn<HttpStatusCode>
 
 /// <summary>
 /// Get tracks from the current user's recently played tracks. Note: Currently doesn't support podcast episodes.
+/// This technically returns a pagable object, but it does not support the offset query parameter.
 /// </summary>
 [Route($"{Configuration.ApiUri}/me/player/recently-played", Verb.Get)]
 public class GetRecentlyPlayedTracks : IReturn<Pagable<LastPlayedContext>>

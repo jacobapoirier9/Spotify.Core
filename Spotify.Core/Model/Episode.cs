@@ -48,7 +48,7 @@ public class GetSeveralEpisodes : IReturn<SeveralEpisodes>
 /// This API endpoint is in beta and could change without warning.Please share any feedback that you have, or issues that you discover, in our developer community forum.
 /// </summary>
 [Route($"{Configuration.ApiUri}/me/episodes", Verb.Get)]
-public class GetSavedEpisodes : IReturn<Pagable<SavedEpisodesContextWrapper>>
+public class GetSavedEpisodes : IReturnPagable<Pagable<SavedEpisodesContextWrapper>>
 {
     /// <summary>
     /// The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.
