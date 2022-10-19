@@ -14,7 +14,8 @@
     <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
 
     <!-- JqGrid-->
-    <script src="~/lib/jqgrid/css/ui.jqgrid-bootstrap.css" asp-append-version="true"></script>
+    <link rel="stylesheet" rel="~/lib/jqgrid/css/ui.jqgrid.css" asp-append-version="true" />
+    <link rel="stylesheet" rel="~/lib/jqgrid/css/ui.jqgrid-bootstrap.css" asp-append-version="true" />
     <script src="~/lib/jqgrid/js/grid.locale-en.js" asp-append-version="true"></script>
     <script src="~/lib/jqgrid/js/jquery.jqGrid.js" asp-append-version="true"></script>
 
@@ -23,18 +24,18 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.js" asp-append-version="true"></script>
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="~/lib/fontawesome/css/all.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/lib/fontawesome/css/all.css" asp-append-version="true" />
 </head>
 <body class="bg-dark p-0">
     <div class="container-md p-0">
         <div class="col-md-4"></div>
         <div class="col-md-4 offset-md-4">
             <div class="card border-2 border border-success">
-                <div class="card-header bg-success text-dark fs-4 rounded-0 text-end">@ViewBag.Title</div>
-                <div class="card-body bg-dark">
+                <div class="card-header bg-success text-dark fs-4 rounded-0 text-end fixed-top">@ViewBag.Title</div>
+                <div class="card-body bg-dark overflow-scroll pt-5 pb-5">
                     @RenderBody()
                 </div>
-                <div class="card-footer bg-dark text-center text-white fs-4 rounded-0 d-flex justify-content-evenly">
+                <div class="card-footer bg-dark text-center text-white fs-4 rounded-0 d-flex justify-content-evenly fixed-bottom border border-success">
                     <a class="btn btn-dark text-success" asp-controller="Home" asp-action="About">About</a>
                     <a class="btn btn-dark text-success" asp-controller="Home" asp-action="OpenCurrentlyPlaying">Playing</a>
                 </div>
