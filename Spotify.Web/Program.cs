@@ -12,8 +12,12 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
         builder.Configuration.AddJsonFile("appsettings.Secret.json", optional: true, reloadOnChange: true);
 
-        // Add services to the container.
+#if DEBUG
+        builder.Services.AddControllersWithViews()
+            .AddRazorRuntimeCompilation();
+#else
         builder.Services.AddControllersWithViews();
+#endif
 
         builder.Services.AddSingleton(new SpotifyClient(
             clientId: builder.Configuration.GetValue<string>("Spotify:ClientId"),
