@@ -1,4 +1,4 @@
-html {
+/*html {
   font-size: 14px;
 }
 
@@ -12,7 +12,45 @@ html {
   position: relative;
   min-height: 100%;
 }
-
+*/
 body {
   margin-bottom: 60px;
+}
+
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    overflow: hidden;
+}
+
+header {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    /*background-color: #4C4;*/
+    height: 50px;
+}
+
+main {
+    position: absolute;
+    top: 50px;
+    bottom: 50px;
+    right: 0;
+    left: 0;
+    overflow-y: auto;
+}
+
+
+nav {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /*background-color: #4C4;*/
+    height: 50px;
 }
