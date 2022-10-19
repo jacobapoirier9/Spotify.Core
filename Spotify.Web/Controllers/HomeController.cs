@@ -36,7 +36,7 @@ public class HomeController : Controller
             else
             {
                 //var playlists = _spotifyClient.InvokePagable(new GetSavedPlaylists(), response => response, _bearerToken);
-                var playlists = _spotifyClient.InvokePagable(new GetSavedPlaylists(), response => response, _bearerToken).OrderByDescending(p => p.Tracks.Total).ToList();
+                var playlists = _spotifyClient.InvokePagable(new GetSavedPlaylists(), response => response, _bearerToken);
                 var json = JsonSerializer.Serialize(playlists);
                 System.IO.File.WriteAllText(filePath, json);
                 return View("MultiplePlaylists", playlists);
