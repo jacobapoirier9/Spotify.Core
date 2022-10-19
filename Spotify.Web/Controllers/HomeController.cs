@@ -31,15 +31,15 @@ public class HomeController : Controller
             {
                 var json = System.IO.File.ReadAllText(filePath);
                 var playlists = JsonSerializer.Deserialize<List<Playlist>>(json);
-                return View(playlists);
+                return View("MultiplePlaylists", playlists);
             }
             else
             {
                 //var playlists = _spotifyClient.InvokePagable(new GetSavedPlaylists(), response => response, _bearerToken);
-                var playlists = _spotifyClient.InvokePagable(new GetSavedPlaylists(), response => response, _bearerToken);
+                var playlists = _spotifyClient.InvokePagable(new GetSavedPlaylists(), response => response, _bearerToken).OrderByDescending(p => p.Tracks.Total).ToList();
                 var json = JsonSerializer.Serialize(playlists);
                 System.IO.File.WriteAllText(filePath, json);
-                return View(playlists);
+                return View("MultiplePlaylists", playlists);
             }
         }
         else
@@ -47,7 +47,7 @@ public class HomeController : Controller
             var json = System.IO.File.ReadAllText(filePath);
             var playlists = JsonSerializer.Deserialize<List<Playlist>>(json);
             var playlist = playlists?.First(p => p.Id == playlistId);
-            return Json(playlist);
+            return View("SinglePlaylist", playlist);
         }
     }
 }
