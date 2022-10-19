@@ -5,16 +5,18 @@
     <title>Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-    @using Microsoft.Extensions.Configuration
-    @inject IConfiguration _config
-
     <!-- My content -->
-    <script src="/js/router.js"></script>
+    <script src="~/js/router.js"></script>
     <script>router.init('@Url.ApplicationUrl()');</script>
-    <script src="/js/site.js"></script>
+    <script src="~/js/site.js"></script>
 
     <!-- JQuery -->
     <script src="~/lib/jquery-3.6.1/jquery-3.6.1.min.js"></script>
+
+    <!-- JqGrid-->
+    <script src="~/lib/jqgrid/css/ui.jqgrid-bootstrap.css"></script>
+    <script src="~/lib/jqgrid/js/grid.locale-en.js"></script>
+    <script src="~/lib/jqgrid/js/jquery.jqGrid.js"></script>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="~/lib/bootstrap-5.0.2-dist/css/bootstrap.css" />
@@ -22,7 +24,6 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="~/lib/fontawesome-free-6.1.2-web/fontawesome-free-6.1.2-web/css/all.css" />
-
 </head>
 <body class="bg-dark p-0">
     <div class="container-md p-0">
@@ -36,8 +37,6 @@
                 <div class="card-footer bg-dark text-center text-white fs-4 rounded-0 d-flex justify-content-evenly">
                     <a class="btn btn-dark text-success" asp-controller="Home" asp-action="About">About</a>
                     <a class="btn btn-dark text-success" asp-controller="Home" asp-action="OpenCurrentlyPlaying">Playing</a>
-          @*          <a class="btn btn-dark text-success" asp-controller="Home" asp-action="@nameof(HomeController.PlaylistMultiple)">Playlists</a>
-                    <a class="btn btn-dark text-success" asp-controller="Home" asp-action="@nameof(HomeController.GroupMultiple)">Groups</a>*@
                 </div>
             </div>
         </div>
