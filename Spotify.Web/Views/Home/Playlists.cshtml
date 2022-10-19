@@ -1,0 +1,31 @@
+﻿@model List<Playlist>
+@{
+    ViewBag.Title = "Playlists";
+}
+
+<table class="table table-dark text-success">
+    <thead>
+        <tr>
+            <th class="col-4 text-end" scope="col">Tracks</th>
+            <th class="col-8" scope="col">Playlists</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var playlist in Model)
+        {
+            <tr class="spotify-playlist" data-id="@playlist.Id">
+                <td>
+                    <img src="@(playlist?.Images?.FirstOrDefault()?.Url ?? "https://cdn.vox-cdn.com/thumbor/TOHxrkXsaCODqfieEEFE-ukwWi0=/0x0:783x983/1200x0/filters:focal(0x0:783x983)/cdn.vox-cdn.com/uploads/chorus_asset/file/6571285/harambe2.0.jpg")" width="50" height="50" />
+                    <span class="fa-pull-right">@playlist?.Tracks?.Total</span>
+                </td>
+                <td>@playlist?.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts {
+    <script>
+        $(spotifyEnhancer.home.playlists.init)
+    </script>
+}

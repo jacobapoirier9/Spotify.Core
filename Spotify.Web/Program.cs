@@ -22,7 +22,13 @@ public class Program
         builder.Services.AddSingleton(new SpotifyClient(
             clientId: builder.Configuration.GetValue<string>("Spotify:ClientId"),
             clientSecret: builder.Configuration.GetValue<string>("Spotify:ClientSecret"),
-            redirectUri: builder.Configuration.GetValue<string>("Spotify:RedirectUri")));
+            redirectUri: builder.Configuration.GetValue<string>("Spotify:RedirectUri"))
+        {
+            LogResponses = (request, response) =>
+            {
+                Console.WriteLine($"{request.Method} {response.StatusCode} {request?.RequestUri?.ToString()}");
+            }
+        });
 
         builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options =>
@@ -34,7 +40,7 @@ public class Program
 
                 options.Cookie.MaxAge = TimeSpan.FromHours(1);
 
-                //options.SlidingExpiration = true;
+                options.SlidingExpiration = false;
                 options.ExpireTimeSpan = TimeSpan.FromHours(1);
                 options.Cookie.SameSite = SameSiteMode.Lax;
             });

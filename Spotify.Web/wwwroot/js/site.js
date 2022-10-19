@@ -1,4 +1,21 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿/// <reference path="router.js" />
+/// <reference path="../lib/jquery/dist/jquery.js" />
+/// <reference path="../lib/jqgrid/ts/jqGrid.d.ts" />
 
-// Write your JavaScript code.
+var helpers = {
+
+}
+
+var spotifyEnhancer = {
+    home: {
+        playlists: {
+            init: function () {
+                $(".spotify-playlist").on("click", function () {
+
+                    window.location.assign(router.action("Home", "Playlists", { playlistId: $(this).attr("data-id") }))
+
+                })
+            }
+        }
+    }
+}
