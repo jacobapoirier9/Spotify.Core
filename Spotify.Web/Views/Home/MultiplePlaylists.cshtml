@@ -3,7 +3,45 @@
     ViewBag.Title = "Playlists";
 }
 
-<table class="table table-dark text-success">
+<div class="text-success">
+    <div class="row">
+        <div class="col-4 fw-bold text-end">Tracks</div>
+        <div class="col-8 fw-bold">Playlist</div>
+    </div>
+    <hr class="border border-2 border-success" />
+    @foreach (var playlist in Model)
+    {
+        <div class="row spotify-playlist" data-playlist-id="@playlist.Id">
+            <div class="col-2"> 
+
+                @{
+                    var image = playlist?.Images?.FirstOrDefault();
+                }
+
+                @if (image is not null)
+                {
+                    <img src="@image.Url" width="50" height="50" />
+                }
+                else
+                {
+                    <i class="fa fa-3x fa-music"></i>
+                }
+
+            </div>
+            <div class="col-2 text-end">
+                <span>@playlist?.Tracks?.Total</span>
+            </div>
+            <div class="col-8">
+                <span>@playlist?.Name</span>
+                <br />
+                <small>@playlist?.Owner?.DisplayName</small>
+            </div>
+        </div>
+        <hr />
+    }
+</div>
+
+@*<table class="table table-dark text-success">
     <thead>
         <tr>
             <th class="col-4 text-end" scope="col">Tracks</th>
@@ -22,7 +60,7 @@
             </tr>
         }
     </tbody>
-</table>
+</table>*@
 
 @section scripts {
     <script>
