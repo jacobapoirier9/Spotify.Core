@@ -6,11 +6,14 @@ using System.Text.RegularExpressions;
 using Spotify.Core;
 using Spotify.Core.Model;
 using Microsoft.AspNetCore.Authorization;
+using NLog;
 
 namespace Spotify.Web.Controllers;
 
 public class AuthController : Controller
 {
+    private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
+
     private readonly SpotifyClient _spotifyClient;
     private readonly IConfiguration _configuration;
     public AuthController(SpotifyClient spotifyClient, IConfiguration configuration)
@@ -48,11 +51,13 @@ public class AuthController : Controller
     {
         if (code is null)
         {
+            var redirectUri = _configuration.GetValue<string>("Spotify:RedirectUri");
+
             // This will eventually be moved into Spotify.Core in a cleaner way
             var response = BuildUri("https://accounts.spotify.com/authorize", new
             {
                 response_type = "code",
-                redirect_uri = _configuration.GetValue<string>("Spotify:RedirectUri"),
+                redirect_uri = redirectUri,
                 client_id = _configuration.GetValue<string>("Spotify:ClientId"),
                 scope = string.Join("+", new string[]
                     {
@@ -63,12 +68,18 @@ public class AuthController : Controller
                     })
             });
 
+            _logger.Trace("User needs to sign in with Spotify. RedirectUri chosen {RedirectUri}", redirectUri);
+
             return Redirect(response);
         }
         else
         {
+            _logger.Trace("Need to exchange code for token {Code}", code);
+
             var token = _spotifyClient.CodeForAccessToken(code);
             var user = _spotifyClient.Invoke(new GetCurrentUserProfile(), token?.AccessToken);
+
+            _logger.Trace("New token {Token}", token?.AccessToken);
 
             var claims = new List<Claim>();
             claims.Add(new Claim("Username", user?.DisplayName ?? string.Empty));
@@ -79,7 +90,7 @@ public class AuthController : Controller
 
             System.IO.File.WriteAllText("D:\\SpotifyToken.txt", token?.AccessToken);
 
-            //_logger.Debug("Spotify user signed in is {Username}", user.DisplayName);
+            _logger.Info("Spotify user signed in is {Username}", user?.DisplayName);
             return RedirectToAction("Index", "Home");
         }
     }

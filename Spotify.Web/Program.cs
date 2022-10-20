@@ -1,15 +1,25 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using NLog;
+using NLog.Extensions.Logging;
 using Spotify.Core;
 
 namespace Spotify.Web;
 
 public class Program
 {
+    private static readonly ILogger _logger = LogManager.GetCurrentClassLogger();
+
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
+        builder.Logging.ClearProviders()
+            .AddNLog();
+
+        _logger.Debug("Configuring services..");
+
         builder.Configuration.AddJsonFile("appsettings.Secret.json", optional: true, reloadOnChange: true);
 
 #if DEBUG
@@ -26,7 +36,7 @@ public class Program
         {
             LogResponses = (request, response) =>
             {
-                Console.WriteLine($"{request.Method} {response.StatusCode} {request?.RequestUri?.ToString()}");
+                _logger.Trace("{Method} {StatusCode} {RequestUri}", request.Method, response.StatusCode, request?.RequestUri);
             }
         });
 
@@ -53,6 +63,7 @@ public class Program
         });
 
         var app = builder.Build();
+        _logger.Debug("Configuring application.. {Environment}", app.Environment.EnvironmentName);
 
         // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment())
@@ -74,6 +85,7 @@ public class Program
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");
 
+        _logger.Info("Start!");
         app.Run();
     }
 }
