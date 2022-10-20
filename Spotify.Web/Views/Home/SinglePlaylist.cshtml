@@ -41,7 +41,12 @@
             <div class="col-8">
                 <span>@track?.Track?.Name</span>
                 <br />
-                @*<small>@track?.Owner?.DisplayName</small>*@
+                @{
+                    var artists = track?.Track?.Artists?.Concat(track?.Track?.Album?.Artists ?? new List<Artist>())
+                        .DistinctBy(a => a.Id)
+                        .Select(a => a.Name);
+                }
+                <small>@string.Join(", ", artists!)</small>
             </div>
         </div>
         <hr />
