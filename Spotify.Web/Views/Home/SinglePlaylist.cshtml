@@ -3,4 +3,47 @@
     ViewBag.Title = "Playlist";
 }
 
-<h1 class="text-success">@Model.Name</h1>
+
+<div class="text-success">
+    <div class="row">
+        <div class="col-12 text-end">
+            <span class="text-success text-end fs-5 fw-bold">@Model.Name</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4 fw-bold text-end">Duration</div>
+        <div class="col-8 fw-bold">Playlist</div>
+    </div>
+    <hr class="border border-2 border-success" />
+    @foreach (var track in Model?.Tracks?.Items!)
+    {
+        <div class="row spotify-track" data-playlist-id="@track?.Track?.Id">
+            <div class="col-2">
+
+                @{
+                    var image = track?.Track?.Album?.Images?.FirstOrDefault();
+                }
+
+                @if (image is not null)
+                {
+                    <img src="@image.Url" width="50" height="50" />
+                }
+                else
+                {
+                    <i class="fa fa-3x fa-music"></i>
+                }
+
+            </div>
+            <div class="col-2 text-end">
+                @{ var timeSpan = TimeSpan.FromMilliseconds((double)(track?.Track?.DurationMs!)); } 
+                <small>@timeSpan.ToString(@"mm\:ss").TrimStart('0')</small>
+            </div>
+            <div class="col-8">
+                <span>@track?.Track?.Name</span>
+                <br />
+                @*<small>@track?.Owner?.DisplayName</small>*@
+            </div>
+        </div>
+        <hr />
+    }
+</div>

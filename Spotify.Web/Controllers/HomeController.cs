@@ -43,6 +43,12 @@ public class HomeController : Controller
 
             var playlist = _spotifyClient.Invoke(new GetPlaylist { PlaylistId = playlistId }, _bearerToken);
 
+            if (playlist?.Tracks?.Next is not null)
+            {
+                var tracks = _spotifyClient.InvokePagable(new GetPlaylist { PlaylistId = playlistId }, response => response?.Tracks!, _bearerToken);
+                playlist.Tracks.Items = tracks;
+            }
+
             _logger.Debug("Found {PlaylistName}", playlist?.Name);
 
             return View("SinglePlaylist", playlist);

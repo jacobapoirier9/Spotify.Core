@@ -8,7 +8,7 @@ namespace Spotify.Core.Model;
 /// </summary>
 [Route($"{Configuration.ApiUri}/playlists/{{{nameof(PlaylistId)}}}", Verb.Get)]
 [Obsolete($"This needs to be able to handle tracks and episodes in the response")]
-public class GetPlaylist : IReturn<Playlist>
+public class GetPlaylist : IReturnPagable<Playlist>
 {
     /// <summary>
     /// The Spotify ID of the playlist.
@@ -39,6 +39,8 @@ public class GetPlaylist : IReturn<Playlist>
     /// Users can view the country that is associated with their account in the account settings.
     /// </summary>
     public string? Market { get; set; }
+    public int? Offset { get; set; }
+    public int? Limit { get; set; }
 }
 
 /// <summary>
@@ -499,7 +501,7 @@ public class Playlist
     /// <summary>
     /// The tracks of the playlist.
     /// </summary>
-    public Pagable<Track>? Tracks { get; set; }
+    public Pagable<SavedTrackContextWrapper>? Tracks { get; set; }
 
     /// <summary>
     /// The object type: <see cref="ItemType.Playlist"/>
