@@ -24,29 +24,15 @@ public class HomeController : Controller
 
     public IActionResult Playlists(string playlistId)
     {
-        var filePath = @"D:\Playlists.json";
         if (playlistId is null)
         {
-            if (System.IO.File.Exists(filePath))
-            {
-                var json = System.IO.File.ReadAllText(filePath);
-                var playlists = JsonSerializer.Deserialize<List<Playlist>>(json);
-                return View("MultiplePlaylists", playlists);
-            }
-            else
-            {
-                //var playlists = _spotifyClient.InvokePagable(new GetSavedPlaylists(), response => response, _bearerToken);
-                var playlists = _spotifyClient.InvokePagable(new GetSavedPlaylists(), response => response, _bearerToken);
-                var json = JsonSerializer.Serialize(playlists);
-                System.IO.File.WriteAllText(filePath, json);
-                return View("MultiplePlaylists", playlists);
-            }
+            var playlists = _spotifyClient.InvokePagable(new GetSavedPlaylists(), response => response, _bearerToken);
+            var json = JsonSerializer.Serialize(playlists);
+            return View("MultiplePlaylists", playlists);
         }
         else
         {
-            var json = System.IO.File.ReadAllText(filePath);
-            var playlists = JsonSerializer.Deserialize<List<Playlist>>(json);
-            var playlist = playlists?.First(p => p.Id == playlistId);
+            var playlist = _spotifyClient.Invoke(new GetPlaylist { PlaylistId = playlistId }, _bearerToken);
             return View("SinglePlaylist", playlist);
         }
     }
