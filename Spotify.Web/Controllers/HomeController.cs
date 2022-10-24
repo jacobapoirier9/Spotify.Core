@@ -54,4 +54,25 @@ public class HomeController : Controller
             return View("SinglePlaylist", playlist);
         }
     }
+
+    public IActionResult Tracks(string trackId)
+    {
+        if (trackId is null)
+        {
+            throw new NotImplementedException();
+        }
+        else
+        {
+            _logger.Debug("Need to get track {TrackId}", trackId);
+
+            var track = _spotifyClient.Invoke(new GetTrack { Id = trackId }, _bearerToken);
+
+            _logger.Debug("Found {TrackName}", track?.Name);
+
+            return View("SingleTrack", new HomeSingleTrack
+            {
+                Track = track
+            });
+        }
+    }
 }

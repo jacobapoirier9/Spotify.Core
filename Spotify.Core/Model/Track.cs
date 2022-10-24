@@ -490,7 +490,7 @@ public class Track
     public bool? IsPlayable { get; set; }
 
     [Obsolete("Unkown")]
-    public Track? LinkedFrom => throw new NotImplementedException();
+    public Track? LinkedFrom { get; set; }
 
     /// <summary>
     /// Included in the response when a content restriction is applied. See Restriction Object for more details.

@@ -17,7 +17,7 @@
     <hr class="border border-2 border-success" />
     @foreach (var track in Model?.Tracks?.Items!)
     {
-        <div class="row spotify-track" data-playlist-id="@track?.Track?.Id">
+        <div class="row spotify-track" data-track-id="@track?.Track?.Id">
             <div class="col-2">
 
                 @{
@@ -52,3 +52,9 @@
         <hr />
     }
 </div>
+
+@section scripts {
+    <script>
+        $(spotifyEnhancer.home.singlePlaylist.init)
+    </script>
+}
