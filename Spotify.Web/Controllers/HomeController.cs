@@ -3,6 +3,7 @@ using NLog;
 using Spotify.Core;
 using Spotify.Core.Model;
 using Spotify.Web.Models;
+using Spotify.Web.Services;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
@@ -14,10 +15,15 @@ public class HomeController : Controller
     private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
     private string _bearerToken => User.Claims.First(c => c.Type == "AccessToken").Value;
+    private string _username => User.Claims.First(c => c.Type == "Username").Value;
+
     private readonly SpotifyClient _spotifyClient;
-    public HomeController(SpotifyClient spotifyClient)
+    private readonly IDataService _dataService;
+
+    public HomeController(SpotifyClient spotifyClient, IDataService dataService)
     {
         _spotifyClient = spotifyClient;
+        _dataService = dataService;
     }
 
     public IActionResult Index()
@@ -71,7 +77,8 @@ public class HomeController : Controller
 
             return View("SingleTrack", new HomeSingleTrack
             {
-                Track = track
+                Track = track,
+                TrackIntervals = _dataService.GetTrackIntervals(_username, trackId)
             });
         }
     }

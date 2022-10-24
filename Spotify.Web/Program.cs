@@ -3,7 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using NLog;
 using NLog.Extensions.Logging;
+using ServiceStack.Data;
+using ServiceStack.OrmLite;
 using Spotify.Core;
+using Spotify.Web.Models;
+using Spotify.Web.Services;
 
 namespace Spotify.Web;
 
@@ -28,6 +32,11 @@ public class Program
 #else
         builder.Services.AddControllersWithViews();
 #endif
+
+        builder.Services.AddSingleton<IDbConnectionFactory>(
+            new OrmLiteConnectionFactory(builder.Configuration.GetConnectionString(Connection.SpotifyEnhancer), SqlServerDialect.Provider));
+
+        builder.Services.AddSingleton<IDataService, DataService>();
 
         builder.Services.AddSingleton(new SpotifyClient(
             clientId: builder.Configuration.GetValue<string>("Spotify:ClientId"),
