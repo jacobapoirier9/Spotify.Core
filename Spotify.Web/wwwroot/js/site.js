@@ -23,10 +23,24 @@ var spotifyEnhancer = {
         },
         singleTrack: {
             init: function () {
-                $("#links .nav-link").on("show.bs.tab", function (show) {
-                    console.debug(show)
+                //$("#links .nav-link").on("show.bs.tab", function (show) {
+                //    console.debug(show)
+                //})
 
+                var $offsetProgress = $("#offsetProgress")
+                var $actualProgress = $("#actualProgress")
 
+                $.each($(".spotify-interval"), function (index, element) {
+                    var $element = $(element)
+                    var max = $element.data("max")
+
+                    var start = $element.data("start") / max * 100
+                    var end = $element.data("end") / max * 100
+
+                    console.debug(start, end, max)
+
+                    $element.find(".offsetProgress").css("width", start + "%")
+                    $element.find(".actualProgress").css("width", end + "%")
                 })
             }
         }

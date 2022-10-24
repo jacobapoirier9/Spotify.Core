@@ -9,6 +9,8 @@ public class TrackInterval
 
     public string? TrackId { get; set; }
 
+    public string? DisplayName { get; set; }
+
     public int? StartMs { get; set; }
 
     public int? EndMs { get; set; }
