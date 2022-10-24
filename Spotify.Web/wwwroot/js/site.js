@@ -20,6 +20,15 @@ var spotifyEnhancer = {
 
                 })
             }
+        },
+        singleTrack: {
+            init: function () {
+                $("#links .nav-link").on("show.bs.tab", function (show) {
+                    console.debug(show)
+
+
+                })
+            }
         }
     }
 }

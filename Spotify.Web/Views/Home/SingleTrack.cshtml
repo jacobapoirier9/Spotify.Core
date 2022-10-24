@@ -1,7 +1,62 @@
 ﻿@model HomeSingleTrack
-
 @{
     ViewBag.Title = "Track";
 }
 
-<h1 class="text-successok.">@Model.Track?.Name</h1>
+<p class="text-success">@Model.Track?.Name</p>
+
+<style>
+    .nav-tabs .nav-item .nav-link {
+        opacity: 50%;
+    }
+
+        .nav-tabs .nav-item .nav-link.active {
+            font-size: 120%;
+            border: none;
+            background-color: transparent;
+            opacity: 100%;
+        }
+</style>
+
+<ul class="nav nav-tabs navbar-dark border-bottom-1 border-success" id="links" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active text-success" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab" aria-controls="general" aria-selected="true">Home</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link text-success" id="sections-tab" data-bs-toggle="tab" data-bs-target="#sections" type="button" role="tab" aria-controls="sections" aria-selected="false">Sections</button>
+    </li>
+</ul>
+<div class="tab-content text-success mt-2">
+    <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+        <div class="row">
+            <div class="col-4">
+
+                @{
+                    var image = Model?.Track?.Album?.Images?.FirstOrDefault();
+                }
+
+                @if (image is not null)
+                {
+                    <img src="@image.Url" />
+                }
+                else 
+                {
+                    <i class="fa fa-3x fa-music"></i>
+                }
+
+            </div>
+            <div class="col-8">
+                <p>@Model?.Track?.Name</p>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade show" id="sections" role="tabpanel" aria-labelledby="sections-tab">
+        <h1>Sections</h1>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(spotifyEnhancer.home.singleTrack.init)
+    </script>
+}
