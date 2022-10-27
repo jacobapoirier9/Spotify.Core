@@ -3,7 +3,9 @@
     ViewBag.Title = "Track";
 }
 
-<p class="text-success">@Model.Track?.Name</p>
+<div type="hidden" id="trackId" value=@Model?.Track?.Id" />
+
+<p class="text-success">@Model?.Track?.Name</p>
 
 <style>
     .nav-tabs .nav-item .nav-link {
@@ -71,8 +73,11 @@
                         }
                         <small>@startDisplay - @endDisplay</small>
                     </div>
-                    <div class="col-6 text-start">
+                    <div class="col-4 text-start">
                         <p>@interval.DisplayName</p>
+                    </div>
+                    <div class="col-2">
+                        <a><i class="fa fa-play text-end"></i></a>
                     </div>
                 </div>
                 <hr />
