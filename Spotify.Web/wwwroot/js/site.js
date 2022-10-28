@@ -42,11 +42,11 @@ var spotifyEnhancer = {
                         $.ajax({
                             url: router.action("Home", "SeekTrackPosition"),
                             method: "POST",
-                            data: {
+                            data: { 
+                                trackId: $("#trackId").val(),
                                 startMs: startMs
                             }
                         })
-                        console.debug(click)
                     })
                 })
             }

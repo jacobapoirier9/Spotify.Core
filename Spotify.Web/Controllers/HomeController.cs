@@ -84,15 +84,21 @@ public class HomeController : Controller
         }
     }
 
-    public IActionResult SeekTrackPosition(int startMs)
+    public IActionResult SeekTrackPosition(string trackId, int startMs)
     {
+        var uri = "spotify:track:" + trackId;
+        var added = _spotifyClient.Invoke(new AddItemToPlaybackQueue
+        {
+            Uri = uri
+        }, _bearerToken);
 
+        var skipped = _spotifyClient.Invoke(new SkipToNext(), _bearerToken);
 
         var result = _spotifyClient.Invoke(new SetPlaybackPosition
         {
             PositionMs = startMs
         }, _bearerToken);
 
-        return StatusCode((int)result);
+        return Ok();
     }
 }

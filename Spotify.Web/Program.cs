@@ -47,11 +47,11 @@ public class Program
             {
                 _logger.Trace("{Method} {StatusCode} {RequestUri}", request.Method, response.StatusCode, request?.RequestUri);
 
-                using (var stream = response.Content.ReadAsStream())
-                using (var reader = new StreamReader(stream))
-                {
-                    _logger.Trace(reader.ReadToEnd());
-                }
+                //using (var stream = response.Content.ReadAsStream())
+                //using (var reader = new StreamReader(stream))
+                //{
+                //    _logger.Trace(reader.ReadToEnd());
+                //}
             }
         });
 
