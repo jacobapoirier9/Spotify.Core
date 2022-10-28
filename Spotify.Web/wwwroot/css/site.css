@@ -54,3 +54,16 @@ nav.card-footer {
     /*background-color: #4C4;*/
     height: 50px;
 }
+
+
+
+.nav-tabs .nav-item .nav-link {
+    opacity: 50%;
+}
+
+    .nav-tabs .nav-item .nav-link.active {
+        font-size: 120%;
+        border: none;
+        background-color: transparent;
+        opacity: 100%;
+    }
