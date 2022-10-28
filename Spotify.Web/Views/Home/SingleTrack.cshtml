@@ -5,7 +5,25 @@
 
 <input type="hidden" id="trackId" value="@Model?.Track?.Id" />
 
-<p class="text-success">@Model?.Track?.Name</p>
+<div class="row">
+    <div class="col-4">
+        @{
+            var image = Model?.Track?.Album?.Images?.FirstOrDefault();
+        }
+
+        @if (image is not null)
+        {
+            <img src="@image.Url" />
+        }
+        else
+        {
+            <i class="fa fa-3x fa-music"></i>
+        }
+    </div>
+    <div class="col-8">
+        <p class="text-success">@Model?.Track?.Name</p>
+    </div>
+</div>
 
 <style>
     .nav-tabs .nav-item .nav-link {
@@ -31,25 +49,7 @@
 <div class="tab-content text-success mt-2">
     <div class="tab-pane fade show " id="general" role="tabpanel" aria-labelledby="general-tab">
         <div class="row">
-            <div class="col-4">
-
-                @{
-                    var image = Model?.Track?.Album?.Images?.FirstOrDefault();
-                }
-
-                @if (image is not null)
-                {
-                    <img src="@image.Url" />
-                }
-                else
-                {
-                    <i class="fa fa-3x fa-music"></i>
-                }
-
-            </div>
-            <div class="col-8">
-                <p>@Model?.Track?.Name</p>
-            </div>
+            <h1>Home</h1>
         </div>
     </div>
     <div class="tab-pane fade show active" id="sections" role="tabpanel" aria-labelledby="sections-tab">
