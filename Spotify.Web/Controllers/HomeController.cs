@@ -88,7 +88,7 @@ public class HomeController : Controller
     {
 
 
-        var result = _spotifyClient.Invoke(new SeekToPosition
+        var result = _spotifyClient.Invoke(new SetPlaybackPosition
         {
             PositionMs = startMs
         }, _bearerToken);

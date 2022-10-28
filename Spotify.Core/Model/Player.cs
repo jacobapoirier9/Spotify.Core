@@ -158,7 +158,7 @@ public class SkipToPrevious : IReturn<HttpStatusCode>
 /// Seeks to the given position in the user’s currently playing track.
 /// </summary>
 [Route($"{Configuration.ApiUri}/me/player/seek", Verb.Put)]
-public class SeekToPosition : IReturn<HttpStatusCode>
+public class SetPlaybackPosition : IReturn<HttpStatusCode>
 {
     /// <summary>
     /// The id of the device this command is targeting. If not supplied, the user's currently active device is the target.
