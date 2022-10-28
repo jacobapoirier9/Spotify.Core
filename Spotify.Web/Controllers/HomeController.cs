@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.Language.Extensions;
 using NLog;
 using Spotify.Core;
 using Spotify.Core.Model;
@@ -81,5 +82,17 @@ public class HomeController : Controller
                 TrackIntervals = _dataService.GetTrackIntervals(_username, trackId)
             });
         }
+    }
+
+    public IActionResult SeekTrackPosition(int startMs)
+    {
+
+
+        var result = _spotifyClient.Invoke(new SeekToPosition
+        {
+            PositionMs = startMs
+        }, _bearerToken);
+
+        return StatusCode((int)result);
     }
 }

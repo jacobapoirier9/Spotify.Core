@@ -107,8 +107,15 @@ public class SpotifyClient
 
             try
             {
-                var dto = JsonSerializer.Deserialize<TResponse>(json, Configuration.JsonSerializerOptions);
-                return dto;
+                if (typeof(TResponse) == typeof(HttpStatusCode))
+                {
+                    return (TResponse)(object)httpResponse.StatusCode;
+                }
+                else
+                {
+                    var dto = JsonSerializer.Deserialize<TResponse>(json, Configuration.JsonSerializerOptions);
+                    return dto;
+                }
             }
             catch (Exception ex)
             {

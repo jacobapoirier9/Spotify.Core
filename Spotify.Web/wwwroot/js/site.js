@@ -24,14 +24,30 @@ var spotifyEnhancer = {
         singleTrack: {
             init: function () {
                 $.each($(".spotify-interval"), function (index, element) {
+
+                    // Populate progress bar
                     var $element = $(element)
                     var max = $element.data("max")
 
-                    var start = $element.data("start") / max * 100
-                    var end = $element.data("end") / max * 100
+                    var startMs = $element.data("start")
+                    var endMs = $element.data("end")
 
-                    $element.find(".offsetProgress").css("width", start + "%")
-                    $element.find(".actualProgress").css("width", end + "%")
+                    var startPercentage = startMs / max * 100
+                    var endPercentage = endMs / max * 100
+
+                    $element.find(".offsetProgress").css("width", startPercentage + "%")
+                    $element.find(".actualProgress").css("width", endPercentage + "%")
+
+                    $element.find("a").on("click", function (click) {
+                        $.ajax({
+                            url: router.action("Home", "SeekTrackPosition"),
+                            method: "POST",
+                            data: {
+                                startMs: startMs
+                            }
+                        })
+                        console.debug(click)
+                    })
                 })
             }
         }
