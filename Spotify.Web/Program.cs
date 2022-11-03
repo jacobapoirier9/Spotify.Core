@@ -36,7 +36,7 @@ public class Program
         builder.Services.AddSingleton<IDbConnectionFactory>(
             new OrmLiteConnectionFactory(builder.Configuration.GetConnectionString(Connection.SpotifyEnhancer), SqlServerDialect.Provider));
 
-        builder.Services.AddSingleton<IDataService, DataService>();
+        builder.Services.AddSingleton<IDataService, FileDataService>();
 
         builder.Services.AddSingleton(new SpotifyClient(
             clientId: builder.Configuration.GetValue<string>("Spotify:ClientId"),

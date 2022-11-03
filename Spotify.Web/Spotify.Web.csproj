@@ -17,4 +17,6 @@
     <ProjectReference Include="..\Spotify.Core\Spotify.Core.csproj" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties jacobapoirier9_1gettrackintervals_11zwmyta5nlnjzxyrvbb2pv_1json__JsonSchema="{" /></VisualStudio></ProjectExtensions>
+
 </Project>

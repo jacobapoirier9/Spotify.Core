@@ -4,15 +4,10 @@ using Spotify.Web.Services.SpotifyEnhancer;
 
 namespace Spotify.Web.Services;
 
-public interface IDataService
-{
-    public List<TrackInterval> GetTrackIntervals(string username, string trackId);
-}
-
-public class DataService : IDataService
+public class SqlServerDataService : IDataService
 {
     private readonly IDbConnectionFactory _connectionFactory;
-    public DataService(IDbConnectionFactory connectionFactory)
+    public SqlServerDataService(IDbConnectionFactory connectionFactory)
     {
         _connectionFactory = connectionFactory;
     }
