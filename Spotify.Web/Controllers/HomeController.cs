@@ -83,7 +83,7 @@ public class HomeController : Controller
                 Track = track,
                 TrackIntervals = _dataService.GetTrackIntervals(_username, trackId),
 
-                PlaybackState = track?.Id == playbackState?.Item?.Id ? playbackState : null // change back to null
+                PlaybackState = track?.Id == playbackState?.Item?.Id ? playbackState : null
             });
         }
     }
