@@ -10,6 +10,7 @@
     .card-body {
         padding-top: 0;
     }
+
     .sticky-top {
         padding-top: 1rem;
     }
@@ -35,6 +36,23 @@
             <p class="text-success">@Model?.Track?.Name</p>
         </div>
     </div>
+
+    @if (Model?.PlaybackState is not null)
+    {
+        <div class="row">
+            <div class="col-1">
+            </div>
+            <div class="col-10">
+                <br />
+                <div class="progress bg-black h-25 mb-2">
+                    <div id="trackProgressBar" class="progress-bar bg-success" data-progress="@Model.PlaybackState.ProgressMs" data-total-duration=@Model.PlaybackState.Item.DurationMs></div>
+                </div>
+            </div>
+            <div class="col-1">
+            </div>
+        </div>
+    }
+
     <ul class="nav nav-tabs navbar-dark border-bottom-1 border-success" id="links" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active text-success" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab" aria-controls="general" aria-selected="true">Home</button>

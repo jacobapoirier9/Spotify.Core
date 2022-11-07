@@ -22,7 +22,32 @@ var spotifyEnhancer = {
             }
         },
         singleTrack: {
+            loadTrackProgressBar: function (positionMs, durationMs) {
+                var $trackProgressBar = $("#trackProgressBar")
+                var percentComplete = positionMs / durationMs * 100
+                $trackProgressBar.css("width", percentComplete + "%")
+            },
             init: function () {
+
+                // Keep the track progress bar up to date
+                var $trackProgressBar = $("#trackProgressBar")
+                if ( $trackProgressBar.length > 0) {
+                    var durationMs = $trackProgressBar.data("total-duration")
+                    var positionMs = $trackProgressBar.data("progress")
+
+                    spotifyEnhancer.home.singleTrack.loadTrackProgressBar(positionMs, durationMs)
+
+                    var tickInterval = 1000
+                    var id = setInterval(function () {
+                        positionMs += tickInterval
+                        spotifyEnhancer.home.singleTrack.loadTrackProgressBar(positionMs, durationMs)
+
+                        if (positionMs >= durationMs)
+                            clearInterval(id)
+                    }, tickInterval)
+                }
+
+                // Bind click events for interval rows
                 $.each($(".spotify-interval"), function (index, element) {
 
                     // Populate progress bar

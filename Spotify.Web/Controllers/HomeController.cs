@@ -74,12 +74,16 @@ public class HomeController : Controller
 
             var track = _spotifyClient.Invoke(new GetTrack { Id = trackId }, _bearerToken);
 
+            var playbackState = _spotifyClient.Invoke(new GetCurrentlyPlayingTrack(), _bearerToken);
+
             _logger.Debug("Found {TrackName}", track?.Name);
 
             return View("SingleTrack", new HomeSingleTrack
             {
                 Track = track,
-                TrackIntervals = _dataService.GetTrackIntervals(_username, trackId)
+                TrackIntervals = _dataService.GetTrackIntervals(_username, trackId),
+
+                PlaybackState = track?.Id == playbackState?.Item?.Id ? playbackState : null // change back to null
             });
         }
     }
