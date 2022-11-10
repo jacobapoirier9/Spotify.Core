@@ -19,12 +19,3 @@ internal static class Program
         };
     }
 }
-
-
-public static class Helpers
-{
-    public static List<T> AsList<T>(this T item)
-    {
-        return new List<T> { item };
-    }
-}

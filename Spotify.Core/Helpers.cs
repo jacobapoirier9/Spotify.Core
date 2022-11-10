@@ -4,9 +4,14 @@ using System.Text.RegularExpressions;
 
 namespace Spotify.Core;
 
-internal static class Helpers
+public static class Helpers
 {
-    public static string GetUriParameterValue(this object value)
+    public static List<T> AsList<T>(this T item)
+    {
+        return new List<T> { item };
+    }
+
+    internal static string GetUriParameterValue(this object value)
     {
         if (value is ItemType itemType)
         {
