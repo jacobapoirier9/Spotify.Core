@@ -65,7 +65,7 @@ var spotifyEnhancer = {
                     $element.find(".offsetProgress").css("width", startPercentage + "%")
                     $element.find(".actualProgress").css("width", endPercentage + "%")
 
-                    $element.find("a").on("click", function (click) {
+                    $element.find("#playSection").on("click", function (click) {
                         $.ajax({
                             url: router.action("Home", "SeekTrackPosition"),
                             method: "POST",

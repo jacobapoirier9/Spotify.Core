@@ -83,6 +83,7 @@
                             <div class="progress-bar bg-success actualProgress" role="presentation" aria-valuenow="0" aria-valuemin="0" aria-valuemax="@Model?.Track?.DurationMs">
                             </div>
                         </div>
+                        <a id="editSection"><i class="fa fa-edit text-end"></i></a>
                     </div>
                     <div class="col-3">
                         @{
@@ -96,7 +97,7 @@
                         <p>@interval.DisplayName</p>
                     </div>
                     <div class="col-2">
-                        <a><i class="fa fa-play text-end"></i></a>
+                        <a id="playSection"><i class="fa fa-play text-end"></i></a>
                     </div>
                 </div>
                 <hr />
