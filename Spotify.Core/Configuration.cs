@@ -1,4 +1,5 @@
 ﻿using Spotify.Core.Model;
+using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
@@ -12,13 +13,14 @@ public static class Configuration
 
     public static readonly JsonSerializerOptions JsonSerializerOptions;
     public static readonly ItemTypeJsonConverter ItemTypeConverter;
+    public static readonly DateTimeJsonConverter DateTimeConverter;
     public static readonly SpotifyJsonNamingPolicy JsonNamingPolicy;
 
     static Configuration()
     {
         JsonNamingPolicy = new SpotifyJsonNamingPolicy();
         ItemTypeConverter = new ItemTypeJsonConverter();
-
+        DateTimeConverter = new DateTimeJsonConverter();
 
         JsonSerializerOptions = new JsonSerializerOptions
         {
@@ -26,6 +28,7 @@ public static class Configuration
         };
 
         JsonSerializerOptions.Converters.Add(ItemTypeConverter);
+        JsonSerializerOptions.Converters.Add(DateTimeConverter);
     }
 
     public class SpotifyJsonNamingPolicy : JsonNamingPolicy
@@ -46,6 +49,21 @@ public static class Configuration
             }
 
             return name;
+        }
+    }
+
+    public class DateTimeJsonConverter : JsonConverter<DateTime>
+    {
+        public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            var value = reader.GetDateTime().ToLocalTime();
+            return value;
+        }
+
+        public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
+        {
+            var newValue = value.ToUniversalTime();
+            writer.WriteStringValue(newValue);
         }
     }
 
