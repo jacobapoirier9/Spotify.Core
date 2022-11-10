@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.Language.Extensions;
 using NLog;
+using ServiceStack;
+using ServiceStack.Text;
 using Spotify.Core;
 using Spotify.Core.Model;
 using Spotify.Web.Models;
@@ -8,6 +10,7 @@ using Spotify.Web.Services;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Text.Json;
 
 namespace Spotify.Web.Controllers;
@@ -31,6 +34,27 @@ public class HomeController : Controller
     {
         return View();
     }
+
+
+    public void Test()
+    {
+        var tracks = _spotifyClient.InvokePagable(new GetRecentlyPlayedTracks
+        {
+            After = DateTimeOffset.Now.AddDays(-5).ToUnixTimeMilliseconds(),
+            Limit = 50,
+        }, response => response, _bearerToken);
+
+        var builder = new StringBuilder();
+
+        builder.AppendLine();
+        foreach (var track in tracks)
+        {
+            builder.AppendLine($"{track.PlayedAt} {track.Track.Name} - {track.Track.Artists.First().Name}");
+        }
+
+        _logger.Trace(builder.ToString());
+    }
+
 
     public IActionResult Playlists(string playlistId)
     {

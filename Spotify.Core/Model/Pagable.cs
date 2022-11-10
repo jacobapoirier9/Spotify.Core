@@ -7,6 +7,13 @@ public interface IReturnPagable<T> : IReturn<T>
     public int? Limit { get; set; }
 }
 
+public interface IReturnPagableByTimestamps<T> : IReturn<T>
+{
+    public long? Before { get; set; }
+
+    public long? After { get; set; }
+}
+
 public class Pagable<T>
 {
     /// <summary>

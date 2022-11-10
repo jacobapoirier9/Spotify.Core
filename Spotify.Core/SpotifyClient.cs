@@ -96,6 +96,37 @@ public class SpotifyClient
         return list;
     }
 
+
+    public List<TOut> InvokePagable<TResponse, TOut>(IReturnPagableByTimestamps<TResponse> request, Func<TResponse, Pagable<TOut>> func, string bearerToken)
+    {
+        var list = new List<TOut>();
+        var response = default(TResponse);
+        var pager = default(Pagable<TOut>);
+
+        do
+        {
+            // Call API
+            response = Invoke(request, bearerToken);
+
+            // Extract the Pagable<TOut>
+            pager = func(response!);
+
+            // Append results to list
+            list.AddRange(pager.Items!);
+
+            // Use the next set of unix time stamp
+            if (pager.Next is not null)
+            {
+                var match = Regex.Match(pager.Next!, "after=(?<After>\\d*)(&|$)");
+                if (match.Groups.TryGetValue("After", out var group))
+                    request.After = long.Parse(group.Value);
+            }
+
+            //Console.WriteLine("Offset: {0}, Limit: {1}, Total: {2}", pager.Offset, pager.Limit, pager.Total);
+        } while (pager.Next is not null);
+        return list;
+    }
+
     private TResponse? GetResponse<TResponse>(HttpRequestMessage httpRequest)
     {
         var httpResponse = _httpClient.Send(httpRequest);

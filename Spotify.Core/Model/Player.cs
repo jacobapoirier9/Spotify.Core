@@ -233,17 +233,17 @@ public class SetPlaybackShuffle : IReturn<HttpStatusCode>
 /// This technically returns a pagable object, but it does not support the offset query parameter.
 /// </summary>
 [Route($"{Configuration.ApiUri}/me/player/recently-played", Verb.Get)]
-public class GetRecentlyPlayedTracks : IReturn<Pagable<LastPlayedContext>>
+public class GetRecentlyPlayedTracks : IReturnPagableByTimestamps<Pagable<LastPlayedContext>>
 {
     /// <summary>
     /// A Unix timestamp in milliseconds. Returns all items after (but not including) this cursor position. If after is specified, before must not be specified.
     /// </summary>
-    public int? After { get; set; }
+    public long? After { get; set; }
 
     /// <summary>
     /// A Unix timestamp in milliseconds. Returns all items before (but not including) this cursor position. If before is specified, after must not be specified.
     /// </summary>
-    public int? Before { get; set; }
+    public long? Before { get; set; }
 
     /// <summary>
     /// The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.
