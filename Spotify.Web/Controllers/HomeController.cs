@@ -105,4 +105,17 @@ public class HomeController : Controller
 
         return Ok();
     }
+
+    public IActionResult PlayTrack(string trackId)
+    {
+        var uri = "spotify:track:" + trackId;
+        var added = _spotifyClient.Invoke(new AddItemToPlaybackQueue
+        {
+            Uri = uri
+        }, _bearerToken);
+
+        var skipped = _spotifyClient.Invoke(new SkipToNext(), _bearerToken);
+
+        return Ok();
+    }
 }

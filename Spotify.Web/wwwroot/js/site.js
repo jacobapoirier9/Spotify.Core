@@ -74,6 +74,19 @@ var spotifyEnhancer = {
                         })
                     })
                 })
+
+                $("#btnPlayTrack").on("click", function (click) {
+                    $.ajax({
+                        url: router.action("Home", "PlayTrack"),
+                        method: "POST",
+                        data: {
+                            trackId: $("#trackId").val()
+                        },
+                        success: function () {
+                            window.location.reload()
+                        }
+                    })
+                })
             }
         }
     }
