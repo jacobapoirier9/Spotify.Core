@@ -52,7 +52,7 @@ public class Pagable<T>
 
 public class Cursors
 {
-    public long? Before { get; set; }
+    public string? Before { get; set; }
 
-    public long? After { get; set; }
+    public string? After { get; set; }
 }
