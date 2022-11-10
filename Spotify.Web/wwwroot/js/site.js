@@ -42,8 +42,10 @@ var spotifyEnhancer = {
                         positionMs += tickInterval
                         spotifyEnhancer.home.singleTrack.loadTrackProgressBar(positionMs, durationMs)
 
-                        if (positionMs >= durationMs)
+                        if (positionMs >= durationMs) {
+                            $trackProgressBar.closest(".row").hide();
                             clearInterval(id)
+                        }
                     }, tickInterval)
                 }
 
