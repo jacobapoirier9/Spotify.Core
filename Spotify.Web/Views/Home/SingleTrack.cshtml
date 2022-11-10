@@ -20,7 +20,7 @@
     <div class="row">
         <div class="col-4">
             @{
-                var image = Model?.Track?.Album?.Images?.FirstOrDefault();
+                var image = Model?.Track?.Album?.Images?.LastOrDefault();
             }
 
             @if (image is not null)
