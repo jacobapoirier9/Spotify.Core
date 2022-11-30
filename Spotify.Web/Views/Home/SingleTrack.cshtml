@@ -102,6 +102,18 @@
                 </div>
                 <hr />
             }
+
+            <environment include="Development">
+                <div class="row">
+                    <button id="alertMs" type="button" class="btn btn-success">Alter MS</button>
+                </div>
+
+                <script>
+                    $("#alertMs").click(function (click) {
+                        console.debug($("#trackProgressBar").data("progress"))
+                    })
+                </script>
+            </environment>
         </div>
     </div>
 </div>

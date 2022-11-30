@@ -25,6 +25,8 @@ var spotifyEnhancer = {
             loadTrackProgressBar: function (positionMs, durationMs) {
                 var $trackProgressBar = $("#trackProgressBar")
                 var percentComplete = positionMs / durationMs * 100
+
+                $trackProgressBar.data("progress", positionMs)
                 $trackProgressBar.css("width", percentComplete + "%")
             },
             init: function () {
@@ -72,6 +74,9 @@ var spotifyEnhancer = {
                             data: { 
                                 trackId: $("#trackId").val(),
                                 startMs: startMs
+                            },
+                            success: function () {
+                                window.location.reload()
                             }
                         })
                     })
