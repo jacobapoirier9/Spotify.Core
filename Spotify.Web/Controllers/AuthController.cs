@@ -51,7 +51,7 @@ public class AuthController : Controller
     {
         if (code is null)
         {
-            var redirectUri = _configuration.GetValue<string>("Spotify:RedirectUri");
+            var redirectUri = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/Auth/Login";
 
             // This will eventually be moved into Spotify.Core in a cleaner way
             var response = BuildUri("https://accounts.spotify.com/authorize", new
