@@ -17,5 +17,9 @@ internal static class Program
                 Console.WriteLine($"{request.Method} {response.StatusCode} {request?.RequestUri?.ToString()}");
             }
         };
+
+        
+
+        var chapters = client.Invoke(new GetAudiobookChapters { Id = "38bS44xjbVVZ3No3ByF1dJ" }, Token);
     }
 }

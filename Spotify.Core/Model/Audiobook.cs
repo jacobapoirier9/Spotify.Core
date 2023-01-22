@@ -43,6 +43,12 @@ public class GetSeveralAudiobooks : IReturn<SeveralAudiobooks>
     /// </summary>
     public string? Market { get; set; }
 }
+[Obsolete($"Spotify's API is currently responding with a 500 server error for this endpoint.")]
+[Route($"{Configuration.ApiUri}/audiobooks/{{{nameof(Id)}}}/chapters", Verb.Get)]
+public class GetAudiobookChapters : IReturn<SeveralChapters>
+{
+    public string? Id { get; set; }
+}
 
 /// <summary>
 /// Get Spotify catalog information for a single chapter.
