@@ -1,5 +1,19 @@
 ﻿namespace Spotify.Core.Model;
 
+public interface IReturnPagable<T> : IReturn<T>
+{
+    public int? Offset { get; set; }
+
+    public int? Limit { get; set; }
+}
+
+public interface IReturnPagableByTimestamps<T> : IReturn<T>
+{
+    public long? Before { get; set; }
+
+    public long? After { get; set; }
+}
+
 public class Pagable<T>
 {
     /// <summary>
@@ -45,7 +59,7 @@ public class Pagable<T>
 
 public class Cursors
 {
-    public long? Before { get; set; }
+    public string? Before { get; set; }
 
-    public long? After { get; set; }
+    public string? After { get; set; }
 }

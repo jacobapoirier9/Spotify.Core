@@ -30,7 +30,7 @@ public class GetSeveralArtists : IReturn<SeveralArtists>
 /// Get Spotify catalog information about an artist's albums.
 /// </summary>
 [Route($"{Configuration.ApiUri}/artists/{{{nameof(Id)}}}/albums", Verb.Get)]
-public class GetArtistsAlbums : IReturn<Pagable<Album>>
+public class GetArtistsAlbums : IReturnPagable<Pagable<Album>>
 {
     /// <summary>
     /// A comma-separated list of keywords that will be used to filter the response. If not supplied, all album types will be returned.

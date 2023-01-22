@@ -6,7 +6,7 @@ namespace Spotify.Core.Model;
 /// Get a list of categories used to tag items in Spotify (on, for example, the Spotify player’s “Browse” tab).
 /// </summary>
 [Route($"{Configuration.ApiUri}/browse/categories", Verb.Get)]
-public class GetSeveralBrowseCategories : IReturn<SeveralBrowseCategories>
+public class GetSeveralBrowseCategories : IReturnPagable<SeveralBrowseCategories>
 {
     /// <summary>
     /// A country: an ISO 3166-1 alpha-2 country code. Provide this parameter if you want to narrow the list of returned categories to those

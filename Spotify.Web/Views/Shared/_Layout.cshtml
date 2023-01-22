@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!-- My content -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script src="~/js/router.js" asp-append-version="true"></script>
+    <script>router.init('@Url.ApplicationUrl()');</script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- JQuery -->
+    <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
+
+  @*  <!-- JqGrid-->
+    <link rel="stylesheet" rel="~/lib/jqgrid/css/ui.jqgrid.css" asp-append-version="true" />
+    <link rel="stylesheet" rel="~/lib/jqgrid/css/ui.jqgrid-bootstrap.css" asp-append-version="true" />
+    <script src="~/lib/jqgrid/js/grid.locale-en.js" asp-append-version="true"></script>
+    <script src="~/lib/jqgrid/js/jquery.jqGrid.js" asp-append-version="true"></script>
+*@
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" asp-append-version="true" />
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js" asp-append-version="true"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/lib/fontawesome/css/all.css" asp-append-version="true" />
+</head>
+<body class="card bg-dark">
+    <header class="card-header bg-success fs-4 text-end">
+        @ViewBag.Title
+    </header>
+    <main class="card-body border-start border-end border-2 border-success">
+        @RenderBody()
+    </main>
+    <nav class="card-footer bg-success d-flex justify-content-evenly w-100">
+        <a class="text-dark" asp-controller="Home" asp-action=""><i class="fa fa-2x fa-home"></i></a>
+        <a class="text-dark" asp-controller="Home" asp-action=""><i class="fa fa-2x fa-user"></i></a>
+        <a class="text-dark" asp-controller="Home" asp-action="Playlists"><i class="fa fa-2x fa-list"></i></a>
+    </nav>
+    @await RenderSectionAsync("scripts", required: false)
+</body>
+</html>

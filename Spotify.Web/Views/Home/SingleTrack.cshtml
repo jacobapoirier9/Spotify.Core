@@ -1,0 +1,113 @@
+﻿@model HomeSingleTrack
+@{
+    ViewBag.Title = "Track";
+}
+
+<input type="hidden" id="trackId" value="@Model?.Track?.Id" />
+
+<!-- Disable the default padding applied by the card to prevent the scroll from peaking above the display -->
+<style>
+    .card-body {
+        padding-top: 0;
+    }
+
+    .sticky-top {
+        padding-top: 1rem;
+    }
+</style>
+
+<div class="sticky-top bg-dark">
+    <div class="row">
+        <div class="col-4">
+            @{
+                var image = Model?.Track?.Album?.Images?.LastOrDefault();
+            }
+
+            @if (image is not null)
+            {
+                <img src="@image.Url" />
+            }
+            else
+            {
+                <i class="fa fa-3x fa-music"></i>
+            }
+        </div>
+        <div class="col-8">
+            <span class="text-success">@Model?.Track?.Name</span>
+
+            <a id="btnPlayTrack" class="fa-pull-right"><i class="fa fa-3x fa-play text-success"></i></a>
+        </div>
+    </div>
+
+    @if (Model?.PlaybackState is not null)
+    {
+        <div class="row">
+            <div class="col-1">
+            </div>
+            <div class="col-10">
+                <br />
+                <div class="progress bg-black h-25 mb-2">
+                    <div id="trackProgressBar" class="progress-bar bg-success" data-progress="@Model.PlaybackState.ProgressMs" data-total-duration=@Model.PlaybackState.Item.DurationMs></div>
+                </div>
+            </div>
+            <div class="col-1">
+            </div>
+        </div>
+    }
+
+    <ul class="nav nav-tabs navbar-dark border-bottom-1 border-success" id="links" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active text-success" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab" aria-controls="general" aria-selected="true">Home</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link text-success" id="sections-tab" data-bs-toggle="tab" data-bs-target="#sections" type="button" role="tab" aria-controls="sections" aria-selected="false">Sections</button>
+        </li>
+    </ul>
+</div>
+
+<div class="tab-content text-success mt-2">
+    <div class="tab-pane fade show " id="general" role="tabpanel" aria-labelledby="general-tab">
+        <div class="row">
+            <h1>Home</h1>
+        </div>
+    </div>
+    <div class="tab-pane fade show active" id="sections" role="tabpanel" aria-labelledby="sections-tab">
+        <div class="text-success">
+            @foreach (var interval in Model!.TrackIntervals!)
+            {
+                <div class="row spotify-interval" data-start="@interval.StartMs" data-end="@interval.EndMs" data-max="@Model?.Track?.DurationMs">
+                    <div class="col-3">
+                        <div class="progress bg-black">
+                            <div class="progress-bar bg-black offsetProgress" role="presentation" aria-valuenow="0" aria-valuemin="0" aria-valuemax="@Model?.Track?.DurationMs">
+                            </div>
+                            <div class="progress-bar bg-success actualProgress" role="presentation" aria-valuenow="0" aria-valuemin="0" aria-valuemax="@Model?.Track?.DurationMs">
+                            </div>
+                        </div>
+                        <a id="editSection"><i class="fa fa-edit text-end"></i></a>
+                    </div>
+                    <div class="col-3">
+                        @{
+                            var formatter = @"m\:ss";
+                            var startDisplay = TimeSpan.FromMilliseconds(interval!.StartMs!.Value).ToString(formatter);
+                            var endDisplay = @TimeSpan.FromMilliseconds(interval!.EndMs!.Value).ToString(formatter);
+                        }
+                        <small>@startDisplay - @endDisplay</small>
+                    </div>
+                    <div class="col-4 text-start">
+                        <p>@interval.DisplayName</p>
+                    </div>
+                    <div class="col-2">
+                        <a id="playSection"><i class="fa fa-play text-end"></i></a>
+                    </div>
+                </div>
+                <hr />
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(spotifyEnhancer.home.singleTrack.init)
+    </script>
+}

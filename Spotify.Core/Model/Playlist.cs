@@ -8,7 +8,7 @@ namespace Spotify.Core.Model;
 /// </summary>
 [Route($"{Configuration.ApiUri}/playlists/{{{nameof(PlaylistId)}}}", Verb.Get)]
 [Obsolete($"This needs to be able to handle tracks and episodes in the response")]
-public class GetPlaylist : IReturn<Playlist>
+public class GetPlaylist : IReturnPagable<Playlist>
 {
     /// <summary>
     /// The Spotify ID of the playlist.
@@ -39,6 +39,8 @@ public class GetPlaylist : IReturn<Playlist>
     /// Users can view the country that is associated with their account in the account settings.
     /// </summary>
     public string? Market { get; set; }
+    public int? Offset { get; set; }
+    public int? Limit { get; set; }
 }
 
 /// <summary>
@@ -82,8 +84,7 @@ public class ChangePlaylistDetails : IReturn<HttpStatusCode>
 /// Get full details of the items of a playlist owned by a Spotify user.
 /// </summary>
 [Route($"{Configuration.ApiUri}/playlists/{{{nameof(PlaylistId)}}}/tracks", Verb.Get)]
-[Obsolete($"This needs to be able to handle tracks and episodes in the response")]
-public class GetPlaylistItems : IReturn<Pagable<Track>>
+public class GetPlaylistItems : IReturnPagable<Pagable<Track>>
 {
     /// <summary>
     /// The Spotify ID of the playlist.
@@ -260,7 +261,7 @@ public class RemovePlaylistItems : IReturn<Snapshot>
 /// Get a list of the playlists owned or followed by the current Spotify user.
 /// </summary>
 [Route($"{Configuration.ApiUri}/me/playlists", Verb.Get)]
-public class GetCurrentUsersPlaylists : IReturn<Pagable<Playlist>>
+public class GetSavedPlaylists : IReturnPagable<Pagable<Playlist>>
 {
     /// <summary>
     /// The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.
@@ -277,7 +278,7 @@ public class GetCurrentUsersPlaylists : IReturn<Pagable<Playlist>>
 /// Get a list of the playlists owned or followed by a Spotify user.
 /// </summary>
 [Route($"{Configuration.ApiUri}/users/{{{nameof(UserId)}}}/playlists", Verb.Get)]
-public class GetUsersPlaylist : IReturn<Pagable<Playlist>>
+public class GetAnotherUsersPlaylist : IReturnPagable<Pagable<Playlist>>
 {
     /// <summary>
     /// The user's Spotify user ID.
@@ -335,8 +336,8 @@ public class CreatePlaylist : IReturn<Playlist>
 /// <summary>
 /// Get a list of Spotify featured playlists (shown, for example, on a Spotify player's 'Browse' tab).
 /// </summary>
-[Route("/browse/featured-playlists", Verb.Get)]
-public class GetFeaturedPlaylists : IReturn<FeaturedPlaylists>
+[Route($"{Configuration.ApiUri}/browse/featured-playlists", Verb.Get)]
+public class GetFeaturedPlaylists : IReturnPagable<FeaturedPlaylists>
 {
     /// <summary>
     /// A country: an ISO 3166-1 alpha-2 country code. Provide this parameter if you want the list of returned items to be relevant to a particular country. If omitted, the returned items will be relevant to all countries.
@@ -370,7 +371,7 @@ public class GetFeaturedPlaylists : IReturn<FeaturedPlaylists>
 /// Get a list of Spotify playlists tagged with a particular category.
 /// </summary>
 [Route($"/browse/categories/{{{nameof(CategoryId)}}}/playlists", Verb.Get)]
-public class GetCategorysPlaylists : IReturn<CategoryPlaylists>
+public class GetCategorysPlaylists : IReturnPagable<CategoryPlaylists>
 {
     /// <summary>
     /// The Spotify category ID for the category.
@@ -500,7 +501,7 @@ public class Playlist
     /// <summary>
     /// The tracks of the playlist.
     /// </summary>
-    public Pagable<Track>? Tracks { get; set; }
+    public Pagable<SavedTrackContextWrapper>? Tracks { get; set; }
 
     /// <summary>
     /// The object type: <see cref="ItemType.Playlist"/>

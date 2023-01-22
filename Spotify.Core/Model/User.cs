@@ -17,13 +17,13 @@ public class GetCurrentUserProfile : IReturn<UserProfile>
 /// </summary>
 /// <typeparam name="T">The type of content to return</typeparam>
 [Route($"{Configuration.ApiUri}/me/top/{{{nameof(Type)}}}", Verb.Get)]
-public class GetUsersTopItems<T> : IReturn<Pagable<T>>
+public class GetUsersTopItems<T> : IReturnPagable<Pagable<T>>
 {
     /// <summary>
     /// The type of entity to return. Valid values: artists or tracks
     /// Default to <see cref="T"/>s
     /// </summary>
-    public string? Type => typeof(T).Name.ToLower() + "s";
+    public string? Type => Configuration.JsonNamingPolicy.ConvertName(typeof(T).Name) + "s";
 
     /// <summary>
     /// The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.

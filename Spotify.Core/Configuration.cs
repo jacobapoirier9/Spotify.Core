@@ -1,4 +1,5 @@
 ﻿using Spotify.Core.Model;
+using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
@@ -8,16 +9,18 @@ namespace Spotify.Core;
 public static class Configuration
 {
     public const string ApiUri = "https://api.spotify.com/v1";
+    public const string TokenUri = "https://accounts.spotify.com/api/token";
 
     public static readonly JsonSerializerOptions JsonSerializerOptions;
     public static readonly ItemTypeJsonConverter ItemTypeConverter;
+    public static readonly DateTimeJsonConverter DateTimeConverter;
     public static readonly SpotifyJsonNamingPolicy JsonNamingPolicy;
 
     static Configuration()
     {
         JsonNamingPolicy = new SpotifyJsonNamingPolicy();
         ItemTypeConverter = new ItemTypeJsonConverter();
-
+        DateTimeConverter = new DateTimeJsonConverter();
 
         JsonSerializerOptions = new JsonSerializerOptions
         {
@@ -25,6 +28,7 @@ public static class Configuration
         };
 
         JsonSerializerOptions.Converters.Add(ItemTypeConverter);
+        JsonSerializerOptions.Converters.Add(DateTimeConverter);
     }
 
     public class SpotifyJsonNamingPolicy : JsonNamingPolicy
@@ -33,16 +37,33 @@ public static class Configuration
         {
             if (Regex.IsMatch(name, "^[A-Z]"))
             {
-                var snakeCase = name.FromPascalToSnake();
+                var snakeCase = Regex.Replace(name, "[A-Z]{1}", m => $"_{m.Value.ToLower()}").TrimStart('_');
                 return snakeCase;
             }
             else if (Regex.IsMatch(name, "^[a-z]"))
             {
-                var pascalCase = name.FromSnakeToPascal();
+                var caseConverted = Regex.Replace(name, "(^|_)[a-z]", match => match.Value.ToUpper());
+                var pascalCase = Regex.Replace(caseConverted, "_", match => string.Empty);
+
                 return pascalCase;
             }
 
             return name;
+        }
+    }
+
+    public class DateTimeJsonConverter : JsonConverter<DateTime>
+    {
+        public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            var value = reader.GetDateTime().ToLocalTime();
+            return value;
+        }
+
+        public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
+        {
+            var newValue = value.ToUniversalTime();
+            writer.WriteStringValue(newValue);
         }
     }
 

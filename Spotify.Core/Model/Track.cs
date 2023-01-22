@@ -44,7 +44,7 @@ public class GetSeveralTracks : IReturn<SeveralTracks>
 /// Get a list of the songs saved in the current Spotify user's 'Your Music' library.
 /// </summary>
 [Route($"{Configuration.ApiUri}/me/tracks", Verb.Get)]
-public class GetSavedTracks : IReturn<Pagable<SavedTrackContextWrapper>>
+public class GetSavedTracks : IReturnPagable<Pagable<SavedTrackContextWrapper>>
 {
     /// <summary>
     /// The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.
@@ -490,7 +490,7 @@ public class Track
     public bool? IsPlayable { get; set; }
 
     [Obsolete("Unkown")]
-    public Track? LinkedFrom => throw new NotImplementedException();
+    public Track? LinkedFrom { get; set; }
 
     /// <summary>
     /// Included in the response when a content restriction is applied. See Restriction Object for more details.
@@ -546,7 +546,6 @@ public class Recommendations
     public List<Track>? Tracks { get; set; }
 }
 
-[Obsolete("Need to verify the conversion of afterFilteringSize to AfterFilteringSize")]
 public class Seed
 {
     /// <summary>

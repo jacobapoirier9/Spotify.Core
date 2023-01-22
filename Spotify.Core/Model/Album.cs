@@ -47,7 +47,7 @@ public class GetSeveralAlbums : IReturn<SeveralAlbums>
 /// Get Spotify catalog information about an album’s tracks. Optional parameters can be used to limit the number of tracks returned.
 /// </summary>
 [Route($"{Configuration.ApiUri}/albums/{{{nameof(Id)}}}/tracks", Verb.Get)]
-public class GetAlbumTracks : IReturn<Pagable<Track>>
+public class GetAlbumTracks : IReturnPagable<Pagable<Track>>
 {
     /// <summary>
     /// The Spotify ID of the album.
@@ -77,7 +77,7 @@ public class GetAlbumTracks : IReturn<Pagable<Track>>
 /// Get a list of the albums saved in the current Spotify user's 'Your Music' library.
 /// </summary>
 [Route($"{Configuration.ApiUri}/me/albums", Verb.Get)]
-public class GetSavedAlbums : IReturn<Pagable<SavedAlbumContextWrapper>>
+public class GetSavedAlbums : IReturnPagable<Pagable<SavedAlbumContextWrapper>>
 {
     /// <summary>
     /// The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.
@@ -152,7 +152,7 @@ public class CheckSavedAlbums : IReturn<List<bool>>
 /// Get a list of new album releases featured in Spotify (shown, for example, on a Spotify player’s “Browse” tab).
 /// </summary>
 [Route($"{Configuration.ApiUri}/browse/new-releases", Verb.Get)]
-public class GetNewReleases : IReturn<NewReleases>
+public class GetNewReleases : IReturnPagable<NewReleases>
 {
     /// <summary>
     /// A country: an ISO 3166-1 alpha-2 country code. Provide this parameter if you want the list of returned items to be relevant to a particular country. 

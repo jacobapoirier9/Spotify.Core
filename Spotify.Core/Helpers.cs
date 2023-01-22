@@ -4,20 +4,14 @@ using System.Text.RegularExpressions;
 
 namespace Spotify.Core;
 
-internal static class Helpers
+public static class Helpers
 {
-    public static string JoinToString(this IEnumerable<IConvertible> items, IConvertible seperator)
+    public static List<T> AsList<T>(this T item)
     {
-        var toReturn = string.Empty;
-        foreach (var item in items)
-        {
-            toReturn += item.ToString() + seperator;
-        }
-
-        return toReturn == string.Empty ? string.Empty : toReturn.Substring(0, toReturn.Length - seperator.ToString().Length);
+        return new List<T> { item };
     }
 
-    public static string GetUriParameterValue(this object value)
+    internal static string GetUriParameterValue(this object value)
     {
         if (value is ItemType itemType)
         {
@@ -37,23 +31,9 @@ internal static class Helpers
                 strings.Add(GetUriParameterValue(enumerator.Current));
             }
 
-            return strings.JoinToString(",");
+            return string.Join(',', strings);
         }
 
         throw new ApplicationException($"Value {value} is not supported in uri query strings.");
-    }
-
-    public static string FromPascalToSnake(this string value)
-    {
-        var caseConvertedUnderscorePrefix = Regex.Replace(value, "[A-Z]{1}", m => $"_{m.Value.ToLower()}");
-        return caseConvertedUnderscorePrefix.TrimStart('_');
-    }
-
-    public static string FromSnakeToPascal(this string snakeCaseValue)
-    {
-        var caseConverted = Regex.Replace(snakeCaseValue, "(^|_)[a-z]", match => match.Value.ToUpper());
-        var underscoresRemoved = Regex.Replace(caseConverted, "_", match => string.Empty);
-
-        return underscoresRemoved;
     }
 }
